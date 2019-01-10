@@ -1,0 +1,114 @@
+﻿@model FilmoweJanusze.Models.Movie
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.TitlePL, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.TitlePL, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.TitlePL, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.ReleaseDate, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.ReleaseDate, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.ReleaseDate, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.DurationTime, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.DurationTime, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.DurationTimeValue } })
+    </div>
+</div>
+<!--
+<div class="form-group">
+    Html.LabelFor(model => model.Genre, htmlAttributes: new { class = "control-label col-md-2" })
+    <div class="col-md-10">
+        Html.EnumDropDownListFor(model => model.Genre)
+        Html.ValidationMessageFor(model => model.Genre, "", new { class = "text-danger" })
+    </div>
+</div>
+    -->
+<div class="form-group">
+    @Html.LabelFor(model => model.DirectorID, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.DropDownList("DirectorID", null,"Brak", htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.DirectorID, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+
+<div class="form-group">
+    @Html.LabelFor(model => model.CountryProduction, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.DropDownList("CountryProduction", null,"Brak", htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.CountryProduction, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+
+
+
+<div class="form-group">
+    @Html.LabelFor(model => model.TrailerURL, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.TrailerURL, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.TrailerURL, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Genre, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        <table>
+            <tr>
+                <td>@Html.CheckBoxFor(model => model.Genre.Action) @Html.LabelFor(model => model.Genre.Action)</td>
+                <td>@Html.CheckBoxFor(model => model.Genre.Adventure) @Html.LabelFor(model => model.Genre.Adventure)</td>
+                <td>@Html.CheckBoxFor(model => model.Genre.Anime) @Html.LabelFor(model => model.Genre.Anime)</td>
+                <td>@Html.CheckBoxFor(model => model.Genre.Biographic) @Html.LabelFor(model => model.Genre.Biographic)</td>
+            </tr>
+            <tr>
+                <td>@Html.CheckBoxFor(model => model.Genre.Comedy) @Html.LabelFor(model => model.Genre.Comedy)</td>
+                <td>@Html.CheckBoxFor(model => model.Genre.Criminal) @Html.LabelFor(model => model.Genre.Criminal)</td>
+                <td>@Html.CheckBoxFor(model => model.Genre.Documental) @Html.LabelFor(model => model.Genre.Documental)</td>
+                <td>@Html.CheckBoxFor(model => model.Genre.Drama) @Html.LabelFor(model => model.Genre.Drama)</td>
+            </tr>
+            <tr>
+                <td>@Html.CheckBoxFor(model => model.Genre.Familly) @Html.LabelFor(model => model.Genre.Familly)</td>
+                <td>@Html.CheckBoxFor(model => model.Genre.Fantasy) @Html.LabelFor(model => model.Genre.Fantasy)</td>
+                <td>@Html.CheckBoxFor(model => model.Genre.Horror) @Html.LabelFor(model => model.Genre.Horror)</td>
+                <td>@Html.CheckBoxFor(model => model.Genre.Melodrama) @Html.LabelFor(model => model.Genre.Melodrama)</td>
+            </tr>
+            <tr>
+                <td>@Html.CheckBoxFor(model => model.Genre.Music) @Html.LabelFor(model => model.Genre.Music)</td>
+                <td>@Html.CheckBoxFor(model => model.Genre.Musical) @Html.LabelFor(model => model.Genre.Musical)</td>
+                <td>@Html.CheckBoxFor(model => model.Genre.Romans) @Html.LabelFor(model => model.Genre.Romans)</td>
+                <td>@Html.CheckBoxFor(model => model.Genre.SciFi) @Html.LabelFor(model => model.Genre.SciFi)</td>
+            </tr>
+            <tr>
+                <td>@Html.CheckBoxFor(model => model.Genre.Thriller) @Html.LabelFor(model => model.Genre.Thriller)</td>
+                <td>@Html.CheckBoxFor(model => model.Genre.Short) @Html.LabelFor(model => model.Genre.Short)</td>
+            </tr>
+        </table>
+        @Html.ValidationMessageFor(model => model.Genre, "", new { @class = "text-danger" })
+    </div>
+</div>
+

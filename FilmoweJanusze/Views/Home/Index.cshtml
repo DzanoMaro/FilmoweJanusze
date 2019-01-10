@@ -1,0 +1,67 @@
+﻿@model FilmoweJanusze.ViewModels.IndexView
+
+@{
+    ViewBag.Title = "Strona główna";
+}
+
+
+<!--LATEST RELEASED-->
+<section>
+    <div class="well-jm">
+        <h4>Najnowsze premiery</h4>
+    </div>
+    @if (Model.LatestReleased.Count() > 0)
+    {
+        <div class="container nopadding">
+            @foreach (var item in Model.LatestReleased)
+            {
+                Html.RenderPartial("MoviePartial", item);
+            }
+        </div>
+    }
+    else
+    {
+        <h5> Brak premier </h5>
+    }
+</section>
+
+<!--NOT YET RELEASED-->
+
+<section>
+    <div class="well-jm">
+        <h4>Przyszłe premiery</h4>
+    </div>
+        @if (Model.NotYetReleased.Count() > 0)
+        {
+            <div class="container nopadding">
+                @foreach (var item in Model.NotYetReleased)
+                {
+                    Html.RenderPartial("MoviePartial", item);
+                }
+            </div>
+        }
+        else
+        {
+            <h5>Brak przyszłych premier</h5>
+        }
+</section>
+
+    <!--BIRTHDAYS-->
+<section>
+    <div class="well-jm">
+        <h4>Urodziny w tym miesiącu obchodzą</h4>
+    </div>
+        @if (Model.PeoplesBirthdays.Count() > 0)
+        {
+            <div class="container nopadding">
+                @foreach (var item in Model.PeoplesBirthdays)
+                {
+                    Html.RenderPartial("PeoplePartial", item);
+                }
+            </div>
+        }
+        else
+        {
+            <h5>Nikt nie ma urodzin w tym miesiącu :(</h5>
+        }
+</section>

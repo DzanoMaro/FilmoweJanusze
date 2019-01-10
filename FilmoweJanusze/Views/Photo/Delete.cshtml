@@ -1,0 +1,59 @@
+﻿@model FilmoweJanusze.Models.Photo
+
+@{
+    ViewBag.Title = "Usuwanie zdjęcia " + ViewBag.Name;
+
+    string movieID = "";
+    string peopleID = "";
+
+    if (ViewBag.MovieID == true)
+    {
+        movieID = Model.MovieID.ToString();
+    }
+    else if (ViewBag.PeopleID == true)
+    {
+        peopleID = Model.PeopleID.ToString();
+    }
+}
+
+
+
+<h2>Czy na pewno chcesz usunąć to zdjęcie?</h2>
+<h4>@ViewBag.Name</h4>
+<hr />
+
+<div>
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhotoURL)
+        </dt>
+
+        <dd>
+            <img class="col-xs-6 img-responsive" src="@Model.PhotoURL" />
+        </dd>
+
+        @if (Model.ActorRoleID != null)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.ActorRoleID)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+        }
+    </dl>
+
+    @using (Html.BeginForm("Delete", "Photo", new { ismovie = (ViewBag.MovieID == true) ? true : false, ispeople = (ViewBag.PeopleID == true) ? true : false }, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Usuń" class="btn btn-danger" />
+            <button type="button" class="btn btn-default">
+                @Html.ActionLink("Anuluj", "Details", "Photo", new { photoID = Model.PhotoID, movieID, peopleID }, new { @class = "nodecoration" })
+            </button>
+        </div>
+    }
+</div>

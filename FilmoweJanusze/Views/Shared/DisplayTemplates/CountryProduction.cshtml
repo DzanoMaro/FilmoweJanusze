@@ -1,0 +1,6 @@
+﻿@model string
+
+@if (!String.IsNullOrEmpty(Model))
+{
+    @Html.ActionLink(Model, "Index", "Movies", new { countryProduction = Model, page = 1 }, null)
+}

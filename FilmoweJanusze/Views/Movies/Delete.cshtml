@@ -1,0 +1,78 @@
+﻿@model FilmoweJanusze.Models.Movie
+
+@{
+    ViewBag.Title = "Usuwanie filmu " + Model.TitleYear;
+}
+
+<h3>Czy na pewno chcesz usunąć ten film?</h3>
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TitlePL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TitlePL)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReleaseDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReleaseDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Genre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Genre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Poster)
+        </dt>
+
+        <dd>
+            @if (Model.Poster != null)
+            {
+                <div style="float:left;margin-right:20px">
+                    <img width="75" height="75" src="@Url.Action("GetImage", "Movies", new { Model.MovieID })" />
+                </div>
+            }
+            else
+            {
+                @:brak
+            }
+        </dd>
+        </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Usuń" class="btn btn-default" /> |
+        @Html.ActionLink("Wróć", "Details", new { id = Model.MovieID })
+    </div>
+    }
+</div>

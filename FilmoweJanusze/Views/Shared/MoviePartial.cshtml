@@ -1,0 +1,55 @@
+﻿@model FilmoweJanusze.Models.Movie
+
+<div class=" col-sm-6 col-lg-4 moviediv">
+    <table class="table-responsive">
+        <tr>
+            <td rowspan="5" class="poster">
+                <a href=@Url.Action("Details","Movies", new { id = Model.MovieID })>
+                    @if (Model.Poster != null)
+                    {
+                        <img class="img-responsive" src="@Url.Action("GetImage", "Movies", new { Model.MovieID })" />
+                    }
+                    else
+                    {
+                        <img class="img-responsive" src="~/Images/Brak_zdjecia.png" />
+                    }
+                </a>
+            </td>
+            <td colspan="2">
+                <h4>@Html.ActionLink(Html.DisplayFor(modelItem => Model.TitleYear).ToString(), "Details","Movies", new { id = Model.MovieID }, null)</h4>
+                <h5>@Html.DisplayFor(modelItem => Model.TitlePL)</h5>
+            </td>
+        </tr>
+        @if(Model.DurationTime != null && !Model.DurationTime.ToShortTimeString().Contains("00:00"))
+        {
+            <tr>
+                <td>@Html.DisplayNameFor(modelItem => Model.DurationTime)</td>
+                <td>@Html.DisplayFor(modelItem => Model.DurationTime)</td>
+            </tr>
+        }
+        @if (Model.ReleaseDate != null)
+        {
+            <tr>
+                <td>@Html.DisplayNameFor(modelItem => Model.ReleaseDate)</td>
+                <td>@Html.DisplayFor(modelItem => Model.ReleaseDate)</td>
+            </tr>
+        }
+        @if (Model.Genre != null)
+        {
+            if (Model.Genre.Count() > 0)
+            {
+                <tr>
+                    <td>@Html.DisplayNameFor(modelItem => Model.Genre)</td>
+                    <td>@Html.DisplayFor(modelItem => Model.Genre)</td>
+                </tr>
+            }
+        }
+        @if (Model.CountryProduction != null)
+        {
+        <tr>
+            <td>@Html.DisplayNameFor(modelItem => Model.CountryProduction)</td>
+            <td>@Html.DisplayFor(modelItem => Model.CountryProduction)</td>
+        </tr>
+        }
+    </table>
+</div>    

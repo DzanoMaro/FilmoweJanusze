@@ -1,0 +1,195 @@
+﻿@model FilmoweJanusze.Models.MovieGenre
+
+@if (Model != null)
+{
+    bool seperator = false;
+    string coma = ", ";
+
+    if (Model.Action == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+
+        @Html.ActionLink(Html.DisplayNameFor(m => Model.Action).ToString(), "Index", "Movies", new { genre = Html.DisplayNameFor(m => Model.Action).ToString(), page = 1 }, null)
+    }
+
+    if (Model.Adventure == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+
+        @Html.ActionLink(Html.DisplayNameFor(m => Model.Adventure).ToString(), "Index", "Movies", new { genre = Html.DisplayNameFor(m => Model.Adventure).ToString(), page = 1 }, null)
+    }
+
+    if (Model.Anime == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+
+        @Html.ActionLink(Html.DisplayNameFor(m => Model.Anime).ToString(), "Index", "Movies", new { genre = Html.DisplayNameFor(m => Model.Anime).ToString(), page = 1 }, null)
+    }
+
+    if (Model.Biographic == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+
+        @Html.ActionLink(Html.DisplayNameFor(m => Model.Biographic).ToString(), "Index", "Movies", new { genre = Html.DisplayNameFor(m => Model.Biographic).ToString(), page = 1 }, null)
+    }
+
+    if (Model.Comedy == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+
+        @Html.ActionLink(Html.DisplayNameFor(m => Model.Comedy).ToString(), "Index", "Movies", new { genre = Html.DisplayNameFor(m => Model.Comedy).ToString(), page = 1 }, null)
+    }
+
+    if (Model.Criminal == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+
+        @Html.ActionLink(Html.DisplayNameFor(m => Model.Criminal).ToString(), "Index", "Movies", new { genre = Html.DisplayNameFor(m => Model.Criminal).ToString(), page = 1 }, null)
+    }
+
+    if (Model.Documental == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+
+        @Html.ActionLink(Html.DisplayNameFor(m => Model.Documental).ToString(), "Index", "Movies", new { genre = Html.DisplayNameFor(m => Model.Documental).ToString(), page = 1 }, null)
+    }
+
+    if (Model.Drama == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+
+        @Html.ActionLink(Html.DisplayNameFor(m => Model.Drama).ToString(), "Index", "Movies", new { genre = Html.DisplayNameFor(m => Model.Drama).ToString(), page = 1 }, null)
+    }
+
+    if (Model.Familly == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+
+        @Html.ActionLink(Html.DisplayNameFor(m => Model.Familly).ToString(), "Index", "Movies", new { genre = Html.DisplayNameFor(m => Model.Familly).ToString(), page = 1 }, null)
+    }
+
+    if (Model.Fantasy == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+
+        @Html.ActionLink(Html.DisplayNameFor(m => Model.Fantasy).ToString(), "Index", "Movies", new { genre = Html.DisplayNameFor(m => Model.Fantasy).ToString(), page = 1 }, null)
+    }
+
+    if (Model.Horror == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+
+        @Html.ActionLink(Html.DisplayNameFor(m => Model.Horror).ToString(), "Index", "Movies", new { genre = Html.DisplayNameFor(m => Model.Horror).ToString(), page = 1 }, null)
+    }
+
+    if (Model.Melodrama == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+
+        @Html.ActionLink(Html.DisplayNameFor(m => Model.Melodrama).ToString(), "Index", "Movies", new { genre = Html.DisplayNameFor(m => Model.Melodrama).ToString(), page = 1 }, null)
+    }
+
+    if (Model.Music == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+
+        @Html.ActionLink(Html.DisplayNameFor(m => Model.Music).ToString(), "Index", "Movies", new { genre = Html.DisplayNameFor(m => Model.Music).ToString(), page = 1 }, null)
+    }
+
+    if (Model.Musical == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+
+        @Html.ActionLink(Html.DisplayNameFor(m => Model.Musical).ToString(), "Index", "Movies", new { genre = Html.DisplayNameFor(m => Model.Musical).ToString(), page = 1 }, null)
+    }
+
+    if (Model.Romans == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+
+        @Html.ActionLink(Html.DisplayNameFor(m => Model.Romans).ToString(), "Index", "Movies", new { genre = Html.DisplayNameFor(m => Model.Romans).ToString(), page = 1 }, null)
+    }
+
+    if (Model.SciFi == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+
+        @Html.ActionLink(Html.DisplayNameFor(m => Model.SciFi).ToString(), "Index", "Movies", new { genre = Html.DisplayNameFor(m => Model.SciFi).ToString(), page = 1 }, null)
+    }
+
+    if (Model.Thriller == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+
+        @Html.ActionLink(Html.DisplayNameFor(m => Model.Thriller).ToString(), "Index", "Movies", new { genre = Html.DisplayNameFor(m => Model.Thriller).ToString(), page = 1 }, null)
+    }
+
+}

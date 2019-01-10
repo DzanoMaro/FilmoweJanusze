@@ -1,0 +1,73 @@
+﻿@model ICollection<FilmoweJanusze.Models.Photo>
+
+@{
+    ViewBag.Title = "Galeria zdjęć " + ViewBag.Name;
+}
+
+<div class="page-header well-jm">
+    <div class="col-xs-11">
+        <h3>Galeria zdjęć</h3>
+        @if (ViewBag.MovieID != null)
+        {
+            <a href=@Url.Action("Details","Movies",new { id = ViewBag.MovieID }) class="nodecoration"><h4>@ViewBag.Name</h4></a>
+        }
+        @if (ViewBag.PeopleID != null)
+        {
+            <a href=@Url.Action("Details","People",new { id = ViewBag.PeopleID }) class="nodecoration"><h4>@ViewBag.Name</h4></a>
+        }
+
+    </div>
+
+    @if (User.IsInRole("User") || User.IsInRole("Admin"))
+    {
+        <div class="dropdown col-xs-1 dropdownbutton">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <i class="glyphicon glyphicon-menu-down"></i>
+            </button>
+            <ul class="dropdown-menu">
+                @if (ViewBag.MovieID != null)
+                {
+                    <li>@Html.ActionLink("Dodaj nowe zdjęcie", "Create", new { movieID = ViewBag.MovieID })</li>
+                }
+                else if (ViewBag.PeopleID != null)
+                {
+                    <li>@Html.ActionLink("Dodaj nowe zdjęcie", "Create", new { peopleID = ViewBag.PeopleID })</li>
+                }
+            </ul>
+        </div>
+    }
+    <div class="clearfix"></div>
+</div>
+
+@if (Model.Count() > 0)
+{
+    <div>
+        @foreach (var photo in Model)
+        {
+            <div class="col-xs-4 col-md-2 nopadding">
+                <a href='@Url.Action("Details", "Photo",new { movieID = ViewBag.MovieID, peopleID = ViewBag.PeopleID, photoID = photo.PhotoID })' data-toggle="tooltip" title="@photo.Description">
+                    <img class="img-thumbnail" src="@photo.PhotoThumbURL" />
+                </a>
+            </div>
+        }
+    </div>
+    <div class="clearfix"></div>
+}
+else
+{
+    <h5>Brak zdjęć :(</h5>
+}
+
+<!--POWRÓT-->
+<div class="margintop20">
+    <button class="btn btn-default">
+        @if (ViewBag.MovieID != null)
+        {
+            @Html.ActionLink("Powrót", "Details", "Movies", new { id = ViewBag.MovieID }, new { @class = "nodecoration" })
+        }
+        else if (ViewBag.PeopleID != null)
+        {
+            @Html.ActionLink("Powrót", "Details", "People", new { id = ViewBag.PeopleID }, new { @class = "nodecoration" })
+        }
+    </button>
+</div>

@@ -1,0 +1,40 @@
+﻿@model FilmoweJanusze.Models.Proffesion
+
+@if (Model != null)
+{
+    bool seperator = false;
+    string coma = ", ";
+
+    if (Model.Actor == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+
+        @Html.DisplayNameFor(m => Model.Actor)
+    }
+
+    if (Model.Director == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+
+        @Html.DisplayNameFor(m => Model.Director)
+    }
+
+    if (Model.Scenario == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+
+        @Html.DisplayNameFor(m => Model.Scenario)
+    }
+}

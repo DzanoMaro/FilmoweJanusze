@@ -1,0 +1,58 @@
+﻿@model FilmoweJanusze.ViewModels.MovieandCast
+
+@{
+    ViewBag.Title = "Obsada filmu " + Model.Movie.TitleYear;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Dodaj nowego członka obsady", "Create", new { movieID = Model.Movie.MovieID })
+</p>
+@if (Model.Cast.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cast.FirstOrDefault().People.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cast.FirstOrDefault().RoleName)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Cast)
+        {
+            <tr>
+                <td>
+                    @if (item.People.FacePhoto != null)
+                    {
+                        <div style="float:left;margin-right:20px">
+                            <img width="55" height="75" src="@Url.Action("GetImage", "People", new { item.People.PeopleID })" />
+                        </div>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.People.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoleName)
+                </td>
+                <td>
+                    @Html.ActionLink("Zmień", "Edit", new { id = item.ActorRoleID, movieID = Model.Movie.MovieID }) |
+                    @Html.ActionLink("Usuń", "Delete", new { id = item.ActorRoleID, movieID = Model.Movie.MovieID })
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <h5>Brak obsady</h5>
+}
+
+@Html.ActionLink("Powrót", "Details", "Movies", new { id = Model.Movie.MovieID }, null)

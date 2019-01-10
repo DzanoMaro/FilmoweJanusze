@@ -1,0 +1,238 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background-color: white;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/* Pudełka filmów */
+.moviediv {
+    width: 378px;
+    height: 210px;
+    padding: 5px;
+    border: 1px solid #eee;
+    margin: 1px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+    .moviediv table{
+        text-align: justify;
+        padding: 5px;
+        border: 0;
+    }
+
+    .moviediv td {
+        text-align: left;
+        min-width: 95px;
+        max-height: 94px;
+        padding: 2px;
+    }
+
+    .moviediv h4>a {
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+
+.poster {
+    width: 120px;
+    padding-right: 3px;
+}
+
+/* Pudełka ludzi */
+
+.peoplediv {
+    width: 378px;
+    height: 150px;
+    padding: 5px;
+    border: 1px solid #eee;
+    margin: 1px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+    .peoplediv table {
+        text-align: justify;
+        padding: 5px;
+        border: 0;
+    }
+
+    .peoplediv td {
+        text-align: left;
+        min-width: 95px;
+        max-height: 94px;
+        padding: 2px;
+    }
+
+    .peoplediv h4 > a {
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+/* OBSADA */
+
+.cast {
+    max-height: 250px;
+    border-top: 1px solid #ddd;
+    vertical-align: middle;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+    .cast:first-child {
+        border-top: 0;
+        padding-top: 0;
+    }
+
+    .cast div {
+        height: inherit;
+    }
+
+.editbutton {
+    position: absolute;
+    bottom: 0;
+}
+
+
+/* OGÓLNE*/
+
+.well-jm {
+    padding: 9px;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    margin-top: 20px;
+}
+
+.nopadding {
+    padding: 0;
+}
+
+.nomargin {
+    margin:0;
+}
+
+.nodecoration {
+    text-decoration: none;
+    display: block;
+    color:inherit;
+}
+
+    .nodecoration:link {
+        text-decoration: none;
+    }
+
+
+ .searchbutton{
+     display: block;
+ }
+
+.dropdownbutton{
+    margin-top: 15px;
+}
+
+.margintop20{
+    margin-top: 20px;
+}
+
+a.btn.disabled{
+    pointer-events: inherit;
+}
+
+/* Filtracja i sortowanie */
+.sortfilter select {
+    margin: 5px;
+}
+
+#SortParam {
+    margin-right: 0;
+}
+
+#SortOrder {
+    margin-left: 0;
+}
+
+
+/* Wygląd DETAILS */
+
+.panel-link {
+    text-decoration: none;
+    display: block;
+}
+
+    .panel-link:link {
+        text-decoration: none;
+    }
+
+.movieinfo {
+    margin-bottom: 20px;
+    font-size: 15px;
+    
+}
+    .movieinfo dt{
+        width: 130px;
+        margin-bottom: 5px;
+    }
+
+    .movieinfo dd {
+        margin-left: 140px;
+    }
+
+    .movieinfo img {
+        text-align: center;
+    }
+
+.rating {
+    display: block;
+    color: white;
+    background-color: black;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: inherit 30px 15px 30px;
+}
+
+.rating div
+{
+    margin-bottom: 5px;
+}
+
+.rating #Rate 
+{
+    color: black;
+}
+
+.rating #Comment
+{
+    display: inline;
+}
+
+.rating #NotLoggedIn
+{
+    margin: 20px;
+}
+
+.moviegalery
+{
+    padding: 0;
+}
+
+.moviegalery image
+{
+    max-width: 292.5px;
+}
+
+
+/* NOWE */

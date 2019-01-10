@@ -1,0 +1,105 @@
+﻿@model FilmoweJanusze.ViewModels.Found
+@{
+    ViewBag.Title = "Wyniki wyszukiwania";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<br />
+<!--FILMY-->
+@if (Model.Movies.Count() > 0)
+{
+    <h4>Znalezione filmy: @Model.Movies.Count()</h4>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Movies.FirstOrDefault().Poster)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movies.FirstOrDefault().Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movies.FirstOrDefault().Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movies.FirstOrDefault().ReleaseDate)
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Movies)
+        {
+            <tr>
+                <td>
+                    @if (item.Poster != null)
+                    {
+                        <div style="float:left;margin-right:20px">
+                            <img width="55" height="75" src="@Url.Action("GetImage", "Movies", new { item.MovieID })" />
+                        </div>
+                    }
+                </td>
+                <td>
+                    <p>@Html.ActionLink(Html.DisplayFor(modelItem => item.TitleYear).ToString(), "Details","Movies", new { id = item.MovieID },null)</p>
+                    <p>@Html.DisplayFor( m => item.TitlePL)</p>
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor( m => item.ReleaseDate)
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <h4>Nie znaleziono żadnych filmów</h4>
+}
+<br />
+<!--AKTORZY-->
+@if (Model.Peoples.Count() > 0)
+{
+    <h4>Znalezioni aktorzy: @Model.Peoples.Count()</h4>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Peoples.FirstOrDefault().FacePhoto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Peoples.FirstOrDefault().FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Peoples.FirstOrDefault().Birthdate)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Peoples)
+        {
+            <tr>
+                <td>
+                    @if (item.FacePhoto != null)
+                    {
+                        <div style="float:left;margin-right:20px">
+                            <img width="75" height="75" src="@Url.Action("GetImage", "People", new { item.PeopleID })" />
+                        </div>
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink(Html.DisplayFor(modelItem => item.FullName).ToString(), "Details", "People", new { id = item.PeopleID }, null)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Birthdate)
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <h4>Nie znaleziono żadnych aktorów</h4>
+}

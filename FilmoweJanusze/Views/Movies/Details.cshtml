@@ -1,0 +1,337 @@
+﻿@model FilmoweJanusze.ViewModels.MovieandCast
+
+@{
+
+    ViewBag.Title = Model.Movie.TitleYear;
+
+    string coll_descript_in = null;
+    string coll_trailer_in = null;
+    string coll_cast_in = null;
+    string coll_gallery_in = null;
+    string embed_responsive_16by9 = null;
+    string deleteclass = null;
+    string padding = null;
+
+    if (!String.IsNullOrEmpty(Model.Movie.Description))
+    {
+        coll_descript_in = "in";
+    }
+
+    if (!String.IsNullOrEmpty(Model.Movie.TrailerURL))
+    {
+        coll_trailer_in = "in";
+        embed_responsive_16by9 = "embed-responsive-16by9";
+    }
+
+    if (Model.Cast.Count > 0)
+    {
+        coll_cast_in = "in";
+    }
+
+    if (Model.Photos.Count > 0)
+    {
+        coll_gallery_in = "in";
+    }
+
+    if (!User.IsInRole("Admin"))
+    {
+        deleteclass = "disabled";
+    }
+
+    if (User.IsInRole("Admin") || User.IsInRole("User"))
+    {
+        padding = "padding-top:8px";
+    }
+}
+
+<!--NAGŁÓWEK-->
+<div class="page-header well-jm">
+    <div class="col-xs-11">
+        <h3>
+            @ViewBag.Title
+        </h3>
+
+        @if (Model.Movie.TitlePL != null && Model.Movie.TitlePL != "")
+        {
+            <h4>@Model.Movie.TitlePL</h4>
+        }
+    </div>
+    @if (User.IsInRole("User") || User.IsInRole("Admin"))
+    {
+        <div class="dropdown col-xs-1 dropdownbutton">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <i class="glyphicon glyphicon-menu-down"></i>
+            </button>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Edytuj", "Edit", new { id = Model.Movie.MovieID })</li>
+                <li class=@deleteclass>@Html.ActionLink("Usuń", "Delete", new { id = Model.Movie.MovieID }, new { data_toggle = "tooltip", title = "Tylko moderator może usuwać filmy!" })</li>
+            </ul>
+        </div>
+    }
+    <div class="clearfix"></div>
+</div>
+
+
+<!--INFO-->
+<div class="movieinfo">
+    <div class="col-xs-8 col-lg-9 nopadding">
+        <!--PLAKAT-->
+        <div class="col-xs-4 col-lg-3 movieinfo">
+            @if (Model.Movie.Poster != null)
+            {
+                <img class="img-responsive img-thumbnail" src="@Url.Action("GetImage", "Movies", new { Model.Movie.MovieID })" />
+            }
+            else
+            {
+                <img class="img-responsive" src="~/Images/Brak_zdjecia.png" />
+            }
+        </div>
+
+        <!--DANE-->
+        <div class="col-xs-8 movieinfo">
+            <dl class="dl-horizontal">
+                @if (Model.Movie.DurationTime != null && !Model.Movie.DurationTime.ToShortTimeString().Contains("00:00"))
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Movie.DurationTime)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Movie.DurationTime)
+                    </dd>
+                }
+
+                @if (Model.Movie.ReleaseDate != null)
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Movie.ReleaseDate)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Movie.ReleaseDate)
+                    </dd>
+                }
+
+                @if (Model.Movie.Genre != null)
+                {
+                    if (Model.Movie.Genre.Count() > 0)
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Movie.Genre)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Movie.Genre)
+                        </dd>
+                    }
+                }
+
+                @if (!String.IsNullOrEmpty(Model.Movie.CountryProduction))
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Movie.CountryProduction)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Movie.CountryProduction)
+                    </dd>
+                }
+
+                @if (Model.Movie.DirectorID != null)
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Movie.DirectorID)
+                    </dt>
+
+                    <dd>
+                        @Html.ActionLink(Html.DisplayFor(model => model.People.FullName).ToString(), "Details", "People", new { id = Model.People.PeopleID }, null)
+                    </dd>
+                }
+            </dl>
+        </div>
+
+
+        <div class="clearfix"></div>
+    </div>
+
+    <!--OCENY-->
+    <div class="col-xs-4 col-lg-3 rating">
+        @Html.Partial("UserRatePartial", Model.LoggedInURate)
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<!--OPIS-->
+<div class="panel-group nopadding">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#coll_description" class="panel-link">@Html.DisplayNameFor(model => model.Movie.Description)</a>
+            </h4>
+        </div>
+        <div id="coll_description" class="panel-collapse collapse @coll_descript_in">
+            <div class="panel-body">
+                @Html.DisplayFor(model => model.Movie.Description)
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--ZWIASTUN-->
+<div class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#coll_trailer" class="panel-link">@Html.DisplayNameFor(model => model.Movie.TrailerURL)</a>
+            </h4>
+        </div>
+        <div id="coll_trailer" class="panel-collapse collapse @coll_trailer_in">
+            <div class="panel-body">
+                @if (!String.IsNullOrEmpty(Model.Movie.TrailerURL))
+                {
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="embed-responsive @embed_responsive_16by9">
+                            <iframe class="embed-responsive-item" src=@Model.Movie.TrailerURL frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    @:Nie dodano zwiastunu filmu :(
+                }
+            </div>
+        </div>
+    </div>
+    <div style="clear:both"></div>
+</div>
+
+<!--GALERIA-->
+<div class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#coll_gallery" class="panel-link">
+                    @Html.DisplayNameFor(model => model.Photos) (@ViewBag.PhotoCount)
+                </a>
+            </h4>
+        </div>
+        <div id="coll_gallery" class="panel-collapse collapse @coll_gallery_in">
+            <div class="panel-body">
+                @if (Model.Photos.Count > 0)
+                {
+                    <div class="col-xs-12 nopadding">
+                        @foreach (var photo in Model.Photos)
+                        {
+                            <div class="col-xs-2 moviegalery">
+                                <a href='@Url.Action("Details", "Photo",new { movieID = Model.Movie.MovieID, photoID = photo.PhotoID })' data-toggle="tooltip" title="@photo.Description">
+                                    <img class="img-thumbnail" src="@photo.PhotoThumbURL" />
+                                </a>
+                            </div>
+                        }
+                    </div>
+                    @Html.ActionLink("Zobacz całą galerię", "Index", "Photo", new { movieID = Model.Movie.MovieID }, new { @class = "btn btn-default margintop20", style = "float:right" })
+                }
+                else
+                {
+                    @:Nie dodano żadnych zdjęć :(
+                    @Html.ActionLink("Dodaj zdjęcie", "Create", "Photo", new { movieID = Model.Movie.MovieID }, new { @class = "btn btn-default margintop20", style = "float:right" })
+                }
+                <div style="clear:both"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!--OBSADA-->
+<div class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="col-xs-11 nopadding" style=@padding>
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#coll_cast" class="panel-link">
+                        @Html.DisplayNameFor(model => model.Movie.Cast)
+                    </a>
+                </h4>
+            </div>
+            <div class="col-xs-1">
+                @if ((User.IsInRole("User") || User.IsInRole("Admin")) && Model.Cast.Count != 0)
+                {
+                    <button type="button" class="btn btn-default" onclick="UnHide()">
+                        <i class="glyphicon glyphicon-menu-down"></i>
+                    </button>
+                }
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div id="coll_cast" class="panel-collapse collapse @coll_cast_in">
+            <div class="panel-body">
+                @if (Model.Cast.Count != 0)
+                {
+                    bool first = true;
+                    foreach (var cast in Model.Cast)
+                    {
+                        <div class="cast row">
+                            <div class="poster col-xs-2 col-md-offset-1 col-lg-offset-2">
+                                <a href=@Url.Action("Details", "People", new { id = cast.PeopleID })>
+                                    @if (cast.People.FacePhoto != null)
+                                    {
+                                        <img class="img-responsive poster" src="@Url.Action("GetImage", "People", new { cast.PeopleID })" />
+                                    }
+                                    else
+                                    {
+                                        <img class="img-responsive poster" src="~/Images/Brak_zdjecia.png" />
+                                    }
+                                </a>
+                            </div>
+                            <div class="col-xs-2">
+                                @Html.ActionLink(Html.DisplayFor(modelItem => cast.People.FullName).ToString(), "Details", "People", new { id = cast.PeopleID }, null)
+                            </div>
+                            <div class="col-xs-1">
+                                @if (first == true)
+                                {
+                                    @:jako:
+                                    first = false;
+                                }
+                            </div>
+                            <div class="col-xs-2">
+                                @Html.DisplayFor(modelitem => cast.RoleName)
+
+                                @if (cast.Dubbing == true)
+                                {
+                                    <br />
+                                    @:(dubbing)
+                                }
+                            </div>
+                            <div class="poster col-xs-2">
+                                <!--ZDJECIE ROLI
+                                <img class="img-responsive poster" src="~/Images/Brak_zdjecia.png" />-->
+                            </div>
+
+                            <div class="col-xs-2" name="editcast" style="display:none">
+                                @Html.ActionLink("Edytuj", "Edit", "ActorRoles", new { id = cast.ActorRoleID, ismovie = true}, new { @class = "btn btn-default" })
+                                @Html.ActionLink("Usuń", "Delete", "ActorRoles", new { id = cast.ActorRoleID, ismovie = true}, new { data_toggle = "tooltip", title = "Tylko moderator może usuwać role!", @class= @deleteclass+" btn btn-default" })
+                            </div>
+                        </div>
+                    }
+
+                }
+                else
+                {
+                    @:Nie dodano obsady filmu :(
+                }
+                @if (User.IsInRole("User") || User.IsInRole("Admin"))
+                {
+                    @Html.ActionLink("Dodaj członka obsady", "Create", "ActorRoles", new { movieID = Model.Movie.MovieID }, new { @class = "btn btn-default", style = "float:right" })
+                }
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+
+<button class="btn btn-default">
+    @Html.ActionLink("Powrót", "Index", null, new { @class = "nodecoration" })
+</button>

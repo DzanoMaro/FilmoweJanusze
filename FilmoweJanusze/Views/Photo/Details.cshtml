@@ -1,0 +1,124 @@
+﻿@model ICollection<FilmoweJanusze.Models.Photo>
+
+@{
+    ViewBag.Title = "Galeria zdjęć " + ViewBag.Name;
+    PageData["Gallery"] = "~/Content/Gallery.css";
+
+    int photoindex = 1;
+}
+
+<!--NAGŁÓWEK-->
+<div class="page-header well-jm">
+    <div class="col-xs-11">
+        <h3>Galeria zdjęć</h3>
+        @if (ViewBag.MovieID != null)
+        {
+            <a href=@Url.Action("Details","Movies",new { id = ViewBag.MovieID }) class="nodecoration"><h4>@ViewBag.Name</h4></a>
+        }
+        @if (ViewBag.PeopleID != null)
+        {
+            <a href=@Url.Action("Details","People",new { id = ViewBag.PeopleID }) class="nodecoration"><h4>@ViewBag.Name</h4></a>
+        }
+    </div>
+
+    @if (User.IsInRole("User") || User.IsInRole("Admin"))
+    {
+        <div class="dropdown col-xs-1 dropdownbutton">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <i class="glyphicon glyphicon-menu-down"></i>
+            </button>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Edytuj", "Edit", new { id = ViewBag.PhotoID, ismovie = (ViewBag.MovieID > 0) ? true : false, ispeople = (ViewBag.PeopleID > 0) ? true : false })</li>
+                <li>@Html.ActionLink("Usuń", "Delete", new { id = ViewBag.PhotoID, ismovie = (ViewBag.MovieID > 0) ? true : false, ispeople = (ViewBag.PeopleID > 0) ? true : false })</li>
+                </ul>
+</div>
+    }
+    <div class="clearfix"></div>
+</div>
+
+<!--GALERIA-->
+<div style="position:relative">
+
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        var photo = Model.ElementAt(i);
+
+        <div class="mySlides" id="@photo.PhotoID">
+            <div class="numbertext"> @(i + 1)/@Model.Count</div>
+            <img src="@photo.PhotoURL" class="img-responsive center">
+        </div>
+
+        if (photo.PhotoID == ViewBag.PhotoID)
+        {
+            photoindex = i + 1;
+        }
+    }
+
+    <a class="prev" onclick="plusSlides(-1)">❮</a>
+    <a class="next" onclick="plusSlides(1)">❯</a>
+</div>
+<div>
+    <div class="caption-container">
+        <p id="caption"></p>
+    </div>
+
+    <div class="row nomargin">
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            var photo = Model.ElementAt(i);
+
+            <div class="column">
+                <img class="demo cursor img-responsive" src="@photo.PhotoThumbURL" onclick="currentSlide(@i+1)" alt="@photo.Description">
+            </div>
+        }
+    </div>
+</div>
+
+
+<!--POWRÓT-->
+<div class="margintop20">
+    <button class="btn btn-default">
+        @if (ViewBag.MovieID != null)
+        {
+            @Html.ActionLink("Powrót", "Index", "Photo", new { movieID = ViewBag.MovieID }, new { @class = "nodecoration" })
+        }
+        else if (ViewBag.PeopleID != null)
+        {
+            @Html.ActionLink("Powrót", "Index", "Photo", new { peopleID = ViewBag.PeopleID }, new { @class = "nodecoration" })
+        }
+    </button>
+</div>
+
+
+<script>
+    var slideIndex = @photoindex;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("demo");
+        var captionText = document.getElementById("caption");
+        if (n > slides.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = slides.length }
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " active";
+        captionText.innerHTML = dots[slideIndex - 1].alt;
+
+        //var currentid = slides[slideIndex - 1].getAttribute("id");
+    }
+</script>

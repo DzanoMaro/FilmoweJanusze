@@ -1,0 +1,19 @@
+﻿@model DateTime
+
+@if (Model != null)
+{
+    //GODZINY
+    if (Model.Hour > 0)
+    {
+        @Model.Hour
+        @: godz.
+    }
+
+    //MINUTY
+    if (Model.Minute > 0)
+    {
+        @Model.Minute
+        @: min.
+    }
+
+}

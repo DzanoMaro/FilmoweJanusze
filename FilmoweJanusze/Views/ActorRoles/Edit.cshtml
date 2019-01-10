@@ -1,0 +1,49 @@
+﻿@model FilmoweJanusze.Models.ActorRole
+
+@{
+    string header = "";
+    if (ViewBag.MovieID is int)
+    {
+        header = "Edycja obsady ";
+    }
+    else
+    if (ViewBag.PeopleID is int)
+    {
+        header = "Edycja roli ";
+    }
+    ViewBag.Title = header + ViewBag.Name;
+}
+
+<h3>@header</h3>
+<h4>@ViewBag.Name</h4>
+<hr />
+
+@using (Html.BeginForm(Html.BeginForm("Edit", "ActorRoles", new { ismovie = (ViewBag.MovieID is int) ? true : false, ispeople = (ViewBag.PeopleID is int) ? true : false }, FormMethod.Post)))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ActorRoleID)
+
+        @Html.Partial("Form")
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
+                <button type="button" class="btn btn-default">
+                    @if (ViewBag.MovieID is int)
+                    {
+                        @Html.ActionLink("Anuluj", "Details", "Movies", new { id = ViewBag.MovieID }, new { @class = "nodecoration" })
+                    }
+                    else
+                    if (ViewBag.PeopleID is int)
+                    {
+                        @Html.ActionLink("Anuluj", "Details", "People", new { id = ViewBag.PeopleID }, new { @class = "nodecoration" })
+                    }
+                </button>
+            </div>
+        </div>
+    </div>
+}

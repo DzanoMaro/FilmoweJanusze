@@ -1,0 +1,49 @@
+﻿@model FilmoweJanusze.Models.Photo
+
+@{
+    ViewBag.Title = "Edycja zdjęcia galerii " + ViewBag.Name;
+
+    string movieID = "";
+    string peopleID = "";
+
+    if (ViewBag.MovieID == true)
+    {
+        movieID = Model.MovieID.ToString();
+    }
+    else if (ViewBag.PeopleID == true)
+    {
+        peopleID = Model.PeopleID.ToString();
+    }
+}
+
+<h2>Edycja zdjęcia galerii</h2>
+<h4>@ViewBag.Name</h4>
+<hr />
+
+@using (Html.BeginForm("Edit", "Photo", new { ismovie = (ViewBag.MovieID == true) ? true : false, ispeople = (ViewBag.PeopleID == true) ? true : false }, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.PhotoID)
+    @Html.HiddenFor(model => model.PhotoURL)
+    @Html.HiddenFor(model => model.PhotoThumbURL)
+
+    <div class="form-group">
+        <img class="col-xs-6 img-responsive" src="@Model.PhotoURL" />
+    </div>
+
+    @Html.Partial("Form")
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Zapisz" class="btn btn-primary" />
+            <button type="button" class="btn btn-default">
+                @Html.ActionLink("Anuluj", "Details", "Photo", new { photoID = Model.PhotoID, movieID, peopleID }, new { @class = "nodecoration" })
+            </button>
+        </div>
+    </div>
+</div>
+}
