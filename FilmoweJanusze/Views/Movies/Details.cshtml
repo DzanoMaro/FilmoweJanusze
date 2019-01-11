@@ -310,8 +310,8 @@
                             </div>
 
                             <div class="col-xs-2" name="editcast" style="display:none">
-                                @Html.ActionLink("Edytuj", "Edit", "ActorRoles", new { id = cast.ActorRoleID, ismovie = true}, new { @class = "btn btn-default" })
-                                @Html.ActionLink("Usuń", "Delete", "ActorRoles", new { id = cast.ActorRoleID, ismovie = true}, new { data_toggle = "tooltip", title = "Tylko moderator może usuwać role!", @class= @deleteclass+" btn btn-default" })
+                                @Html.ActionLink("Edytuj", "Edit", "ActorRoles", new { id = cast.ActorRoleID, ismovie = true }, new { @class = "btn btn-default" })
+                                @Html.ActionLink("Usuń", "Delete", "ActorRoles", new { id = cast.ActorRoleID, ismovie = true }, new { data_toggle = "tooltip", title = "Tylko moderator może usuwać role!", @class = @deleteclass + " btn btn-default" })
                             </div>
                         </div>
                     }
@@ -335,3 +335,7 @@
 <button class="btn btn-default">
     @Html.ActionLink("Powrót", "Index", null, new { @class = "nodecoration" })
 </button>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/MyFunctions")
+}

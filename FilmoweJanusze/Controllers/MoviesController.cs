@@ -126,6 +126,9 @@ namespace FilmoweJanusze.Controllers
                 else
                     movies = movies.OrderBy(m => m.Title);
             }
+
+            if (Request.IsAjaxRequest())
+                return PartialView("_MovieList", movies.ToPagedList(pageNumber, pagesize));
             
             return View(movies.ToPagedList(pageNumber,pagesize));
         }
@@ -244,6 +247,7 @@ namespace FilmoweJanusze.Controllers
             ViewBag.DirectorID = new SelectList(db.Peoples.Where(p => p.Proffesion.Director == true), "PeopleID", "FullName", movie.DirectorID);
             ViewBag.CountryProduction = new SelectList(CountryList(), movie.CountryProduction);
             ViewBag.DurationTimeValue = movie.DurationTime.ToShortTimeString();
+            ViewBag.Name = movie.TitleYear;
 
             return View(movie);
         }
@@ -266,6 +270,7 @@ namespace FilmoweJanusze.Controllers
             ViewBag.DirectorID = new SelectList(db.Peoples.Where(p => p.Proffesion.Director == true), "PeopleID", "FullName", movie.DirectorID);
             ViewBag.CountryProduction = new SelectList(CountryList(), movie.CountryProduction);
             ViewBag.DurationTimeValue = movie.DurationTime.ToShortTimeString();
+            ViewBag.Name = movie.TitleYear;
 
             if (TryUpdateModel(movie, "", new string[] { "MovieID", "Title", "TitlePL", "ReleaseDate", "Genre", "Description", "Poster", "PosterMimeType", "DirectorID", "TrailerURL", "CountryProduction","DurationTime" }))
             {

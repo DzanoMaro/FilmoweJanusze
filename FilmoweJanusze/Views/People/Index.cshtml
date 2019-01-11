@@ -28,7 +28,13 @@
         </div>
 
         <!-- FILTRACJA I SORTOWANIE-->
-        @using (Html.BeginForm("Index", "People", FormMethod.Get, htmlAttributes: new { page = 1, @class = "form-inline" }))
+        @using (Ajax.BeginForm("Index", "People", new { page = 1 }, new AjaxOptions
+        {
+            HttpMethod = "GET",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "peoplelist"
+        }, new { @class = "form-inline" }))
+        //using (Html.BeginForm("Index", "People", FormMethod.Get, htmlAttributes: new { page = 1, @class = "form-inline" }))
         {
             <div class="panel-body sortfilter">
                 <div class="form-group">
@@ -58,23 +64,11 @@
     </div>
 </div>
 <!--LUDZIE-->
-<div>
-    @if (Model.Count > 0)
-    {
-        <div class="container nopadding">
-            @foreach (var item in Model)
-            {
-                Html.RenderPartial("PeoplePartial", item);
-            }
-        </div>
-        <br />
-        @:Strona @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) z @Model.PageCount
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.SortOrder.SelectedValue, sortParam = ViewBag.SortParam.SelectedValue, proffesion = ViewBag.Proffesion.SelectedValue, pageSize = ViewBag.PageSize.SelectedValue }))
-    }
-    else
-    {
-        <h4> Brak wyników spełniających kryteria </h4>
-    }
+<div id="peoplelist">
+    @Html.Partial("_PeopleList")
 </div>
 
 
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryajax")
+}

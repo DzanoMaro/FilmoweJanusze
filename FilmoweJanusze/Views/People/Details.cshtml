@@ -253,13 +253,13 @@
                                     }
                                 </div>
                                 <!--
-                                    <div class="poster col-xs-2">
-                                        ZDJECIE ROLI
-                    <img class="img-responsive poster" src="~/Images/Brak_zdjecia.png" />
-                                    </div>-->
+                                                <div class="poster col-xs-2">
+                                                    ZDJECIE ROLI
+                                <img class="img-responsive poster" src="~/Images/Brak_zdjecia.png" />
+                                                </div>-->
                                 <div class="col-xs-2" name="editcast" style="display:none">
-                                    @Html.ActionLink("Edytuj", "Edit", "ActorRoles", new { id = cast.ActorRoleID, ispeople = true}, new { @class = "btn btn-default" })
-                                    @Html.ActionLink("Usuń", "Delete", "ActorRoles", new { id = cast.ActorRoleID, ispeople = true}, new { data_toggle = "tooltip", title = "Tylko moderator może usuwać role!", @class = @deleteclass + " btn btn-default" })
+                                    @Html.ActionLink("Edytuj", "Edit", "ActorRoles", new { id = cast.ActorRoleID, ispeople = true }, new { @class = "btn btn-default" })
+                                    @Html.ActionLink("Usuń", "Delete", "ActorRoles", new { id = cast.ActorRoleID, ispeople = true }, new { data_toggle = "tooltip", title = "Tylko moderator może usuwać role!", @class = @deleteclass + " btn btn-default" })
                                 </div>
                             </div>
                         }
@@ -343,3 +343,7 @@
 <button class="btn btn-default">
     @Html.ActionLink("Powrót", "Index", null, new { @class = "nodecoration" })
 </button>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/MyFunctions")
+}

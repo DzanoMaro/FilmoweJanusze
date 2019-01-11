@@ -28,63 +28,56 @@
             <div class="clearfix"></div>
         </div>
 
-            <!-- FILTRACJA I SORTOWANIE-->
-            @using (Html.BeginForm("Index", "Movies", FormMethod.Get, htmlAttributes: new { page = 1, @class = "form-inline" }))
-            {
-                <div class="panel-body sortfilter">
-                    <div class="form-group">
-                        <label>
-                            Filtruj według:
-                        </label>
-                        <label>
-                            Gatunku
-                        </label>
-                        @Html.DropDownList("Genre", null, "Wszystkie", new { @class = "form-control" })
-                        <label>
-                            Kraju produkcji
-                        </label>
-                        @Html.DropDownList("CountryProduction", null, "Wszystkie", new { @class = "form-control" })
-                        <label>
-                            Roku produkcji
-                        </label>
-                        @Html.DropDownList("Years", null, "Wszystkie", new { @class = "form-control" })
-                    </div>
+        <!-- FILTRACJA I SORTOWANIE-->
 
-                    <div class="form-group">
-                        <label>Sortuj według:</label>
-                        @Html.DropDownList("SortParam", null, new { @class = "form-control" })
-                        @Html.DropDownList("SortOrder", null, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group">
-                        <label>Ilość wyników na stronie</label>
-                        @Html.DropDownList("PageSize", null, new { @class = "form-control" })
-                    </div>
-                    <input type="submit" value="Wykonaj" class="btn btn-primary" />
+        @using(Ajax.BeginForm("Index", "Movies",new { page = 1 }, new AjaxOptions
+        {
+            HttpMethod = "GET",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "movielist"
+        }, new { @class = "form-inline" }))
+        //using (Html.BeginForm("Index", "Movies", FormMethod.Get, htmlAttributes: new { page = 1, @class = "form-inline" }))
+        {
+            <div class="panel-body sortfilter">
+                <div class="form-group">
+                    <label>
+                        Filtruj według:
+                    </label>
+                    <label>
+                        Gatunku
+                    </label>
+                    @Html.DropDownList("Genre", null, "Wszystkie", new { @class = "form-control" })
+                    <label>
+                        Kraju produkcji
+                    </label>
+                    @Html.DropDownList("CountryProduction", null, "Wszystkie", new { @class = "form-control" })
+                    <label>
+                        Roku produkcji
+                    </label>
+                    @Html.DropDownList("Years", null, "Wszystkie", new { @class = "form-control" })
                 </div>
-            }
 
-        </div>
+                <div class="form-group">
+                    <label>Sortuj według:</label>
+                    @Html.DropDownList("SortParam", null, new { @class = "form-control" })
+                    @Html.DropDownList("SortOrder", null, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Ilość wyników na stronie</label>
+                    @Html.DropDownList("PageSize", null, new { @class = "form-control" })
+                </div>
+                <input type="submit" value="Wykonaj" class="btn btn-primary" />
+            </div>
+        }
+
+    </div>
 </div>
 
 <!--FILMY-->
-<div>
-    @if (Model.Count > 0)
-    {
-        <div class="container nopadding">
-            @foreach (var item in Model)
-            {
-                Html.RenderPartial("MoviePartial", item);
-            }
-        </div>
-        <br />
-        @:Strona @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) z @Model.PageCount
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.SortOrder.SelectedValue, sortParam = ViewBag.SortParam.SelectedValue, genre = ViewBag.Genre.SelectedValue, countryProduction = ViewBag.CountryProduction.SelectedValue, years = ViewBag.Years.SelectedValue, pageSize = ViewBag.PageSize.SelectedValue }))
-
-    }
-    else
-    {
-        <h4> Brak filmów spełniających kryteria </h4>
-    }
+<div id="movielist">
+    @Html.Partial("_MovieList")
 </div>
 
-
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryajax")
+}

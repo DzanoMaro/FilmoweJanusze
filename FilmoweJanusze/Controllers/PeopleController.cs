@@ -71,6 +71,9 @@ namespace FilmoweJanusze.Controllers
                     break;
             }
 
+            if (Request.IsAjaxRequest())
+                return PartialView("_PeopleList", peoples.ToPagedList(pageNumber, pagesize));
+
             return View(peoples.ToPagedList(pageNumber, pagesize));
         }
 
@@ -168,7 +171,6 @@ namespace FilmoweJanusze.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var people = db.Peoples.Include(p => p.Proffesion).Where(p => p.PeopleID == id).Single();
-
             ViewBag.Name = people.FullName;
 
             if (TryUpdateModel(people, "", new string[] { "PeopleID","FirstName","LastName","Birthdate","Birthplace","Height","Biography","Proffesion","FacePhoto","FaceMimeType" }))

@@ -30,14 +30,13 @@
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Dodaj" class="btn btn-default" />
+            <button class="btn btn-default">
+                @Html.ActionLink("Powrót", "Index", null, new { @class = "nodecoration" })
+            </button>
         </div>
     </div>
 </div>
 }
-
-<div>
-    @Html.ActionLink("Wróć", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
