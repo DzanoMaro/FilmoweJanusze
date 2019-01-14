@@ -147,7 +147,7 @@ textarea {
     margin-top: 20px;
 }
 
-a.btn.disabled{
+.disabled{
     pointer-events: inherit;
 }
 

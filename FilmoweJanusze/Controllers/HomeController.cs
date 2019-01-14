@@ -26,17 +26,23 @@ namespace FilmoweJanusze.Controllers
 
         public ActionResult Search(string searchString)
         {
-            var movies = from m in db.Movies select m;
-            var peoples = from p in db.Peoples select p;
-            
             if (searchString != null && searchString != "")
             {
-                movies = movies.Where(m => m.Title.ToUpper().Contains(searchString.ToUpper()) || m.TitlePL.ToUpper().Contains(searchString.ToUpper()));
-                peoples = peoples.Where(p => p.FirstName.ToUpper().Contains(searchString.ToUpper()) || p.LastName.ToUpper().Contains(searchString.ToUpper()));
+                if(searchString.Contains("movieid="))
+                {
+                    var movieid = int.Parse(searchString.Substring(8));
+                    return RedirectToAction("Details", "Movies", new { id = movieid });
+                }
+
+                if (searchString.Contains("peopleid="))
+                {
+                    var peopleid = int.Parse(searchString.Substring(9));
+                    return RedirectToAction("Details", "People", new { id = peopleid });
+                }
 
                 Found found = new Found();
-                found.Movies = movies.ToList();
-                found.Peoples = peoples.ToList();
+                found.Movies = db.Movies.Where(m => m.Title.ToUpper().Contains(searchString.ToUpper()) || m.TitlePL.ToUpper().Contains(searchString.ToUpper())).ToList();
+                found.Peoples = db.Peoples.Where(p => p.FirstName.ToUpper().Contains(searchString.ToUpper()) || p.LastName.ToUpper().Contains(searchString.ToUpper()) || searchString.ToUpper() == p.FirstName.ToUpper() + " " + p.LastName.ToUpper()).ToList();
                 
                 return View(found);
             }
@@ -44,6 +50,16 @@ namespace FilmoweJanusze.Controllers
                 return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public JsonResult SearchAutoComplete(string searchString)
+        {
+            // Found found = new Found();
+           var movielist = db.Movies.Where(m => m.Title.ToUpper().Contains(searchString.ToUpper()) || m.TitlePL.ToUpper().Contains(searchString.ToUpper())).Take(3).Select(m => new { label = m.Title + " (" + m.ReleaseDate.Year + ")", val = "movieid=" + m.MovieID}).ToList();
+           var peoplelist = db.Peoples.Where(p => p.FirstName.ToUpper().Contains(searchString.ToUpper()) || p.LastName.ToUpper().Contains(searchString.ToUpper()) || searchString.ToUpper() == p.FirstName.ToUpper() + " " + p.LastName.ToUpper()).Take(3).Select(p => new { label = p.FirstName + " " + p.LastName, val = "peopleid=" + p.PeopleID}).ToList();
+
+           return Json(movielist.Concat(peoplelist).ToList(), JsonRequestBehavior.AllowGet);
+        }
+        
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
