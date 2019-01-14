@@ -45,6 +45,8 @@ namespace FilmoweJanusze.Models
         public byte[] FacePhoto { get; set; }
         [HiddenInput(DisplayValue = false)]
         public string FaceMimeType { get; set; }
+
+
         
 
         [Display(Name = "Imię i nazwisko")]
