@@ -306,6 +306,7 @@
     <Compile Include="ViewModels\Found.cs" />
     <Compile Include="ViewModels\IndexView.cs" />
     <Compile Include="ViewModels\MovieandCast.cs" />
+    <Compile Include="ViewModels\ProfileInfoesDetails.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -475,10 +476,8 @@
     <Content Include="Views\Movies\_MovieList.cshtml" />
     <Content Include="Views\People\_PeopleList.cshtml" />
     <Content Include="Views\ProfileInfoes\Create.cshtml" />
-    <Content Include="Views\ProfileInfoes\Delete.cshtml" />
     <Content Include="Views\ProfileInfoes\Details.cshtml" />
     <Content Include="Views\ProfileInfoes\Edit.cshtml" />
-    <Content Include="Views\ProfileInfoes\Index.cshtml" />
     <Content Include="Views\ProfileInfoes\_Form.cshtml" />
   </ItemGroup>
   <ItemGroup>

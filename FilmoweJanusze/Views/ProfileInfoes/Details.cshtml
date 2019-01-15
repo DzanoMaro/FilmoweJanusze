@@ -1,61 +1,68 @@
-﻿@model FilmoweJanusze.Models.ProfileInfo
+﻿@model FilmoweJanusze.ViewModels.ProfileInfoesDetails
 
 @{
-    ViewBag.Title = "Profil użytkownika " + Model.User.UserName;
+    ViewBag.Title = "Profil użytkownika " + Model.ProfileInfo.User.UserName;
+
+    string coll_ratedmovies_in = null;
+
+    if (Model.RatedMovies.Count() > 0)
+    {
+        coll_ratedmovies_in = "in";
+    }
 }
 
 <!--NAGŁÓWEK-->
 <div class="page-header well-jm">
     <div class="col-xs-11">
         <h3>Profil użytkownika</h3>
-        <h4>@Model.User.UserName</h4>
+        <h4>@Model.ProfileInfo.User.UserName</h4>
     </div>
 
     <div class="dropdown col-xs-1 dropdownbutton">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            <i class="glyphicon glyphicon-menu-down"></i>
-        </button>
-        @if (Model.User.Id == ViewBag.CurrentUserID)
+        @if (Model.ProfileInfo.User.Id == ViewBag.CurrentUserID)
         {
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <i class="glyphicon glyphicon-menu-down"></i>
+            </button>
+
             <ul class="dropdown-menu">
-                <li>@Html.ActionLink("Edytuj profil", "Edit", new { id = Model.ProfileInfoID })</li>
+                <li>@Html.ActionLink("Edytuj profil", "Edit", new { id = Model.ProfileInfo.ProfileInfoID })</li>
                 <li>@Html.ActionLink("Zarządzaj kontem", "Index", "Manage", null, null)</li>
             </ul>
         }
     </div>
-    
+
     <div class="clearfix"></div>
 </div>
-
-
+<!--INFORMACJE-->
 <div>
     <div class="col-xs-2">
-        <img class="img-circle img-thumbnail" src="@Model.PhotoURL" />
+        <img class="img-circle img-thumbnail" src="@Model.ProfileInfo.PhotoURL" />
     </div>
     <div class="col-xs-4">
         <dl class="dl-horizontal">
             <dt>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayNameFor(model => model.ProfileInfo.FirstName)
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.FirstName)
+                @Html.DisplayFor(model => model.ProfileInfo.FirstName)
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.ProfileInfo.LastName)
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.LastName)
+                @Html.DisplayFor(model => model.ProfileInfo.LastName)
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.Birthdate)
+                @Html.DisplayNameFor(model => model.ProfileInfo.Birthdate)
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.Birthdate)
+                @Html.DisplayFor(model => model.ProfileInfo.Birthdate)
             </dd>
 
         </dl>
@@ -63,3 +70,28 @@
     <div class="clearfix"></div>
 </div>
 
+<!--OCENIONE FILMY-->
+<div class="panel-group nopadding margintop20">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#coll_ratedmovies" class="panel-link">@Html.DisplayNameFor(model => model.RatedMovies)</a>
+            </h4>
+        </div>
+        <div id="coll_ratedmovies" class="panel-collapse collapse @coll_ratedmovies_in">
+            <div class="panel-body container-fluid ">
+                @if (Model.RatedMovies.Count() > 0)
+                {
+                    foreach(var userRate in Model.RatedMovies)
+                    {
+                        Html.RenderPartial("MoviePartial",userRate.Movie);
+                    }
+                }
+                else
+                {
+                    @:Nie oceniłeś jeszcze żadnego filmu :(
+                }
+            </div>
+        </div>
+    </div>
+</div>

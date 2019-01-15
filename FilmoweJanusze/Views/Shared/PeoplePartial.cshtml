@@ -1,40 +1,42 @@
 ﻿@model FilmoweJanusze.Models.People
 
-<div class=" col-sm-6 col-lg-4 peoplediv">
-    <table>
-        <tr>
-            <td rowspan="5" class="poster">
-                <a href=@Url.Action("Details","People", new { id = Model.PeopleID })>
-                    @if (Model.FacePhoto != null)
-                    {
-                        <img width="110" height="130" src="@Url.Action("GetImage", "People", new { Model.PeopleID })" />
-                    }
-                    else
-                    {
-                        <img class="img-responsive" src="~/Images/Brak_zdjecia.png" />
-                    }
-                </a>
-            </td>
-            <td colspan="2">
-                <h4>@Html.ActionLink(Html.DisplayFor(modelItem => Model.FullName).ToString(), "Details", "People", new { id = Model.PeopleID }, null)</h4>
-            </td>
-        </tr>
-
-        @if (!String.IsNullOrEmpty(Model.Age))
-        {
+<div class="col-sm-6 col-lg-4 nopadding">
+    <div class="peoplediv">
+        <table>
             <tr>
-                <td>@Html.DisplayNameFor(modelItem => Model.Age)</td>
-                <td>@Html.DisplayFor(modelItem => Model.Age)</td>
+                <td rowspan="5" class="poster">
+                    <a href=@Url.Action("Details","People", new { id = Model.PeopleID })>
+                        @if (Model.FacePhoto != null)
+                        {
+                            <img width="110" height="130" src="@Url.Action("GetImage", "People", new { Model.PeopleID })" />
+                        }
+                        else
+                        {
+                            <img class="img-responsive" src="~/Images/Brak_zdjecia.png" />
+                        }
+                    </a>
+                </td>
+                <td colspan="2">
+                    <h4>@Html.ActionLink(Html.DisplayFor(modelItem => Model.FullName).ToString(), "Details", "People", new { id = Model.PeopleID }, null)</h4>
+                </td>
             </tr>
-        }
 
-        @if (Model.Proffesion != null)
-        {
+            @if (!String.IsNullOrEmpty(Model.Age))
+            {
+                <tr>
+                    <td>@Html.DisplayNameFor(modelItem => Model.Age)</td>
+                    <td>@Html.DisplayFor(modelItem => Model.Age)</td>
+                </tr>
+            }
+
+            @if (Model.Proffesion != null)
+            {
                 <tr>
                     <td>@Html.DisplayNameFor(modelItem => Model.Proffesion)</td>
                     <td>@Html.DisplayFor(modelItem => Model.Proffesion)</td>
                 </tr>
-        }
+            }
 
         </table>
+    </div>
 </div>

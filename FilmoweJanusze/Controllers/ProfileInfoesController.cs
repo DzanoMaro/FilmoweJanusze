@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using FilmoweJanusze.Models;
+using FilmoweJanusze.ViewModels;
 using Microsoft.AspNet.Identity;
 
 namespace FilmoweJanusze.Controllers
@@ -17,16 +18,6 @@ namespace FilmoweJanusze.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: ProfileInfoes
-        /*
-        public ActionResult Index()
-        {
-            //id usera
-            ViewBag.UserID = User.Identity.GetUserId();
-            return View(profileInfo);
-        }
-        */
-
         // GET: ProfileInfoes/Details/5
         public ActionResult Details(string UserName)
         {
@@ -34,12 +25,18 @@ namespace FilmoweJanusze.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProfileInfo profileInfo = db.ProfileInfos.FirstOrDefault(p=>p.User.UserName == UserName);
-            if (profileInfo == null)
+            ProfileInfoesDetails profileInfoesDetails = new ProfileInfoesDetails();
+
+            profileInfoesDetails.ProfileInfo = db.ProfileInfos.FirstOrDefault(p=>p.User.UserName == UserName);
+            if (profileInfoesDetails.ProfileInfo == null)
             {
                 return RedirectToAction("Create");
             }
-            return View(profileInfo);
+
+            ViewBag.CurrentUserID = User.Identity.GetUserId();
+            profileInfoesDetails.RatedMovies = db.UserRates.Include(u=>u.Movie).Where(u => u.User.Id == profileInfoesDetails.ProfileInfo.User.Id).ToList();
+
+            return View(profileInfoesDetails);
         }
 
         // GET: ProfileInfoes/Create
@@ -142,35 +139,6 @@ namespace FilmoweJanusze.Controllers
                 return RedirectToAction("Details", new { UserName = profileInfo.User.UserName });
             }
             return View(profileInfo);
-        }
-
-        // GET: ProfileInfoes/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ProfileInfo profileInfo = db.ProfileInfos.Find(id);
-            if (profileInfo == null)
-            {
-                return HttpNotFound();
-            }
-
-            ViewBag.CurrentUserID = User.Identity.GetUserId();
-
-            return View(profileInfo);
-        }
-
-        // POST: ProfileInfoes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            ProfileInfo profileInfo = db.ProfileInfos.Find(id);
-            db.ProfileInfos.Remove(profileInfo);
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

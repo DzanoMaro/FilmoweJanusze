@@ -12,7 +12,7 @@
     </div>
     @if (Model.LatestReleased.Count() > 0)
     {
-        <div class="container nopadding">
+        <div class="container-fluid nopadding">
             @foreach (var item in Model.LatestReleased)
             {
                 Html.RenderPartial("MoviePartial", item);
@@ -33,7 +33,7 @@
     </div>
         @if (Model.NotYetReleased.Count() > 0)
         {
-            <div class="container nopadding">
+            <div class="container-fluid nopadding">
                 @foreach (var item in Model.NotYetReleased)
                 {
                     Html.RenderPartial("MoviePartial", item);
@@ -53,7 +53,7 @@
     </div>
         @if (Model.PeoplesBirthdays.Count() > 0)
         {
-            <div class="container nopadding">
+            <div class="container-fluid nopadding">
                 @foreach (var item in Model.PeoplesBirthdays)
                 {
                     Html.RenderPartial("PeoplePartial", item);
