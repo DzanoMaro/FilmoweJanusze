@@ -190,11 +190,13 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActorRolesController.cs" />
+    <Compile Include="Controllers\ExtendedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
     <Compile Include="Controllers\PeopleController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
+    <Compile Include="Controllers\ProfileInfoesController.cs" />
     <Compile Include="Controllers\UserRateController.cs" />
     <Compile Include="DAL\MovieContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -283,9 +285,9 @@
     <Compile Include="Migrations\201901071653548_AddPeopleToPhoto.Designer.cs">
       <DependentUpon>201901071653548_AddPeopleToPhoto.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201901141530469_ProfileInfo.cs" />
-    <Compile Include="Migrations\201901141530469_ProfileInfo.Designer.cs">
-      <DependentUpon>201901141530469_ProfileInfo.cs</DependentUpon>
+    <Compile Include="Migrations\201901151135016_ProfileInfo.cs" />
+    <Compile Include="Migrations\201901151135016_ProfileInfo.Designer.cs">
+      <DependentUpon>201901151135016_ProfileInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -472,10 +474,17 @@
     <Content Include="Views\Photo\Details.cshtml" />
     <Content Include="Views\Movies\_MovieList.cshtml" />
     <Content Include="Views\People\_PeopleList.cshtml" />
+    <Content Include="Views\ProfileInfoes\Create.cshtml" />
+    <Content Include="Views\ProfileInfoes\Delete.cshtml" />
+    <Content Include="Views\ProfileInfoes\Details.cshtml" />
+    <Content Include="Views\ProfileInfoes\Edit.cshtml" />
+    <Content Include="Views\ProfileInfoes\Index.cshtml" />
+    <Content Include="Views\ProfileInfoes\_Form.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\" />
+    <Folder Include="Views\Extended\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -543,8 +552,8 @@
     <EmbeddedResource Include="Migrations\201901071653548_AddPeopleToPhoto.resx">
       <DependentUpon>201901071653548_AddPeopleToPhoto.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901141530469_ProfileInfo.resx">
-      <DependentUpon>201901141530469_ProfileInfo.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201901151135016_ProfileInfo.resx">
+      <DependentUpon>201901151135016_ProfileInfo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

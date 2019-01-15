@@ -1,0 +1,29 @@
+﻿@model FilmoweJanusze.Models.ProfileInfo
+
+@{
+    ViewBag.Title = "Dodaj swoje informacje profilowe " + Model.User.UserName;
+}
+
+<h3>Dodaj swoje informacje profilowe </h3>
+<h4>@Model.User.UserName</h4>
+<hr />
+
+@using (Html.BeginForm("Create", "ProfileInfoes", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.Partial("_Form")
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Utwórz" class="btn btn-primary" />
+            <button class="btn btn-default">
+                @Html.ActionLink("Powrót", "Index", "Home", null, new { @class = "nodecoration" })
+            </button>
+        </div>
+    </div>
+</div>
+}
+

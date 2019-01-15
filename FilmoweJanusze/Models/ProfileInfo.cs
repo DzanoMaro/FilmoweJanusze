@@ -10,6 +10,7 @@ namespace FilmoweJanusze.Models
     {
         public int ProfileInfoID { get; set; }
 
+        [Required(ErrorMessage = "Podaj swoje imię")]
         [StringLength(25, MinimumLength = 2, ErrorMessage = "{0} musi zawierać od 2 do 25 znaków")]
         [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$", ErrorMessage = "{0} nie może zawierać znaków specjalnych, ani liczb")]
         [Display(Name = "Imię")]
@@ -26,7 +27,11 @@ namespace FilmoweJanusze.Models
         public DateTime Birthdate { get; set; }
 
         [Display(Name = "Zdjęcie")]
+        [DisplayFormat(NullDisplayText = "~\\Images\\Brak_zdjecia_usera.png")]
         [DataType(DataType.Url)]
         public string PhotoURL { get; set; }
+
+        [Required]
+        public virtual ApplicationUser User { get; set; }
     }
 }

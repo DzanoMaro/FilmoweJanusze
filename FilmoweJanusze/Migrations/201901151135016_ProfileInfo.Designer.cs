@@ -13,7 +13,7 @@ namespace FilmoweJanusze.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201901141530469_ProfileInfo"; }
+            get { return "201901151135016_ProfileInfo"; }
         }
         
         string IMigrationMetadata.Source

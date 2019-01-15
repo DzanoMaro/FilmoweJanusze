@@ -1,0 +1,31 @@
+﻿@model FilmoweJanusze.Models.ProfileInfo
+
+@{
+    ViewBag.Title = "Zmień informacje profilowe " + @Model.User.UserName;
+}
+
+<h3>Zmień informacje profilowe</h3>
+<h4>@Model.User.UserName</h4>
+<hr />
+
+
+@using (Html.BeginForm("Edit", "ProfileInfoes", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ProfileInfoID)
+
+        @Html.Partial("_Form")
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
+                <button class="btn btn-default">
+                    @Html.ActionLink("Powrót", "Details", new { UserName = Model.User.UserName }, new { @class = "nodecoration" })
+                </button>
+            </div>
+        </div>
+    </div>
+}

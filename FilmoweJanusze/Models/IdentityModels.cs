@@ -9,9 +9,6 @@ namespace FilmoweJanusze.Models
     // Możesz dodać dane profilu dla użytkownika, dodając więcej właściwości do klasy ApplicationUser. Odwiedź stronę https://go.microsoft.com/fwlink/?LinkID=317594, aby dowiedzieć się więcej.
     public class ApplicationUser : IdentityUser
     {
-       
-        public virtual ProfileInfo ProfileInfo { get; set; }
-
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Element authenticationType musi pasować do elementu zdefiniowanego w elemencie CookieAuthenticationOptions.AuthenticationType
@@ -23,7 +20,6 @@ namespace FilmoweJanusze.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-
         public DbSet<Movie> Movies { get; set; }
         public DbSet<People> Peoples { get; set; }
         public DbSet<ActorRole> ActorRoles { get; set; }
@@ -31,6 +27,7 @@ namespace FilmoweJanusze.Models
         public DbSet<MovieGenre> MovieGenres { get; set; }
         public DbSet<UserRate> UserRates { get; set; }
         public DbSet<Photo> Photos { get; set; }
+        public DbSet<ProfileInfo> ProfileInfos { get; set; }
 
         public ApplicationDbContext()
             : base("MovieContext", throwIfV1Schema: false)

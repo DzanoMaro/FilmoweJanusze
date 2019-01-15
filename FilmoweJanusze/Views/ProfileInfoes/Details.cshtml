@@ -1,0 +1,65 @@
+﻿@model FilmoweJanusze.Models.ProfileInfo
+
+@{
+    ViewBag.Title = "Profil użytkownika " + Model.User.UserName;
+}
+
+<!--NAGŁÓWEK-->
+<div class="page-header well-jm">
+    <div class="col-xs-11">
+        <h3>Profil użytkownika</h3>
+        <h4>@Model.User.UserName</h4>
+    </div>
+
+    <div class="dropdown col-xs-1 dropdownbutton">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <i class="glyphicon glyphicon-menu-down"></i>
+        </button>
+        @if (Model.User.Id == ViewBag.CurrentUserID)
+        {
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Edytuj profil", "Edit", new { id = Model.ProfileInfoID })</li>
+                <li>@Html.ActionLink("Zarządzaj kontem", "Index", "Manage", null, null)</li>
+            </ul>
+        }
+    </div>
+    
+    <div class="clearfix"></div>
+</div>
+
+
+<div>
+    <div class="col-xs-2">
+        <img class="img-circle img-thumbnail" src="@Model.PhotoURL" />
+    </div>
+    <div class="col-xs-4">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Birthdate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Birthdate)
+            </dd>
+
+        </dl>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
