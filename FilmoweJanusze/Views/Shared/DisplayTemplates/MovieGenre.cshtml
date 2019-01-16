@@ -170,6 +170,19 @@
         @Html.ActionLink(Html.DisplayNameFor(m => Model.Romans).ToString(), "Index", "Movies", new { genre = Html.DisplayNameFor(m => Model.Romans).ToString(), page = 1 }, null)
     }
 
+    if (Model.Short == true)
+    {
+        if (seperator == true)
+        {
+            @coma
+        }
+        seperator = true;
+        
+        <a href="@Url.Action("Index", "Movies", new { genre = "Krotkometrażowy", page = 1 })">
+            @Html.DisplayNameFor(m => Model.Short)
+        </a>
+    }
+
     if (Model.SciFi == true)
     {
         if (seperator == true)
@@ -177,7 +190,6 @@
             @coma
         }
         seperator = true;
-
         @Html.ActionLink(Html.DisplayNameFor(m => Model.SciFi).ToString(), "Index", "Movies", new { genre = Html.DisplayNameFor(m => Model.SciFi).ToString(), page = 1 }, null)
     }
 

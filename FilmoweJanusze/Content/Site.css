@@ -19,8 +19,7 @@ textarea {
 
 /* Pudełka filmów */
 .moviediv {
-    min-width: 355px;
-    height: 210px;
+    min-height: 210px;
     padding: 5px;
     border: 1px solid #eee;
     margin: 2px;
@@ -145,6 +144,10 @@ textarea {
 
 .margintop20{
     margin-top: 20px;
+}
+
+.width5perc {
+    width: 5%;
 }
 
 .disabled{

@@ -138,13 +138,13 @@ namespace FilmoweJanusze.Controllers
             if (ismovie != null)
             {
                 ViewBag.MovieID = actorRole.MovieID;
-                ViewBag.PeopleID = new SelectList(db.Peoples.Where(p => p.Proffesion.Actor == true), "PeopleID", "FullName");
+                ViewBag.PeopleID = new SelectList(db.Peoples.Where(p => p.Proffesion.Actor == true), "PeopleID", "FullName", actorRole.PeopleID);
                 ViewBag.Name = actorRole.Movie.TitleYear;
             }
             else
             if (ispeople != null)
             {
-                ViewBag.MovieID = new SelectList(db.Movies, "MovieID", "TitleYear");
+                ViewBag.MovieID = new SelectList(db.Movies, "MovieID", "TitleYear", actorRole.MovieID);
                 ViewBag.PeopleID = actorRole.PeopleID;
                 ViewBag.Name = actorRole.People.FullName;
             }
@@ -171,8 +171,9 @@ namespace FilmoweJanusze.Controllers
                 {
                     return HttpNotFound();
                 }
+                actorRole.Movie = movie;
                 ViewBag.MovieID = actorRole.MovieID;
-                ViewBag.PeopleID = new SelectList(db.Peoples.Where(p => p.Proffesion.Actor == true), "PeopleID", "FullName");
+                ViewBag.PeopleID = new SelectList(db.Peoples.Where(p => p.Proffesion.Actor == true), "PeopleID", "FullName", actorRole.PeopleID);
                 ViewBag.Name = actorRole.Movie.TitleYear;
             }
             else
@@ -183,7 +184,8 @@ namespace FilmoweJanusze.Controllers
                 {
                     return HttpNotFound();
                 }
-                ViewBag.MovieID = new SelectList(db.Movies, "MovieID", "TitleYear");
+                actorRole.People = people;
+                ViewBag.MovieID = new SelectList(db.Movies, "MovieID", "TitleYear", actorRole.MovieID);
                 ViewBag.PeopleID = actorRole.PeopleID;
                 ViewBag.Name = actorRole.People.FullName;
             }

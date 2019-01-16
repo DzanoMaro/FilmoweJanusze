@@ -290,6 +290,7 @@ namespace FilmoweJanusze.Controllers
                 {
                     return HttpNotFound();
                 }
+                photo.Movie = movie;
                 ViewBag.MovieID = photo.MovieID;
                 ViewBag.PeopleID = null;
                 ViewBag.Name = photo.Movie.TitleYear;
@@ -303,6 +304,7 @@ namespace FilmoweJanusze.Controllers
                 {
                     return HttpNotFound();
                 }
+                photo.People = people;
                 ViewBag.PeopleID = photo.PeopleID;
                 ViewBag.MovieID = null;
                 ViewBag.Name = photo.People.FullName;
@@ -321,10 +323,12 @@ namespace FilmoweJanusze.Controllers
                     if( ismovie == true )
                     {
                         photo.PeopleID = null;
+                        photo.People = null;
                     }
                     else if( ispeople == true )
                     {
                         photo.MovieID = null;
+                        photo.Movie = null;
                     }
 
                 }

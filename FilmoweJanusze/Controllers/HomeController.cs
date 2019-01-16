@@ -17,8 +17,8 @@ namespace FilmoweJanusze.Controllers
         public ActionResult Index()
         {
             IndexView indexView = new IndexView();
-            indexView.LatestReleased = db.Movies.Where(m => m.ReleaseDate < DateTime.Now).OrderByDescending(m => m.ReleaseDate).Take(3).ToList();
-            indexView.NotYetReleased = db.Movies.Where(m => m.ReleaseDate >= DateTime.Now).OrderBy(m => m.ReleaseDate).Take(3).ToList();
+            indexView.LatestReleased = db.Movies.Where(m => m.ReleaseDate < DateTime.Now).OrderByDescending(m => m.ReleaseDate).ToList();
+            indexView.NotYetReleased = db.Movies.Where(m => m.ReleaseDate >= DateTime.Now).OrderBy(m => m.ReleaseDate).ToList();
             indexView.PeoplesBirthdays = db.Peoples.Where(p => p.Birthdate.Month == DateTime.Now.Month).OrderBy(p => p.Birthdate.Day).ToList();
 
             return View(indexView);

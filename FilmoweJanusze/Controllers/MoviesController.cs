@@ -28,20 +28,6 @@ namespace FilmoweJanusze.Controllers
         {
             IQueryable<Movie> movies = db.Movies.Include(m => m.Genre);
 
-            //lista lat z dostepnych filmow
-            var yearList = movies.Select(m => m.ReleaseDate.Year).Distinct().ToList();
-            ViewBag.Years = new SelectList(yearList, years);
-
-            //listy sortujacefiltrujace
-            ViewBag.SortParam = new SelectList(new[] { "Tytułu", "Daty premiery" }, sortParam);
-            ViewBag.SortOrder = new SelectList(new[] { "Rosnąco", "Malejąco" }, sortOrder);
-            ViewBag.Genre = new SelectList(new[] { "Akcja", "Animowany", "Biograficzny", "Dokumentalny", "Dramat", "Familijny", "Fantasy", "Horror", "Komedia", "Krótkometrażowy", "Kryminalny", "Melodramat", "Musical", "Muzyczny", "Przygodowy", "Romans", "Sci-Fi", "Thriller" },genre);
-            ViewBag.CountryProduction = new SelectList(CountryList(), countryProduction);
-            ViewBag.PageSize = new SelectList(new[] { 3, 5, 10, 15 }, pageSize);
-
-            int pagesize = (pageSize ?? 10);
-            int pageNumber = (page ?? 1);
-
             switch (genre)
             {
                 case "Akcja":
@@ -74,6 +60,10 @@ namespace FilmoweJanusze.Controllers
                 case "Krótkometrażowy":
                     movies = movies.Where(m => m.Genre.Short == true);
                     break;
+                case "Krotkometrażowy":    //dont delete
+                    movies = movies.Where(m => m.Genre.Short == true);
+                    genre = "Krótkometrażowy";
+                    break;
                 case "Kryminalny":
                     movies = movies.Where(m => m.Genre.Criminal == true);
                     break;
@@ -101,6 +91,20 @@ namespace FilmoweJanusze.Controllers
                 default:
                     break;
             }
+            
+            //lista lat z dostepnych filmow
+            var yearList = movies.Select(m => m.ReleaseDate.Year).Distinct().ToList();
+            ViewBag.Years = new SelectList(yearList, years);
+
+            //listy sortujacefiltrujace
+            ViewBag.SortParam = new SelectList(new[] { "Tytułu", "Daty premiery" }, sortParam);
+            ViewBag.SortOrder = new SelectList(new[] { "Rosnąco", "Malejąco" }, sortOrder);
+            ViewBag.Genre = new SelectList(new[] { "Akcja", "Animowany", "Biograficzny", "Dokumentalny", "Dramat", "Familijny", "Fantasy", "Horror", "Komedia", "Krótkometrażowy", "Kryminalny", "Melodramat", "Musical", "Muzyczny", "Przygodowy", "Romans", "Sci-Fi", "Thriller" },genre);
+            ViewBag.CountryProduction = new SelectList(CountryList(), countryProduction);
+            ViewBag.PageSize = new SelectList(new[] { 3, 5, 10, 15 }, pageSize);
+
+            int pagesize = (pageSize ?? 10);
+            int pageNumber = (page ?? 1);
 
             if (!String.IsNullOrEmpty(countryProduction))
             {
