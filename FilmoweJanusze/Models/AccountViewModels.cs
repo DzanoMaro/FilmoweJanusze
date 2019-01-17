@@ -66,7 +66,7 @@ namespace FilmoweJanusze.Models
     {
         [Required]
         [Display(Name = "Nazwa użytkownika")]
-        [StringLength(12, ErrorMessage = "{0} musi zawierać co najmniej następującą liczbę znaków: {2}-{1}.", MinimumLength = 3)]
+        [StringLength(12, ErrorMessage = "{0} musi zawierać następującą liczbę znaków: {2}-{1}.", MinimumLength = 3)]
         public string UserName { get; set; }
 
         [Required]

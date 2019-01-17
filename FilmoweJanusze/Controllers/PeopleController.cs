@@ -14,7 +14,7 @@ using FilmoweJanusze.ViewModels;
 
 namespace FilmoweJanusze.Controllers
 {
-    public class PeopleController : Controller
+    public class PeopleController : ExtendedController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
@@ -264,33 +264,6 @@ namespace FilmoweJanusze.Controllers
             {
                 return null;
             }
-        }
-
-        public void CheckBirthday(DateTime dateTime)
-        {
-            bool checkOK = false;
-
-            if (dateTime.Year < DateTime.Now.Year)
-            {
-                checkOK = true;
-            }
-            else if (dateTime.Year == DateTime.Now.Year)
-            {
-                if (dateTime.Month < DateTime.Now.Month)
-                {
-                        checkOK = true;
-                }
-                else if (dateTime.Month == DateTime.Now.Month)
-                {
-                    if (dateTime.Day < DateTime.Now.Day)
-                    {
-                        checkOK = true;
-                    }
-                }
-            }
-            
-            if (!checkOK)
-                ModelState.AddModelError("Birthdate", "Data urodzenia nie może być z przyszłości");
         }
     }
 }

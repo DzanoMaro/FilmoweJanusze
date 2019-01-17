@@ -82,10 +82,34 @@
             <div class="panel-body container-fluid ">
                 @if (Model.RatedMovies.Count() > 0)
                 {
-                    foreach(var userRate in Model.RatedMovies)
-                    {
-                        Html.RenderPartial("MoviePartial",userRate.Movie);
-                    }
+                    <div id="RatedMoviesCarousel" class="container-fluid nopadding carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                @for (var i = 0; i < Model.RatedMovies.Count(); i++)
+                                {
+                                    var item = Model.RatedMovies.ElementAt(i);
+                                    if (i % 3 == 0 && i != 0)
+                                    {
+                                    @:</div><div class="item">
+                                    }
+                                    Html.RenderPartial("MoviePartial", item.Movie);
+                                }
+                            </div>
+                        </div>
+
+                        @if (Model.RatedMovies.Count() > 3)
+                        {
+                            <!-- Left and right controls -->
+                            <a class="left carousel-control width5perc" href="#RatedMoviesCarousel" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="right carousel-control width5perc" href="#RatedMoviesCarousel" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        }
+                    </div>
                 }
                 else
                 {

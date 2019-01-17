@@ -53,6 +53,7 @@ namespace FilmoweJanusze.Controllers
             profileInfo = new ProfileInfo();
             profileInfo.User = db.Users.Find(UserID);
             profileInfo.PhotoURL = "";
+            profileInfo.Birthdate = DateTime.Now;
             return View(profileInfo);
         }
 
@@ -64,6 +65,9 @@ namespace FilmoweJanusze.Controllers
         public ActionResult Create([Bind(Include = "ProfileInfoID,FirstName,LastName,Birthdate,User")] ProfileInfo profileInfo, HttpPostedFileBase image)
         {
             profileInfo.User = db.Users.Find(profileInfo.User.Id);
+
+            CheckBirthday(profileInfo.Birthdate);
+
             if (ModelState.IsValid)
             {
                 if (image != null)
@@ -113,6 +117,7 @@ namespace FilmoweJanusze.Controllers
         public ActionResult Edit([Bind(Include = "ProfileInfoID,FirstName,LastName,Birthdate,User")] ProfileInfo profileInfo, HttpPostedFileBase image)
         {
             profileInfo.User = db.Users.Find(profileInfo.User.Id);
+            CheckBirthday(profileInfo.Birthdate);
             if (ModelState.IsValid)
             {
                 if (image != null)

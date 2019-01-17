@@ -36,13 +36,13 @@
     <div class="clearfix"></div>
 </div>
 
-<!--GALERIA-->
-<div id="GaleryCarousel" class="carousel slide" data-ride="carousel">
+<!--GALERIA - KARUZELA-->
+<div id="GaleryCarousel" class="carousel slide" data-ride="carousel" data-interval="0">
     <div class="carousel-inner">
         @for (int i = 0; i < Model.Count(); i++)
         {
             var photo = Model.ElementAt(i);
-
+            <!--ZDJĘCIA-->
             <div class="mySlides item" id="@photo.PhotoID">
                 <div class="numbertext"> @(i + 1)/@Model.Count</div>
                 <img src="@photo.PhotoURL" class="img-responsive center">
@@ -68,13 +68,14 @@
         <p id="caption"></p>
     </div>
 
+    <!--MINIATURKI - druga karuzela-->
     <div class="row nomargin">
         @for (int i = 0; i < Model.Count(); i++)
         {
             var photo = Model.ElementAt(i);
 
             <div class="column">
-                <img class="demo cursor img-responsive" data-target="#myCarousel" data-slide-to=@i src="@photo.PhotoThumbURL" onclick="currentSlide(@i+1)" alt="@photo.Description">
+                <img class="demo cursor img-responsive" data-target="#GaleryCarousel" data-slide-to=@i src="@photo.PhotoThumbURL" onclick="currentSlide(@(i+1))" alt="@photo.Description">
             </div>
         }
     </div>
@@ -99,8 +100,8 @@
 
 <script>
     var slideIndex = @photoindex;
-    showSlides(slideIndex);
 
+    currentSlide(slideIndex);
 
     function plusSlides(n) {
         showSlides(slideIndex += n);
@@ -108,20 +109,23 @@
 
     function currentSlide(n) {
         showSlides(slideIndex = n);
-    }
-
-    function showSlides(n) {
-        var i;
         var slides = document.getElementsByClassName("mySlides");
-        var dots = document.getElementsByClassName("demo");
-        var captionText = document.getElementById("caption");
         if (n > slides.length) { slideIndex = 1 }
         if (n < 1) { slideIndex = slides.length }
         for (i = 0; i < slides.length; i++) {
             slides[i].className = slides[i].className.replace(" active", "")
         }
         slides[slideIndex - 1].className += " active";
+    }
 
+    function showSlides(n) {
+        var i;
+
+        var dots = document.getElementsByClassName("demo");
+        var captionText = document.getElementById("caption");
+        var slides = document.getElementsByClassName("mySlides");
+        if (n > slides.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = slides.length }
         for (i = 0; i < dots.length; i++) {
             dots[i].className = dots[i].className.replace(" active", "");
         }
