@@ -62,6 +62,20 @@
     </div>
     <div class="container body-content">
         @ViewBag.Message
+        @if (ViewData["Error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade in margintop20">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <p><strong>Błąd!</strong> @ViewData["Error"].ToString()</p>
+            </div>
+        }
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade in margintop20">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <p><strong>Gratulacje!</strong> @TempData["Success"].ToString()</p>
+            </div>
+        }
         @RenderBody()
         <hr />
         <footer>

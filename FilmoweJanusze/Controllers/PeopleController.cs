@@ -133,9 +133,10 @@ namespace FilmoweJanusze.Controllers
 
                 db.Peoples.Add(people);
                 db.SaveChanges();
+                TempData["Success"] = "Poprawnie dodano postać filmową.";
                 return RedirectToAction("Index");
             }
-
+            ViewData["Error"] = "Nie można zapisać, popraw błędy!";
             return View(people);
         }
 
@@ -195,8 +196,10 @@ namespace FilmoweJanusze.Controllers
 
                         db.Entry(people).State = EntityState.Modified;
                         db.SaveChanges();
+                        TempData["Success"] = "Poprawnie zmieniono informacje o człowieku.";
                         return RedirectToAction("Details", "People", new { id = people.PeopleID });
                     }
+                    ViewData["Error"] = "Nie można zapisać, popraw błędy!";
                     return View(people);
                 }
                 catch (RetryLimitExceededException)
@@ -204,6 +207,7 @@ namespace FilmoweJanusze.Controllers
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
                 }
             }
+            ViewData["Error"] = "Nie można zapisać, popraw błędy!";
             return View(people);
         }
 
@@ -239,6 +243,7 @@ namespace FilmoweJanusze.Controllers
                 db.ActorRoles.Remove(a);
 
             db.SaveChanges();
+            TempData["Success"] = "Poprawnie usunięto postać filmową.";
             return RedirectToAction("Index");
         }
 

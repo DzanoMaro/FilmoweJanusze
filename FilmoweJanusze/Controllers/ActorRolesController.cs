@@ -110,14 +110,16 @@ namespace FilmoweJanusze.Controllers
                 db.SaveChanges();
                 if (ismovie == true)
                 {
+                    TempData["Success"] = "Członek obsady został dodany.";
                     return RedirectToAction("Details", "Movies", new { id = actorRole.MovieID });
                 }
                 else if (ispeople == true)
                 {
+                    TempData["Success"] = "Rola została dodana";
                     return RedirectToAction("Details", "People", new { id = actorRole.PeopleID });
                 }
             }
-
+            ViewData["Error"] = "Nie można zapisać, popraw błędy!";
             return View();
         }
 
@@ -196,14 +198,16 @@ namespace FilmoweJanusze.Controllers
                 db.SaveChanges();
                 if (ismovie == true)
                 {
+                    TempData["Success"] = "Zmieniono informacje o członku obsady.";
                     return RedirectToAction("Details", "Movies", new { id = actorRole.MovieID });
                 }
                 else if (ispeople == true)
                 {
+                    TempData["Success"] = "Zmieniono informacje o roli.";
                     return RedirectToAction("Details", "People", new { id = actorRole.PeopleID });
                 }
             }
-
+            ViewData["Error"] = "Nie można zapisać, popraw błędy!";
             return View();
         }
 
@@ -270,12 +274,15 @@ namespace FilmoweJanusze.Controllers
 
             if (ismovie == true)
             {
+                TempData["Success"] = "Członek obsady został usunięty.";
                 return RedirectToAction("Details", "Movies", new { id = redirectid });
             }
             else if (ispeople == true)
             {
+                TempData["Success"] = "Rola została usunięta.";
                 return RedirectToAction("Details", "People", new { id = redirectid });
             }
+            TempData["Success"] = "Usunięto.";
             return RedirectToAction("Index", "Home");
         }
 

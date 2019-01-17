@@ -29,10 +29,10 @@ namespace FilmoweJanusze.Controllers
                 // TODO: Add insert logic here
                 db.UserRates.Add(userRate);
                 db.SaveChanges();
-
+                TempData["Success"] = "Twoja ocena została zapisana.";
                 return RedirectToAction("Details","Movies", new { id= userRate.MovieID});
             }
-
+            ViewData["Error"] = "Nie można zapisać, popraw błędy!";
             return RedirectToAction("Details", "Movies", new { id = userRate.MovieID });
         }
         /*
@@ -57,10 +57,10 @@ namespace FilmoweJanusze.Controllers
 
                         db.Entry(userRate).State = EntityState.Modified;
                         db.SaveChanges();
-
+                        TempData["Success"] = "Twoja ocena została zmieniona.";
                         return RedirectToAction("Details", "Movies", new { id = userRate.MovieID });
                     }
-
+                    ViewData["Error"] = "Nie można zapisać, popraw błędy!";
                     return RedirectToAction("Details", "Movies", new { id = userRate.MovieID });
                 }
                 catch (RetryLimitExceededException)
@@ -76,7 +76,7 @@ namespace FilmoweJanusze.Controllers
                     userRate = db.UserRates.Where(ur => ur.UserRateID == userRate.UserRateID).Single();
                     db.UserRates.Remove(userRate);
                     db.SaveChanges();
-
+                    TempData["Success"] = "Twoja ocena została usunięta.";
                     return RedirectToAction("Details", "Movies", new { id = userRate.MovieID });
                 }
                 catch (RetryLimitExceededException)
@@ -84,7 +84,7 @@ namespace FilmoweJanusze.Controllers
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
                 }
             }
-
+            ViewData["Error"] = "Nie można zapisać, popraw błędy!";
             return RedirectToAction("Details", "Movies", new { id = userRate.MovieID });
         }
         /*

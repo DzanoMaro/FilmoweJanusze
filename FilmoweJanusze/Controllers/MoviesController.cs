@@ -212,7 +212,6 @@ namespace FilmoweJanusze.Controllers
             ViewBag.DurationTimeValue = movie.DurationTime.ToShortTimeString();
             if (ModelState.IsValid)
             {
-
                 if (image != null)
                 {
                     movie.PosterMimeType = image.ContentType;
@@ -227,10 +226,10 @@ namespace FilmoweJanusze.Controllers
 
                 db.Movies.Add(movie);
                 db.SaveChanges();
-                ViewBag.Message = "Gratulacje! Poprawnie dodano film.";
+                TempData["Success"] = "Poprawnie dodano film.";
                 return RedirectToAction("Index");
             }
-
+            ViewData["Error"] = "Nie można zapisać, popraw błędy!";
             return View(movie);
         }
 
@@ -280,7 +279,6 @@ namespace FilmoweJanusze.Controllers
             {
                 try
                 {
-                    
                     if (ModelState.IsValid)
                     {
                         if (image != null)
@@ -297,9 +295,10 @@ namespace FilmoweJanusze.Controllers
 
                         db.Entry(movie).State = EntityState.Modified;
                         db.SaveChanges();
-                        ViewBag.Message = "Gratulacje! Poprawnie zedytowano film.";
+                        TempData["Success"] = "Poprawnie zmieniono informacje o filmie.";
                         return RedirectToAction("Details", "Movies", new { id = movie.MovieID });
                     }
+                    ViewData["Error"] = "Nie można zapisać, popraw błędy!";
                     return View(movie);
                 }
                 catch (RetryLimitExceededException)
@@ -307,6 +306,7 @@ namespace FilmoweJanusze.Controllers
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
                 }
             }
+            ViewData["Error"] = "Nie można zapisać, popraw błędy!";
             return View(movie);
         }
 
@@ -342,6 +342,7 @@ namespace FilmoweJanusze.Controllers
                 db.ActorRoles.Remove(a);
             
             db.SaveChanges();
+            TempData["Success"] = "Poprawnie usunięto film.";
             return RedirectToAction("Index");
         }
 
@@ -371,7 +372,7 @@ namespace FilmoweJanusze.Controllers
 
         public static string ModifyTrailerURL(string url)
         {
-            if (url != null && url != "")
+            if (!String.IsNullOrEmpty(url))
             {
                 int index = url.IndexOf("watch?v=");
                 if (index > 0)

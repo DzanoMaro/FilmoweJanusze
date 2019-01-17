@@ -88,9 +88,10 @@ namespace FilmoweJanusze.Controllers
 
                 db.ProfileInfos.Add(profileInfo);
                 db.SaveChanges();
+                TempData["Success"] = "Poprawnie dodano informacje profilowe.";
                 return RedirectToAction("Details",new { UserName = profileInfo.User.UserName });
             }
-
+            ViewData["Error"] = "Nie można zapisać, popraw błędy!";
             return View(profileInfo);
         }
 
@@ -141,8 +142,10 @@ namespace FilmoweJanusze.Controllers
 
                 db.Entry(profileInfo).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["Success"] = "Poprawnie zmieniono informacje profilowe.";
                 return RedirectToAction("Details", new { UserName = profileInfo.User.UserName });
             }
+            ViewData["Error"] = "Nie można zapisać, popraw błędy!";
             return View(profileInfo);
         }
 

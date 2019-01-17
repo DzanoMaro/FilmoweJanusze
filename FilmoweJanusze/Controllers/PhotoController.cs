@@ -214,7 +214,7 @@ namespace FilmoweJanusze.Controllers
 
                     db.Photos.Add(photo);
                     db.SaveChanges();
-
+                    TempData["Success"] = "Poprawnie dodano zdjęcie.";
                     if (ismovie == true)
                     {
                         return RedirectToAction("Index", "Photo", new { movieID = photo.MovieID });
@@ -225,9 +225,10 @@ namespace FilmoweJanusze.Controllers
                     }
 
                 }
+                ViewData["Error"] = "Nie można zapisać, popraw błędy!";
                 return View();
             }
-
+            ViewData["Error"] = "Nie można zapisać, popraw błędy!";
             return View();
         }
 
@@ -335,7 +336,7 @@ namespace FilmoweJanusze.Controllers
 
                 db.Entry(photo).State = EntityState.Modified;
                 db.SaveChanges();
-
+                TempData["Success"] = "Poprawnie zmieniono informacje o zdjęciu.";
                 if (ismovie == true)
                 {
                     return RedirectToAction("Index", "Photo", new { movieID = photo.MovieID });
@@ -345,7 +346,7 @@ namespace FilmoweJanusze.Controllers
                     return RedirectToAction("Index", "Photo", new { peopleID = photo.PeopleID });
                 }
             }
-
+            ViewData["Error"] = "Nie można zapisać, popraw błędy!";
             return View();
         }
 
@@ -427,7 +428,7 @@ namespace FilmoweJanusze.Controllers
 
             db.Photos.Remove(photo);
             db.SaveChanges();
-
+            TempData["Success"] = "Poprawnie usunięto zdjęcie.";
             if (ismovie == true)
             {
                 return RedirectToAction("Index", "Photo", new { movieID = redirectid });

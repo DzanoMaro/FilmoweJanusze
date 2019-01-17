@@ -12,6 +12,7 @@ namespace FilmoweJanusze.ViewModels
         public Movie Movie { get; set; }
         public People People { get; set; }
         public UserRate LoggedInURate { get; set; }
+        public double AvgRate { get; set; }
 
         [Display(Name = "Galeria zdjęć")]
         public ICollection<Photo> Photos { get; set; }
