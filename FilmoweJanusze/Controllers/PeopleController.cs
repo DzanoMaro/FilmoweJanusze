@@ -11,6 +11,7 @@ using PagedList;
 using FilmoweJanusze.DAL;
 using FilmoweJanusze.Models;
 using FilmoweJanusze.ViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace FilmoweJanusze.Controllers
 {
@@ -99,8 +100,35 @@ namespace FilmoweJanusze.Controllers
             movieandCast.DirectedMovies = db.Movies.Where(m => m.DirectorID == movieandCast.People.PeopleID).OrderByDescending(m => m.ReleaseDate).ToList();
             //pobranie przykładowych zdjęć
             movieandCast.Photos = db.Photos.Where(p => p.PeopleID == id).Take(6).ToList();
+            //pobranie ocen użytkowników
+            movieandCast.UserRates = db.UserRates.Where(p => p.PeopleID == id).ToList();
+
+
             //liczba zdjęć w galerii
             ViewBag.PhotoCount = db.Photos.Where(p => p.PeopleID == id).Count();
+            //id usera
+            ViewBag.UserID = User.Identity.GetUserId();
+
+            //pobranie oceny zalogowanego usera
+            if (movieandCast.UserRates.Count > 0)
+            {
+                ViewBag.MovieRate = null;
+                ViewBag.PeopleRate = movieandCast.UserRates.Average(ur => ur.Rate);
+                if (ViewBag.UserID != null)
+                {
+                    movieandCast.LoggedInURate = movieandCast.UserRates.FirstOrDefault(ur => ur.User.Id == ViewBag.UserID);
+                }
+            }
+
+            //jeśli nie oceniono jeszcze
+            if (movieandCast.LoggedInURate == null)
+            {
+                movieandCast.LoggedInURate = new UserRate();
+                movieandCast.LoggedInURate.MovieID = null;
+                movieandCast.LoggedInURate.Movie = null;
+                movieandCast.LoggedInURate.PeopleID = (int)id;
+                movieandCast.LoggedInURate.People = movieandCast.People;
+            }
 
             return View(movieandCast);
         }

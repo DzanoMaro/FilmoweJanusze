@@ -21,8 +21,13 @@ namespace FilmoweJanusze.Controllers
         */
         // POST: UserRate/Create
         [HttpPost]
-        public ActionResult Create([Bind(Include = "UserRateID,MovieID,User,Rate,Comment")]UserRate userRate)
+        public ActionResult Create([Bind(Include = "UserRateID,MovieID,PeopleID,User,Rate,Comment")]UserRate userRate)
         {
+            if(userRate.MovieID != null && userRate.PeopleID != null)
+                ModelState.AddModelError("", "Nie można przypisać oceny jednocześnie do filmu i aktora");
+            if (userRate.MovieID == null && userRate.PeopleID == null)
+                ModelState.AddModelError("", "Nie można przypisać oceny ani do filmu ani do aktora");
+
             if (ModelState.IsValid)
             {
                 userRate.User = db.Users.Find(userRate.User.Id);
@@ -30,7 +35,10 @@ namespace FilmoweJanusze.Controllers
                 db.UserRates.Add(userRate);
                 db.SaveChanges();
                 TempData["Success"] = "Twoja ocena została zapisana.";
-                return RedirectToAction("Details","Movies", new { id= userRate.MovieID});
+                if(userRate.MovieID!=null)
+                    return RedirectToAction("Details","Movies", new { id= userRate.MovieID});
+                if (userRate.PeopleID != null)
+                    return RedirectToAction("Details", "People", new { id = userRate.PeopleID });
             }
             ViewData["Error"] = "Nie można zapisać, popraw błędy!";
             return RedirectToAction("Details", "Movies", new { id = userRate.MovieID });
@@ -46,10 +54,15 @@ namespace FilmoweJanusze.Controllers
         [HttpPost]
         public ActionResult Edit(UserRate userRate)
         {
-            if (TryUpdateModel(userRate, "", new string[] { "UserRateID", "MovieID", "User", "Rate", "Comment" }))
+            if (TryUpdateModel(userRate, "", new string[] { "UserRateID", "MovieID", "PeopleID", "User", "Rate", "Comment" }))
             {
                 try
                 {
+                    if (userRate.MovieID != null && userRate.PeopleID != null)
+                        ModelState.AddModelError("", "Nie można przypisać oceny jednocześnie do filmu i aktora");
+                    if (userRate.MovieID == null && userRate.PeopleID == null)
+                        ModelState.AddModelError("", "Nie można przypisać oceny ani do filmu ani do aktora");
+
                     if (ModelState.IsValid)
                     {
                         //userRate.User = db.Users.Find(userRate.User.Id);
@@ -58,7 +71,10 @@ namespace FilmoweJanusze.Controllers
                         db.Entry(userRate).State = EntityState.Modified;
                         db.SaveChanges();
                         TempData["Success"] = "Twoja ocena została zmieniona.";
-                        return RedirectToAction("Details", "Movies", new { id = userRate.MovieID });
+                        if (userRate.MovieID != null)
+                            return RedirectToAction("Details", "Movies", new { id = userRate.MovieID });
+                        if (userRate.PeopleID != null)
+                            return RedirectToAction("Details", "People", new { id = userRate.PeopleID });
                     }
                     ViewData["Error"] = "Nie można zapisać, popraw błędy!";
                     return RedirectToAction("Details", "Movies", new { id = userRate.MovieID });
@@ -73,11 +89,24 @@ namespace FilmoweJanusze.Controllers
                 //BRAK OCENY => USUN OCENE
                 try
                 {
+                    
                     userRate = db.UserRates.Where(ur => ur.UserRateID == userRate.UserRateID).Single();
+
+                    int? movieID=null, peopleID=null;
+
+                    if (userRate.MovieID != null)
+                        movieID = userRate.MovieID.Value;
+                    if (userRate.PeopleID != null)
+                        peopleID = userRate.PeopleID.Value;
+
                     db.UserRates.Remove(userRate);
                     db.SaveChanges();
                     TempData["Success"] = "Twoja ocena została usunięta.";
-                    return RedirectToAction("Details", "Movies", new { id = userRate.MovieID });
+
+                    if (movieID != null)
+                        return RedirectToAction("Details", "Movies", new { id = movieID });
+                    if (peopleID != null)
+                        return RedirectToAction("Details", "People", new { id = peopleID });
                 }
                 catch (RetryLimitExceededException)
                 {

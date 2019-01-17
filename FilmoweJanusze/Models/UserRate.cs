@@ -11,7 +11,8 @@ namespace FilmoweJanusze.Models
     {
         public int UserRateID { get; set; }
 
-        public int MovieID { get; set; }     
+        public int? MovieID { get; set; }
+        public int? PeopleID { get; set; }
 
         [Display(Name = "Twoja ocena")]
         [Range(1, 6)]
@@ -23,6 +24,7 @@ namespace FilmoweJanusze.Models
         [Display(Name = "Twój komentarz")]
         public string Comment { get; set; }
         public virtual Movie Movie { get; set; }
+        public virtual People People { get; set; }
         public virtual ApplicationUser User { get; set; }
     }
 }

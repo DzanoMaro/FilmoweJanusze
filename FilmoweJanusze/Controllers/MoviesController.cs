@@ -173,7 +173,8 @@ namespace FilmoweJanusze.Controllers
             if (movieandCast.UserRates.Count > 0)
             {
                 ViewBag.MovieRate = movieandCast.UserRates.Average(ur => ur.Rate);
-                if(ViewBag.UserID != null)
+                ViewBag.PeopleRate = null;
+                if (ViewBag.UserID != null)
                 {
                     movieandCast.LoggedInURate = movieandCast.UserRates.FirstOrDefault(ur => ur.User.Id == ViewBag.UserID);
                 }
@@ -185,6 +186,8 @@ namespace FilmoweJanusze.Controllers
                 movieandCast.LoggedInURate = new UserRate();
                 movieandCast.LoggedInURate.MovieID = (int)id;
                 movieandCast.LoggedInURate.Movie = movieandCast.Movie;
+                movieandCast.LoggedInURate.PeopleID = null;
+                movieandCast.LoggedInURate.People = null;
             }
 
             return View(movieandCast);

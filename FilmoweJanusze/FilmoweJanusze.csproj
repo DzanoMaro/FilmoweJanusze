@@ -289,6 +289,10 @@
     <Compile Include="Migrations\201901151135016_ProfileInfo.Designer.cs">
       <DependentUpon>201901151135016_ProfileInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901171139475_AddPeople2UserRate.cs" />
+    <Compile Include="Migrations\201901171139475_AddPeople2UserRate.Designer.cs">
+      <DependentUpon>201901171139475_AddPeople2UserRate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ActorRole.cs" />
@@ -553,6 +557,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901151135016_ProfileInfo.resx">
       <DependentUpon>201901151135016_ProfileInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901171139475_AddPeople2UserRate.resx">
+      <DependentUpon>201901171139475_AddPeople2UserRate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

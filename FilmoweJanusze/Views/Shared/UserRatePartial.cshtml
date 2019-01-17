@@ -3,6 +3,7 @@
 @{
     string formAction = "";
     string submitCaption = "";
+    string ratename = "";
 
     if (Model.User == null)
     {
@@ -14,15 +15,25 @@
         formAction = "Edit";
         submitCaption = "Zmień";
     }
+
+    if (ViewBag.MovieRate > 0)
+    {
+        ratename = "Ocena filmu:";
+    }
+    if (ViewBag.PeopleRate > 0)
+    {
+        ratename = "Ocena postaci:";
+    }
+
 }
 
 <!-- OCENA FILMU -->
-@if (ViewBag.MovieRate > 0 && ViewBag.MovieRate != null)
+@if (ViewBag.MovieRate > 0 || ViewBag.PeopleRate > 0)
 {
     <div>
         <h4>
-            Ocena filmu:
-            @ViewBag.MovieRate <span class="glyphicon glyphicon-star"></span> / 6 <span class="glyphicon glyphicon-star"></span>
+            @ratename
+            @ViewBag.MovieRate@ViewBag.PeopleRate <span class="glyphicon glyphicon-star"></span> / 6 <span class="glyphicon glyphicon-star"></span>
         </h4>
     </div>
 }
@@ -30,7 +41,8 @@ else
 {
     <div>
         <h4>
-            Jeszcze nikt nie ocenił tego filmu!
+            Jeszcze nikt nie ocenił!
+            <br />
             Bądź pierwszy!
         </h4>
     </div>
@@ -48,6 +60,7 @@ else
 
             @Html.HiddenFor(ur => ur.UserRateID)
             @Html.HiddenFor(ur => ur.MovieID)
+            @Html.HiddenFor(ur => ur.PeopleID)
             @Html.HiddenFor(ur => ur.User.Id, new { Value = ViewBag.UserID })
 
             <div>
@@ -60,16 +73,15 @@ else
             </div>
 
             <input type="submit" value=@submitCaption class="btn btn-default" />
-
         }
     </div>
 }
-else 
+else
 {
     <div id="NotLoggedIn">
         <h4>
-            @if(String.IsNullOrEmpty(ViewBag.UserID))
-            { 
+            @if (String.IsNullOrEmpty(ViewBag.UserID))
+            {
                 @:Zaloguj sie,
             }
             else
