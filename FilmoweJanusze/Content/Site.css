@@ -17,8 +17,17 @@ textarea {
     max-width: 280px;
 }
 
+section {
+    min-width: 270px;
+}
+
+.checkbox label {
+    padding-left: 5px;
+}
+
 /* Pudełka filmów */
 .moviediv {
+    min-width: 270px;
     min-height: 210px;
     padding: 5px;
     border: 1px solid #eee;
@@ -53,6 +62,7 @@ textarea {
 /* Pudełka ludzi */
 
 .peoplediv {
+    min-width: 270px;
     height: 150px;
     padding: 5px;
     border: 1px solid #eee;
@@ -106,7 +116,7 @@ textarea {
 /* OGÓLNE*/
 
 .well-jm {
-    min-width: 360px;
+    min-width: 270px;
     padding: 9px;
     background-color: #f5f5f5;
     border: 1px solid #e3e3e3;
@@ -244,5 +254,27 @@ textarea {
     max-width: 292.5px;
 }
 
+/* LOGIN POPUP*/
+.form-popup {
+    display: none;
+    position: absolute;
+    top: 1px;
+    right: 0;
+    left:auto;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+}
 
+.form-container {
+    min-width: 320px;
+    max-width: 360px;
+    padding: 10px;
+    background-color: white;
+}
+
+.form-container label
+{
+    padding-left: 0;
+}
 /* NOWE */
+

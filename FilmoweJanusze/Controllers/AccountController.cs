@@ -77,7 +77,7 @@ namespace FilmoweJanusze.Controllers
 
             // Nie powoduje to liczenia niepowodzeń logowania w celu zablokowania konta
             // Aby włączyć wyzwalanie blokady konta po określonej liczbie niepomyślnych prób wprowadzenia hasła, zmień ustawienie na shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.LoginUserName, model.LoginPassword, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -154,8 +154,8 @@ namespace FilmoweJanusze.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var user = new ApplicationUser { UserName = model.RegisterUserName, Email = model.RegisterEmail };
+                var result = await UserManager.CreateAsync(user, model.RegisterPassword);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);

@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title @slogan</title>
 
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     @Styles.Render("~/Content/css")
     @if (PageData.ContainsKey("Gallery"))
     {
@@ -52,6 +52,26 @@
 
                 @Html.Partial("_LoginPartial")
             </div>
+            @if (!Request.IsAuthenticated)
+            {
+                <div style="position:absolute; width:inherit; min-width:320px;">
+                    <!--LOGIN POPUP-->
+                    <div class="form-popup" id="LogIn">
+                        @if (ViewContext.RouteData.Values["action"].ToString() != "Login")
+                        {
+                            <div class="form-container">
+                                <div class="modal-header">
+                                    <button class="close" type="button" onclick="openLogIn()">&times;</button>
+                                    <h4 class="modal-title">Logowanie</h4>
+                                </div>
+                                <div class="modal-body">
+                                    @Html.Partial("_Login", new FilmoweJanusze.Models.LoginViewModel())
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
         </div>
     </div>
     <div class="container body-content">
@@ -71,24 +91,27 @@
             </div>
         }
         @if (!Request.IsAuthenticated)
-        { 
-            <!-- REGISTER Modal -->
-            <div id="Register" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Utwórz nowe konto</h4>
-                        </div>
-                        <div class="modal-body">
-                            @Html.Partial("_Register", new FilmoweJanusze.Models.RegisterViewModel())
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+        {
+            if(ViewContext.RouteData.Values["action"].ToString() != "Register")
+            { 
+                <!-- REGISTER Modal -->
+                <div id="Register" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Utwórz nowe konto</h4>
+                            </div>
+                            <div class="modal-body">
+                                @Html.Partial("_Register", new FilmoweJanusze.Models.RegisterViewModel())
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }            
         }
         @RenderBody()
         <hr />

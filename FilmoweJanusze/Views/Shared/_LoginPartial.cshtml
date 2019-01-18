@@ -17,9 +17,10 @@ else
 {
         <ul class="nav navbar-nav navbar-right">
             <li><a href="#Register" data-toggle="modal" data-target="#Register">Rejestracja</a></li>
-    <!--
-        <li>Html.ActionLink("Zarejestruj", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", data_toggle = "modal", data_target = "#myModal" })</li>
-    -->
-            <li>@Html.ActionLink("Zaloguj", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+            <li><a href="#LogIn" onclick="openLogIn()">Logowanie</a></li>
+            <!--
+        <li>Html.ActionLink("Zarejestruj", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink"})</li>
+        <li>Html.ActionLink("Zaloguj", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+            -->
         </ul>
 }

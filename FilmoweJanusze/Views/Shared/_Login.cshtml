@@ -1,0 +1,39 @@
+﻿@using FilmoweJanusze.Models
+@model LoginViewModel
+
+<section id="loginForm">
+    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            @Html.TextBoxFor(m => m.LoginUserName, new { @class = "form-control", placeholder = "Nazwa użytkownika" })
+            @Html.ValidationMessageFor(m => m.LoginUserName, "", new { @class = "text-danger" })
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                @Html.PasswordFor(m => m.LoginPassword, new { @class = "form-control", placeholder = "Hasło" })
+                @Html.ValidationMessageFor(m => m.LoginPassword, "", new { @class = "text-danger" })
+        </div>
+        <div class="input-group">
+            <div class="col-xs-12 col-xs-offset-1">
+                <div class="checkbox">
+                    @Html.CheckBoxFor(m => m.RememberMe)
+                    @Html.LabelFor(m => m.RememberMe)
+                </div>
+            </div>
+        </div>
+        <div class="input-group margintop20">
+            <input type="submit" value="Zaloguj się" class="btn btn-default" />
+        </div>
+        
+
+
+        @* Włącz to ustawienie po włączeniu potwierdzenia konta dla funkcji resetowania hasła
+            <p>
+                @Html.ActionLink("Nie pamiętasz hasła?", "ForgotPassword")
+            </p>*@
+    }
+</section>
