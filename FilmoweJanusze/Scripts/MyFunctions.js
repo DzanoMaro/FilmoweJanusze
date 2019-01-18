@@ -46,3 +46,4 @@ function openLogIn() {
         x.style.display = "block";
     }
 }
+

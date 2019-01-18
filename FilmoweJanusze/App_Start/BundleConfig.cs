@@ -16,6 +16,9 @@ namespace FilmoweJanusze
                         "~/Scripts/MyFunctions.js"
                         ));
 
+            bundles.Add(new ScriptBundle("~/bundles/StarRating").Include(
+                        "~/Scripts/StarRating.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate.min.js",
                         "~/Scripts/jquery.validate.unobtrusive.min.js"));

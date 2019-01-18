@@ -248,8 +248,13 @@ section {
     margin: 20px;
 }
 
-.moviegalery
-{
+.star-rating {
+    font-size: 30px;
+    color: yellow;
+    cursor: pointer;
+}
+
+.moviegalery {
     padding: 0;
 }
 

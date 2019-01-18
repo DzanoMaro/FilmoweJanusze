@@ -25,6 +25,7 @@
         ratename = "Ocena postaci:";
     }
 
+    string[] star_titles = { "Zły", "Słaby", "Średni", "Dobry", "Bardzo dobry", "Wyśmienity!" };
 }
 
 <!-- OCENA FILMU -->
@@ -63,10 +64,19 @@
                 @Html.HiddenFor(ur => ur.MovieID)
                 @Html.HiddenFor(ur => ur.PeopleID)
                 @Html.HiddenFor(ur => ur.User.Id, new { Value = ViewBag.UserID })
-
+                @Html.HiddenFor(ur => ur.Rate)
                 <div>
                     @Html.LabelFor(ur => ur.Rate)
-                    @Html.DropDownList("Rate", Enumerable.Range(1, 6).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }), "Brak oceny")
+                    <!--
+                    Html.DropDownList("Rate", Enumerable.Range(1, 6).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }), "Brak oceny")
+                    -->
+                    <div class="radio-inline">
+                        @for (int i = 0; i < star_titles.Length; i++)
+                        {
+                            <label onclick="SetStar(@(i+1))" data-toggle="tooltip" title="@star_titles[i]"><input type="radio" name="RadioRate" value=@(i+1) class="hide" /><i class="glyphicon glyphicon-star-empty star-rating"></i></label>
+                        }
+                        <button class="close" type="submit" onclick="SetStar(0)" style="color:white">&times;</button>
+                    </div>
                 </div>
 
                 <div>
@@ -80,22 +90,23 @@
     else
     {
         <div id="NotLoggedIn">
-                @if (String.IsNullOrEmpty(ViewBag.UserID))
-                {
-                    <div>Zaloguj sie,</div>
-                }
-                else
-                {
-                    <div>
-                        Dokończ rejestrację konta, <br />
-                        potwierdź adres e-mail, <br />
-                        uzupełnij informacje profilowe,
-                    </div>
-                 }
-                        by móc oceniać i komentować filmy!
-            </div>
+            @if (String.IsNullOrEmpty(ViewBag.UserID))
+            {
+                <div>Zaloguj sie,</div>
+            }
+            else
+            {
+                <div>
+                    Dokończ rejestrację konta, <br />
+                    potwierdź adres e-mail, <br />
+                    uzupełnij informacje profilowe,
+                </div>
+            }
+            by móc oceniać i komentować filmy!
+        </div>
     }
 </div>
-    <div style="max-height:280px; overflow:auto;">
+<div style="max-height:280px; overflow:auto;">
 
-    </div>
+</div>
+
