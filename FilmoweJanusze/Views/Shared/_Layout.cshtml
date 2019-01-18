@@ -102,8 +102,10 @@
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h4 class="modal-title">Utwórz nowe konto</h4>
                             </div>
-                            <div class="modal-body">
-                                @Html.Partial("_Register", new FilmoweJanusze.Models.RegisterViewModel())
+                            <div class="modal-body container-fluid">
+                                <div class=" col-sm-8 col-sm-offset-2">
+                                    @Html.Partial("_Register", new FilmoweJanusze.Models.RegisterViewModel())
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>

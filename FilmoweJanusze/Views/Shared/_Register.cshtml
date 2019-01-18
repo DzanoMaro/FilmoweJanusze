@@ -5,41 +5,31 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.RegisterUserName, new { @class = "col-md-4 control-label" })
-        <div class="col-md-8">
-            @Html.TextBoxFor(m => m.RegisterUserName, new { @class = "form-control" })
-        </div>
+    <div class="input-group margintop10">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        @Html.TextBoxFor(m => m.RegisterUserName, new { @class = "form-control", placeholder = "Nazwa użytkownika" })
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.RegisterEmail, new { @class = "col-md-4 control-label" })
-        <div class="col-md-8">
-            @Html.TextBoxFor(m => m.RegisterEmail, new { @class = "form-control" })
-        </div>
+    <div class="input-group margintop10">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+        @Html.TextBoxFor(m => m.RegisterEmail, new { @class = "form-control", placeholder = "Adres e-mail" })
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.RegisterPassword, new { @class = "col-md-4 control-label" })
-        <div class="col-md-8">
-            @Html.PasswordFor(m => m.RegisterPassword, new { @class = "form-control" })
-            <span onclick="ShowPassword()"><input class="input" type="checkbox" id="showpass"> Pokaż hasło</span>
-        </div>
+    <div class="input-group margintop10">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+        @Html.PasswordFor(m => m.RegisterPassword, new { @class = "form-control", placeholder = "Hasło" })
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-4 control-label" })
-        <div class="col-md-8">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-        </div>
+    <div class="input-group margintop10">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-repeat"></i></span>
+        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Powtórz hasło" })
     </div>
-    <div class="form-group">
-        <div class="col-md-offset-4 col-md-8">
-            @Html.Recaptcha()
-            @Html.ValidationMessage("ReCaptcha")
-        </div>
+    <div class="input-group">
+        <span onclick="ShowPassword()"><input class="input" type="checkbox" id="showpass"> Pokaż hasło</span>
     </div>
-    <div class="form-group">
-        <div class="col-md-offset-4 col-md-8">
-            <input type="submit" class="btn btn-primary " value="Zarejestruj" />
-        </div>
+    <div class="input-group margintop10">
+        @Html.Recaptcha()
+        @Html.ValidationMessage("ReCaptcha")
+    </div>
+    <div class="input-group  margintop10">
+        <input type="submit" class="btn btn-success " value="Zarejestruj" />
     </div>
 }
 

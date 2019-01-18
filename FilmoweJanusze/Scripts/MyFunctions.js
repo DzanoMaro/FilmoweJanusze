@@ -24,12 +24,15 @@ function UnHide() {
 
 function ShowPassword() {
     var x = document.getElementById("RegisterPassword");
+    var z = document.getElementById("ConfirmPassword");
     var y = document.getElementById("showpass");
     if (x.type === "password") {
         x.type = "text";
+        z.type = "text";
         y.checked = true;
     } else {
         x.type = "password";
+        z.type = "password";
         y.checked = false;
     }
 }
