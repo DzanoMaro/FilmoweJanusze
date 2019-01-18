@@ -486,6 +486,7 @@
     <Content Include="Views\ProfileInfoes\Details.cshtml" />
     <Content Include="Views\ProfileInfoes\Edit.cshtml" />
     <Content Include="Views\ProfileInfoes\_Form.cshtml" />
+    <Content Include="Views\Shared\_Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

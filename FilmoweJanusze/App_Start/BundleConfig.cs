@@ -12,7 +12,8 @@ namespace FilmoweJanusze
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/jquery-ui-1.12.1.js",
                         "~/Scripts/jquery.unobtrusive-ajax.js",
-                        "~/Scripts/searchautocomplete.js"
+                        "~/Scripts/searchautocomplete.js",
+                        "~/Scripts/MyFunctions.js"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -26,9 +27,6 @@ namespace FilmoweJanusze
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.min.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/MyFunctions").Include(
-                    "~/Scripts/MyFunctions.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css",

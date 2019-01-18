@@ -37,12 +37,6 @@
                     <li>@Html.ActionLink("Ludzie kina", "Index", "People", null, new { @class = "nav-link" })</li>
                 </ul>
 
-                <!--using (Ajax.BeginForm("Search", "Home", null, new AjaxOptions
-    {
-        HttpMethod = "POST",
-        UpdateTargetId = "searchlist"
-    }, new { class = "navbar-form navbar-left" }))
-        -->
                 @using (Html.BeginForm("Search", "Home", FormMethod.Post, new { @class = "navbar-form navbar-left" }))
                 {
                     <div class="input-group">
@@ -74,6 +68,26 @@
             <div class="alert alert-success alert-dismissible fade in margintop20">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 <p><strong>Gratulacje!</strong> @TempData["Success"].ToString()</p>
+            </div>
+        }
+        @if (!Request.IsAuthenticated)
+        { 
+            <!-- REGISTER Modal -->
+            <div id="Register" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Utwórz nowe konto</h4>
+                        </div>
+                        <div class="modal-body">
+                            @Html.Partial("_Register", new FilmoweJanusze.Models.RegisterViewModel())
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         }
         @RenderBody()
