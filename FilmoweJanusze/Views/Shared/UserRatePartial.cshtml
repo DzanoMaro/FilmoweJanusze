@@ -28,67 +28,74 @@
 }
 
 <!-- OCENA FILMU -->
-@if (ViewBag.MovieRate > 0 || ViewBag.PeopleRate > 0)
-{
-    <div>
-        <h4>
-            @ratename
-            @ViewBag.MovieRate@ViewBag.PeopleRate <span class="glyphicon glyphicon-star"></span> / 6 <span class="glyphicon glyphicon-star"></span>
-        </h4>
-    </div>
-}
-else
-{
-    <div>
-        <h4>
-            Jeszcze nikt nie ocenił!
-            <br />
-            Bądź pierwszy!
-        </h4>
-    </div>
-}
+<div class="rating">
+    @if (ViewBag.MovieRate > 0 || ViewBag.PeopleRate > 0)
+    {
+        <div>
+            <h4>
+                @ratename
+                @ViewBag.MovieRate@ViewBag.PeopleRate <span class="glyphicon glyphicon-star"></span> / 6 <span class="glyphicon glyphicon-star"></span>
+            </h4>
+        </div>
+    }
+    else
+    {
+        <div>
+            <h4>
+                Jeszcze nikt nie ocenił!
+                <br />
+                Bądź pierwszy!
+            </h4>
+        </div>
+    }
 
-<!-- FORMULARZ -->
-@if (!String.IsNullOrEmpty(ViewBag.UserID) && (User.IsInRole("User") || User.IsInRole("Admin")))
-{
+    <!-- FORMULARZ -->
+    @if (!String.IsNullOrEmpty(ViewBag.UserID) && (User.IsInRole("User") || User.IsInRole("Admin")))
+    {
 
-    <div>
-        @using (Html.BeginForm(formAction, "UserRate", FormMethod.Post, new { @class = "form-horizontal" }))
-        {
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-            @Html.HiddenFor(ur => ur.UserRateID)
-            @Html.HiddenFor(ur => ur.MovieID)
-            @Html.HiddenFor(ur => ur.PeopleID)
-            @Html.HiddenFor(ur => ur.User.Id, new { Value = ViewBag.UserID })
-
-            <div>
-                @Html.LabelFor(ur => ur.Rate)
-                @Html.DropDownList("Rate", Enumerable.Range(1, 6).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }), "Brak oceny")
-            </div>
-
-            <div>
-                @Html.EditorFor(ur => ur.Comment, new { htmlAttributes = new { placeholder = "Twój komentarz", @class = "form-control" } })
-            </div>
-
-            <input type="submit" value=@submitCaption class="btn btn-default" />
-        }
-    </div>
-}
-else
-{
-    <div id="NotLoggedIn">
-        <h4>
-            @if (String.IsNullOrEmpty(ViewBag.UserID))
+        <div>
+            @using (Html.BeginForm(formAction, "UserRate", FormMethod.Post, new { @class = "form-horizontal" }))
             {
-                @:Zaloguj sie,
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @Html.HiddenFor(ur => ur.UserRateID)
+                @Html.HiddenFor(ur => ur.MovieID)
+                @Html.HiddenFor(ur => ur.PeopleID)
+                @Html.HiddenFor(ur => ur.User.Id, new { Value = ViewBag.UserID })
+
+                <div>
+                    @Html.LabelFor(ur => ur.Rate)
+                    @Html.DropDownList("Rate", Enumerable.Range(1, 6).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }), "Brak oceny")
+                </div>
+
+                <div>
+                    @Html.EditorFor(ur => ur.Comment, new { htmlAttributes = new { placeholder = "Twój komentarz", @class = "form-control" } })
+                </div>
+
+                <input type="submit" value=@submitCaption class="btn btn-default" />
             }
-            else
-            {
-                @:Dokończ rejestrację konta,
-            }
-            by móc oceniać i komentować filmy!
-        </h4>
+        </div>
+    }
+    else
+    {
+        <div id="NotLoggedIn">
+                @if (String.IsNullOrEmpty(ViewBag.UserID))
+                {
+                    <div>Zaloguj sie,</div>
+                }
+                else
+                {
+                    <div>
+                        Dokończ rejestrację konta, <br />
+                        potwierdź adres e-mail, <br />
+                        uzupełnij informacje profilowe,
+                    </div>
+                 }
+                        by móc oceniać i komentować filmy!
+            </div>
+    }
+</div>
+    <div style="max-height:280px; overflow:auto;">
+
     </div>
-}

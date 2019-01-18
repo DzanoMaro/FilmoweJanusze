@@ -1,4 +1,6 @@
 ﻿@model FilmoweJanusze.Models.RegisterViewModel
+@using reCAPTCHA.MVC
+
 @{
     ViewBag.Title = "Zarejestruj";
 }
@@ -36,8 +38,14 @@
         </div>
     </div>
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Zarejestruj" />
+        <div class="col-md-offset-2">
+            @Html.Recaptcha()
+            @Html.ValidationMessage("ReCaptcha")
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10 margintop20">
+            <input type="submit" class="btn btn-primary " value="Zarejestruj"/>
         </div>
     </div>
 }

@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using FilmoweJanusze.Models;
+using reCAPTCHA.MVC;
 
 namespace FilmoweJanusze.Controllers
 {
@@ -147,8 +148,9 @@ namespace FilmoweJanusze.Controllers
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
+        [CaptchaValidator(ErrorMessage = "Niepoprawna captcha.",RequiredMessage = "Potwierdź, że nie jesteś robotem.")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, bool captchaValid)
         {
             if (ModelState.IsValid)
             {
