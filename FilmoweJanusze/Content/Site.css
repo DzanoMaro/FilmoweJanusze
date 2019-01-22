@@ -25,6 +25,17 @@ section {
     padding-left: 5px;
 }
 
+/* WALIDACJA */
+.input-validation-error {
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.valid {
+    border: 1px solid #33cc33;
+    background-color: #99ff99;
+}
+
 /* Pudełka filmów */
 .moviediv {
     min-width: 270px;

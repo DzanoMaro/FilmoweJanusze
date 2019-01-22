@@ -66,7 +66,7 @@ namespace FilmoweJanusze.Controllers
         {
             profileInfo.User = db.Users.Find(profileInfo.User.Id);
 
-            CheckBirthday(profileInfo.Birthdate);
+            //CheckBirthday(profileInfo.Birthdate);
 
             if (ModelState.IsValid)
             {
@@ -118,7 +118,7 @@ namespace FilmoweJanusze.Controllers
         public ActionResult Edit([Bind(Include = "ProfileInfoID,FirstName,LastName,Birthdate,User")] ProfileInfo profileInfo, HttpPostedFileBase image)
         {
             profileInfo.User = db.Users.Find(profileInfo.User.Id);
-            CheckBirthday(profileInfo.Birthdate);
+            //CheckBirthday(profileInfo.Birthdate);
             if (ModelState.IsValid)
             {
                 if (image != null)

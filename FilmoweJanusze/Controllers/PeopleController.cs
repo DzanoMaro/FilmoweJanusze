@@ -148,7 +148,7 @@ namespace FilmoweJanusze.Controllers
         [Authorize(Roles = "User, Admin")]
         public ActionResult Create([Bind(Include = "PeopleID,FirstName,LastName,Birthdate,Birthplace,Height,Biography,Proffesion,FacePhoto,FaceMimeType")] People people, HttpPostedFileBase image)
         {
-            CheckBirthday(people.Birthdate);
+            //CheckBirthday(people.Birthdate);
 
             if (ModelState.IsValid)
             { 
@@ -206,7 +206,7 @@ namespace FilmoweJanusze.Controllers
             {
                 try
                 {
-                    CheckBirthday(people.Birthdate);
+                    //CheckBirthday(people.Birthdate);
 
                     if (ModelState.IsValid)
                     {
@@ -298,5 +298,34 @@ namespace FilmoweJanusze.Controllers
                 return null;
             }
         }
+
+        /* ZASTAPIONE ATRYBUTEM
+        public void CheckBirthday(DateTime dateTime)
+        {
+            bool checkOK = false;
+
+            if (dateTime.Year < DateTime.Now.Year)
+            {
+                checkOK = true;
+            }
+            else if (dateTime.Year == DateTime.Now.Year)
+            {
+                if (dateTime.Month < DateTime.Now.Month)
+                {
+                    checkOK = true;
+                }
+                else if (dateTime.Month == DateTime.Now.Month)
+                {
+                    if (dateTime.Day < DateTime.Now.Day)
+                    {
+                        checkOK = true;
+                    }
+                }
+            }
+
+            if (!checkOK)
+                ModelState.AddModelError("Birthdate", "Data urodzenia nie może być z przyszłości");
+        }
+        */
     }
 }

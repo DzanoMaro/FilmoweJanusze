@@ -406,7 +406,16 @@ namespace FilmoweJanusze.Controllers
             return CultureList;
         }
 
-        
+        [HttpPost]
+        public JsonResult ValidateMovieGenreCount(MovieGenre movieGenre)
+        {
+            if (movieGenre != null)
+            {
+                if (movieGenre.Count() > 3)
+                    return Json(false);
+            }
+            return Json(true);
+        }
     }
 }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -90,31 +91,21 @@ namespace FilmoweJanusze.Controllers
             return false;
         }
 
-        public void CheckBirthday(DateTime dateTime)
+
+        public JsonResult CheckBirthdate(string Birthdate)
         {
-            bool checkOK = false;
-
-            if (dateTime.Year < DateTime.Now.Year)
+            DateTime dateTime = DateTime.Parse(Birthdate);
+     
+            if (DateTime.Now > dateTime)
             {
-                checkOK = true;
+                return Json(true, JsonRequestBehavior.AllowGet);
             }
-            else if (dateTime.Year == DateTime.Now.Year)
+            else
             {
-                if (dateTime.Month < DateTime.Now.Month)
-                {
-                    checkOK = true;
-                }
-                else if (dateTime.Month == DateTime.Now.Month)
-                {
-                    if (dateTime.Day < DateTime.Now.Day)
-                    {
-                        checkOK = true;
-                    }
-                }
+                return Json(false, JsonRequestBehavior.AllowGet);
             }
 
-            if (!checkOK)
-                ModelState.AddModelError("Birthdate", "Data urodzenia nie może być z przyszłości");
         }
+
     }
 }

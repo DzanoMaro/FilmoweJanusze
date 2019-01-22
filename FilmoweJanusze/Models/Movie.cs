@@ -62,7 +62,8 @@ namespace FilmoweJanusze.Models
         public virtual ICollection<ActorRole> Cast { get; set; }
         
         [Display(Name = "Gatunek")]
-        [MaximumGenreCount(ErrorMessage ="Możesz wybrać max. 3 kategorie")]
+        [Remote("ValidateMovieGenreCount", "Movies", HttpMethod = "POST", ErrorMessage = "Możesz wybrać max. 3 kategorie")]          //po stronie klienta
+        [MaximumGenreCount(ErrorMessage ="Możesz wybrać max. 3 kategorie")]                                                       //po stronie serwera
         public virtual MovieGenre Genre { get; set; }
 
         [Display(Name = "Rok wydania")]

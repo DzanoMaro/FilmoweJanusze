@@ -25,6 +25,8 @@ namespace FilmoweJanusze.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Data urodzenia")]
+        [CheckBirthday(ErrorMessage = "{0} nie może być z przyszłości")]
+        [Remote("CheckBirthdate", "People",ErrorMessage = "{0} nie może być z przyszłości")]
         public DateTime Birthdate { get; set; }
 
         [Display(Name = "Miejsce urodzenia")]

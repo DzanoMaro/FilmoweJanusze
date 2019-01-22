@@ -9,7 +9,6 @@ namespace FilmoweJanusze.Models
 {
     public class MovieGenre
     {
-
         [Key]
         [ForeignKey("Movie")]
         public int MovieID { get; set; }

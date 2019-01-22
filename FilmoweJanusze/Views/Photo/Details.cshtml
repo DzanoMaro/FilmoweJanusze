@@ -68,7 +68,7 @@
         <p id="caption"></p>
     </div>
 
-    <!--MINIATURKI - druga karuzela-->
+    <!--MINIATURKI-->
     <div class="row nomargin">
         @for (int i = 0; i < Model.Count(); i++)
         {
@@ -100,42 +100,47 @@
 @section scripts {
 
     <script>
-    var slideIndex = @photoindex;
+        var slideIndex;
 
-    currentSlide(slideIndex);
+        $('document').ready(function () {
+            slideIndex = @photoindex;
+            currentSlide(slideIndex);
+        });
 
-    function plusSlides(n) {
-        showSlides(slideIndex += n);
-    }
-
-    function currentSlide(n) {
-        showSlides(slideIndex = n);
-        var slides = document.getElementsByClassName("mySlides");
-        if (n > slides.length) { slideIndex = 1 }
-        if (n < 1) { slideIndex = slides.length }
-        for (i = 0; i < slides.length; i++) {
-            slides[i].className = slides[i].className.replace(" active", "")
-        }
-        slides[slideIndex - 1].className += " active";
-    }
-
-    function showSlides(n) {
-        var i;
-
-        var dots = document.getElementsByClassName("demo");
-        var captionText = document.getElementById("caption");
-        var slides = document.getElementsByClassName("mySlides");
-        if (n > slides.length) { slideIndex = 1 }
-        if (n < 1) { slideIndex = slides.length }
-        for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
+        function plusSlides(n) {
+            showActiveDemo(slideIndex += n);
         }
 
-        dots[slideIndex - 1].className += " active";
-        captionText.innerHTML = dots[slideIndex - 1].alt;
+        function currentSlide(n) {
 
-        //var currentid = slides[slideIndex - 1].getAttribute("id");
-    }
+            //ustawienie aktywnego slajdu
+            var slides = document.getElementsByClassName("mySlides");
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].className = slides[i].className.replace(" active", "")
+            }
+            slides[slideIndex - 1].className += " active";
+
+            //ustawienie dema
+            showActiveDemo(slideIndex = n)
+        }
+
+        function showActiveDemo(n) {
+            var i;
+
+            var dots = document.getElementsByClassName("demo");
+            var captionText = document.getElementById("caption");
+            var slides = document.getElementsByClassName("mySlides");
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            dots[slideIndex - 1].className += " active";
+            captionText.innerHTML = dots[slideIndex - 1].alt;
+        }
+
     </script>
 
 }

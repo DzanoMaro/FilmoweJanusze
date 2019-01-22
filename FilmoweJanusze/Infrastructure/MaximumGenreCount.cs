@@ -7,10 +7,10 @@ namespace FilmoweJanusze.Infrastructure
     {
         public override bool IsValid(object value)
         {
-            MovieGenre genre = value as MovieGenre;
-            if (genre != null)
+            MovieGenre movieGenre = value as MovieGenre;
+            if (movieGenre != null)
             {
-                if (genre.Count() > 3)
+                if (movieGenre.Count() > 3)
                     return false;
             }
             return true;
