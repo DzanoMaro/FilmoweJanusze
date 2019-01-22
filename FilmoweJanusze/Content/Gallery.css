@@ -59,3 +59,23 @@
     right: 0;
     bottom: 0;
 }
+
+
+.carousel-indicators {
+    position: inherit;
+    bottom: inherit;
+    left: inherit;
+    z-index: inherit;
+    width: inherit;
+    margin-left: inherit;
+    padding-left: inherit;
+    list-style: none;
+    text-align: center;
+}
+
+    .carousel-indicators .active {
+        width: 16.66%;
+        height: inherit;
+        margin: inherit;
+        background-color: inherit;
+    }
