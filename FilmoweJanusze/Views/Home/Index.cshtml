@@ -1,9 +1,9 @@
 ﻿@model FilmoweJanusze.ViewModels.IndexView
+@using FilmoweJanusze.Helpers
 
 @{
     ViewBag.Title = "Strona główna";
 }
-
 
 <!--LATEST RELEASED-->
 <section>
@@ -13,7 +13,7 @@
     <!--TODO-->
     <!-- SLIDER DO KARUZELI-->
     @if (Model.LatestReleased.Count() > 0)
-    {
+{
         <div id="LatestReleasedCarousel" class="container-fluid nopadding carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="item active">

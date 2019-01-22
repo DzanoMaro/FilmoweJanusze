@@ -206,6 +206,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CustomHtmlHelpers.cs" />
+    <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Infrastructure\MaximumGenreCount.cs" />
     <Compile Include="Infrastructure\MinimumProffesionCount.cs" />
     <Compile Include="Migrations\201811161952512_InitialCreate.cs" />
