@@ -1,20 +1,19 @@
 ﻿@model FilmoweJanusze.Models.People
+@using FilmoweJanusze.Helpers
 
 <div class="col-sm-12 col-md-4 nopadding">
     <div class="peoplediv">
-        <table>
+        <table class="table-responsive">
             <tr>
                 <td rowspan="5" class="poster">
-                    <a href=@Url.Action("Details","People", new { id = Model.PeopleID })>
                         @if (Model.FacePhoto != null)
                         {
-                            <img width="110" height="130" src="@Url.Action("GetImage", "People", new { Model.PeopleID })" />
+                            @Html.Image(Url.Action("GetImage", "People", new { Model.PeopleID }), Url.Action("Details", "People", new { id = Model.PeopleID }), new { @class = "img-responsive" })
                         }
                         else
                         {
-                            <img class="img-responsive" src="~/Images/Brak_zdjecia.png" />
+                            @Html.Image("/Images/Brak_zdjecia.png", Url.Action("Details", "People", new { id = Model.PeopleID }), new { @class = "img-responsive" })
                         }
-                    </a>
                 </td>
                 <td colspan="2">
                     <h4>@Html.ActionLink(Html.DisplayFor(modelItem => Model.FullName).ToString(), "Details", "People", new { id = Model.PeopleID }, null)</h4>

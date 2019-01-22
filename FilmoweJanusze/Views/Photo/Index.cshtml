@@ -1,4 +1,5 @@
 ﻿@model ICollection<FilmoweJanusze.Models.Photo>
+@using FilmoweJanusze.Helpers
 
 @{
     ViewBag.Title = "Galeria zdjęć " + ViewBag.Name;
@@ -44,11 +45,9 @@
     <div>
         @foreach (var photo in Model)
         {
-            <div class="col-xs-4 col-md-2 nopadding">
-                <a href='@Url.Action("Details", "Photo",new { movieID = ViewBag.MovieID, peopleID = ViewBag.PeopleID, photoID = photo.PhotoID })' data-toggle="tooltip" title="@photo.Description">
-                    <img class="img-thumbnail" src="@photo.PhotoThumbURL" />
-                </a>
-            </div>
+        <div class="col-xs-4 col-md-2 nopadding">
+            @Html.Image(photo.PhotoThumbURL, @Url.Action("Details", "Photo", new { movieID = ViewBag.MovieID, peopleID = ViewBag.PeopleID, photoID = photo.PhotoID }), new { @class = "img-thumbnail", data_toggle = "tooltip", title = photo.Description })
+        </div>
         }
     </div>
     <div class="clearfix"></div>

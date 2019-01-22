@@ -1,4 +1,5 @@
 ﻿@model FilmoweJanusze.Models.Movie
+@using FilmoweJanusze.Helpers
 
 @{
     ViewBag.Title = "Edycja filmu " + ViewBag.Name;
@@ -31,7 +32,7 @@
                 }
                 else
                 {
-                    <img width="150" height="150" src="@Url.Action("GetImage", "Movies", new { Model.MovieID })" />
+                    @Html.Image(Url.Action("GetImage", "Movies", new { Model.MovieID }), new { @class = "poster" })
                 }
                 <div>Prześlj nowe zdjęcie: <input type="file" name="Image" /></div>
             </div>

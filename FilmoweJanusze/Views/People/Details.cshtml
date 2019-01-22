@@ -1,4 +1,5 @@
 ﻿@model FilmoweJanusze.ViewModels.MovieandCast
+@using FilmoweJanusze.Helpers
 
 @{
     ViewBag.Title = Model.People.FullName;
@@ -70,11 +71,11 @@
         <div class="col-xs-4 col-lg-3 movieinfo">
             @if (Model.People.FacePhoto != null)
             {
-                <img class="img-responsive" src="@Url.Action("GetImage", "People", new { Model.People.PeopleID })" />
+                @Html.Image(Url.Action("GetImage", "People", new { Model.People.PeopleID }), Url.Action("Details", "People", new { id = Model.People.PeopleID }), new { @class = "img-responsive img-thumbnail" })
             }
             else
             {
-                <img class="img-responsive" src="~/Images/Brak_zdjecia.png" />
+                @Html.Image("/Images/Brak_zdjecia.png", Url.Action("Details", "People", new { id = Model.People.PeopleID }), new { @class = "img-responsive" })
             }
         </div>
 
@@ -163,9 +164,7 @@
                         @foreach (var photo in Model.Photos)
                         {
                             <div class="col-xs-2 moviegalery">
-                                <a href='@Url.Action("Details", "Photo",new { peopleID = Model.People.PeopleID, photoID = photo.PhotoID })' data-toggle="tooltip" title="@photo.Description">
-                                    <img class="img-thumbnail" src="@photo.PhotoThumbURL" />
-                                </a>
+                                @Html.Image(photo.PhotoThumbURL, Url.Action("Details", "Photo", new { peopleID = Model.People.PeopleID, photoID = photo.PhotoID }), new { @class = "img-thumbnail", data_toggle="tooltip", title=photo.Description })
                             </div>
                         }
                     </div>
@@ -223,16 +222,14 @@
                                     }
                                 </div>
                                 <div class="poster col-xs-2">
-                                    <a href=@Url.Action("Details", "Movies", new { id = cast.MovieID })>
-                                        @if (cast.Movie.Poster != null)
-                                        {
-                                            <img class="img-responsive poster" src="@Url.Action("GetImage", "Movies", new { cast.MovieID })" />
-                                        }
-                                        else
-                                        {
-                                            <img class="img-responsive poster" src="~/Images/Brak_zdjecia.png" />
-                                        }
-                                    </a>
+                                    @if (cast.Movie.Poster != null)
+                                    {
+                                        @Html.Image(Url.Action("GetImage", "Movies", new { cast.MovieID }), Url.Action("Details", "Movies", new { id = cast.MovieID }), new { @class = "img-responsive poster" })
+                                    }
+                                    else
+                                    {
+                                        @Html.Image("/Images/Brak_zdjecia.png", Url.Action("Details", "Movies", new { id = cast.MovieID }), new { @class = "img-responsive poster" })
+                                    }
                                 </div>
                                 <div class="col-xs-3">
                                     @Html.ActionLink(Html.DisplayFor(modelItem => cast.Movie.Title).ToString(), "Details", "Movies", new { id = cast.MovieID }, null)
@@ -313,13 +310,11 @@
                                 <div class="poster col-xs-2">
                                     @if (movie.Poster != null)
                                     {
-
-                                        <img class="img-responsive poster" src="@Url.Action("GetImage", "Movies", new { movie.MovieID })" />
-
+                                        @Html.Image(Url.Action("GetImage", "Movies", new { movie.MovieID }), Url.Action("Details", "Movies", new { id = movie.MovieID }), new { @class = "img-responsive poster" })
                                     }
                                     else
                                     {
-                                        <img class="img-responsive poster" src="~/Images/Brak_zdjecia.png" />
+                                        @Html.Image("/Images/Brak_zdjecia.png", Url.Action("Details", "Movies", new { id = movie.MovieID }), new { @class = "img-responsive poster" })
                                     }
                                 </div>
                                 <div class="col-xs-2">
