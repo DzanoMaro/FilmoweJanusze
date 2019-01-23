@@ -274,14 +274,7 @@
                     {
                         <div class="cast row">
                             <div class="poster col-xs-2 col-md-offset-1 col-lg-offset-2">
-                                @if (cast.People.FacePhoto != null)
-                                {
-                                    @Html.Image(Url.Action("GetImage", "People", new { cast.PeopleID }), Url.Action("Details", "People", new { id = cast.PeopleID }), new { @class = "img-responsive poster" })
-                                }
-                                else
-                                {
-                                    @Html.Image("/Images/Brak_zdjecia.png", Url.Action("Details", "People", new { id = cast.PeopleID }), new { @class = "img-responsive poster" })
-                                }
+                                @Html.Image(cast.People.PhotoURL, Url.Action("Details", "People", new { id = cast.PeopleID }), new { @class = "img-responsive poster" })
                             </div>
                             <div class="col-xs-2">
                                 @Html.ActionLink(Html.DisplayFor(modelItem => cast.People.FullName).ToString(), "Details", "People", new { id = cast.PeopleID }, null)

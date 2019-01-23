@@ -82,11 +82,12 @@ namespace FilmoweJanusze.Controllers
 
             if (ismovie != null)
             {
-                Movie movie = db.Movies.Find(actorRole.MovieID);
-                if (movie == null)
+                actorRole.Movie = db.Movies.Find(actorRole.MovieID);
+                if (actorRole.Movie == null)
                 {
                     return HttpNotFound();
                 }
+                
                 ViewBag.MovieID = actorRole.MovieID;
                 ViewBag.PeopleID = new SelectList(db.Peoples.Where(p => p.Proffesion.Actor == true), "PeopleID", "FullName");
                 ViewBag.Name = actorRole.Movie.TitleYear;
@@ -94,8 +95,8 @@ namespace FilmoweJanusze.Controllers
             else
             if (ispeople != null)
             {
-                People people = db.Peoples.Find(actorRole.PeopleID);
-                if (people == null)
+                actorRole.People = db.Peoples.Find(actorRole.PeopleID);
+                if (actorRole.People == null)
                 {
                     return HttpNotFound();
                 }
@@ -168,12 +169,11 @@ namespace FilmoweJanusze.Controllers
 
             if (ismovie != null)
             {
-                Movie movie = db.Movies.Find(actorRole.MovieID);
-                if (movie == null)
+                actorRole.Movie = db.Movies.Find(actorRole.MovieID);
+                if (actorRole.Movie == null)
                 {
                     return HttpNotFound();
                 }
-                actorRole.Movie = movie;
                 ViewBag.MovieID = actorRole.MovieID;
                 ViewBag.PeopleID = new SelectList(db.Peoples.Where(p => p.Proffesion.Actor == true), "PeopleID", "FullName", actorRole.PeopleID);
                 ViewBag.Name = actorRole.Movie.TitleYear;
@@ -181,12 +181,11 @@ namespace FilmoweJanusze.Controllers
             else
             if (ispeople != null)
             {
-                People people = db.Peoples.Find(actorRole.PeopleID);
-                if (people == null)
+                actorRole.People = db.Peoples.Find(actorRole.PeopleID);
+                if (actorRole.People == null)
                 {
                     return HttpNotFound();
                 }
-                actorRole.People = people;
                 ViewBag.MovieID = new SelectList(db.Movies, "MovieID", "TitleYear", actorRole.MovieID);
                 ViewBag.PeopleID = actorRole.PeopleID;
                 ViewBag.Name = actorRole.People.FullName;
