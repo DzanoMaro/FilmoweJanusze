@@ -1,5 +1,4 @@
 ﻿@model FilmoweJanusze.Models.Movie
-@using FilmoweJanusze.Helpers
 
 @{
     ViewBag.Title = "Edycja filmu " + ViewBag.Name;
@@ -20,24 +19,6 @@
 
         @Html.Partial("Form")
 
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Poster, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.HiddenFor(model => model.Poster)
-                @Html.HiddenFor(model => model.PosterMimeType)
-                @if (Model.Poster == null)
-                {
-                    @:brak
-                }
-                else
-                {
-                    @Html.Image(Url.Action("GetImage", "Movies", new { Model.MovieID }), new { @class = "poster" })
-                }
-                <div>Prześlj nowe zdjęcie: <input type="file" name="Image" /></div>
-            </div>
-        </div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Zapisz" class="btn btn-primary" />
@@ -51,4 +32,8 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    
+    <script>
+        $(document).ready(ToggleRadio())
+    </script>
 }

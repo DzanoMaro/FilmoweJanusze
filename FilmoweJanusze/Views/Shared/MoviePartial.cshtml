@@ -6,14 +6,17 @@
         <table class="table-responsive">
             <tr>
                 <td rowspan="5" class="poster">
-                    @if (Model.Poster != null)
-                    {
-                        @Html.Image(Url.Action("GetImage", "Movies", new { Model.MovieID }), Url.Action("Details", "Movies", new { id = Model.MovieID }), new { @class = "img-responsive" })
-                    }
-                    else
-                    {
-                        @Html.Image("/Images/Brak_zdjecia.png", Url.Action("Details", "Movies", new { id = Model.MovieID }), new { @class = "img-responsive" })
-                    }
+                    @Html.Image(Model.PhotoURL, Url.Action("Details", "Movies", new { id = Model.MovieID }), new { @class = "img-responsive" })
+                    <!--
+                        if (Model.Poster != null)
+                        {
+                            Html.Image(Url.Action("GetImage", "Movies", new { Model.MovieID }), Url.Action("Details", "Movies", new { id = Model.MovieID }), new { class = "img-responsive" })
+                        }
+                        else
+                        {
+                            Html.Image("/Images/Brak_zdjecia.png", Url.Action("Details", "Movies", new { id = Model.MovieID }), new { class = "img-responsive" })
+                        }
+                            -->
                 </td>
                 <td colspan="2">
                     <h4>@Html.ActionLink(Html.DisplayFor(modelItem => Model.TitleYear).ToString(), "Details", "Movies", new { id = Model.MovieID }, null)</h4>

@@ -26,7 +26,8 @@ namespace FilmoweJanusze.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Data urodzenia")]
         [CheckBirthday(ErrorMessage = "{0} nie może być z przyszłości")]
-        [Remote("CheckBirthdate", "People",ErrorMessage = "{0} nie może być z przyszłości")]
+        [MinDate(ErrorMessage = "Data nie może być sprzed 1900r.")]
+        [Remote("CheckBirthdate", "Extended", ErrorMessage = "{0} nie może być z przyszłości, ani sprzed 1900r.")]
         public DateTime Birthdate { get; set; }
 
         [Display(Name = "Miejsce urodzenia")]

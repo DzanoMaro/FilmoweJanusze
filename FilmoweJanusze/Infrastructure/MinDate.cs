@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FilmoweJanusze.Infrastructure
 {
-    public class CheckBirthday : ValidationAttribute
+    public class MinDate : ValidationAttribute
     {
         public override bool IsValid(object value)
         {
             DateTime dateTime = Convert.ToDateTime(value);
 
-            if (dateTime <= DateTime.Today)
+            if (dateTime.Year >= 1900)
                 return true;
             else
                 return false;

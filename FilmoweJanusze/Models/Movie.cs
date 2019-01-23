@@ -25,6 +25,8 @@ namespace FilmoweJanusze.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "Podaj datę wydania filmu")]
         [Display(Name = "Data premiery")]
+        [MinDate(ErrorMessage ="{0} nie może być sprzed 1900r.")]
+        [Remote("CheckMinReleaseDate", "Extended", ErrorMessage = "{0} nie może być z przyszłości, ani sprzed 1900r.")]
         public DateTime ReleaseDate { get; set; }
 
         [Display(Name = "Kraj produkcji")]
@@ -42,11 +44,16 @@ namespace FilmoweJanusze.Models
         [Display(Name = "Opis filmu")]
         public string Description { get; set; }
 
+        /*
         //plakat
         [Display(Name = "Plakat")]
         public byte[] Poster { get; set; }
         [HiddenInput(DisplayValue = false)]
         public string PosterMimeType { get; set; }
+        */
+        [Display(Name = "Plakat")]
+        [DataType(DataType.Url)]
+        public string PhotoURL { get; set; }
 
         [DataType(DataType.Url)]
         [Display(Name ="Zwiastun")]

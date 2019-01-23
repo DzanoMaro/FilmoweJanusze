@@ -1,4 +1,5 @@
 ﻿@model FilmoweJanusze.Models.Movie
+@using FilmoweJanusze.Helpers
 
 <div class="form-group">
     @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -42,7 +43,7 @@
 <div class="form-group">
     @Html.LabelFor(model => model.DirectorID, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.DropDownList("DirectorID", null,"Brak", htmlAttributes: new { @class = "form-control" })
+        @Html.DropDownList("DirectorID", null, "Brak", htmlAttributes: new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.DirectorID, "", new { @class = "text-danger" })
     </div>
 </div>
@@ -51,7 +52,7 @@
 <div class="form-group">
     @Html.LabelFor(model => model.CountryProduction, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.DropDownList("CountryProduction", null,"Brak", htmlAttributes: new { @class = "form-control" })
+        @Html.DropDownList("CountryProduction", null, "Brak", htmlAttributes: new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.CountryProduction, "", new { @class = "text-danger" })
     </div>
 </div>
@@ -112,3 +113,22 @@
     </div>
 </div>
 
+<div class="form-group">
+    @Html.LabelFor(model => model.PhotoURL, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+
+        @Html.Image(Model.PhotoURL)
+
+        <label class="radio-inline" onchange="ToggleRadio()">@Html.RadioButton("RadioPhotoBtn", "FromFile") Z pliku</label>
+        <label class="radio-inline" onchange="ToggleRadio()">@Html.RadioButton("RadioPhotoBtn", "FromURL") Ze ścieżki</label>
+        <label class="radio-inline" onchange="ToggleRadio()">@Html.RadioButton("RadioPhotoBtn", "None") Brak</label>
+
+        <div class="margintop10" id="file">
+            Prześlj nowe zdjęcie: <input type="file" name="Image" />
+        </div>
+        <div class="margintop10" id="url">
+            Podaj link do zdjęcia: <br />
+            @Html.TextBox("UrlPath", null, new { @class = "form-control" })
+        </div>
+    </div>
+</div>

@@ -215,14 +215,7 @@
                                     }
                                 </div>
                                 <div class="poster col-xs-2">
-                                    @if (cast.Movie.Poster != null)
-                                    {
-                                        @Html.Image(Url.Action("GetImage", "Movies", new { cast.MovieID }), Url.Action("Details", "Movies", new { id = cast.MovieID }), new { @class = "img-responsive poster" })
-                                    }
-                                    else
-                                    {
-                                        @Html.Image("/Images/Brak_zdjecia.png", Url.Action("Details", "Movies", new { id = cast.MovieID }), new { @class = "img-responsive poster" })
-                                    }
+                                    @Html.Image(cast.Movie.PhotoURL, Url.Action("Details", "Movies", new { id = cast.MovieID }), new { @class = "img-responsive poster" })
                                 </div>
                                 <div class="col-xs-3">
                                     @Html.ActionLink(Html.DisplayFor(modelItem => cast.Movie.Title).ToString(), "Details", "Movies", new { id = cast.MovieID }, null)
@@ -301,14 +294,7 @@
                                     }
                                 </div>
                                 <div class="poster col-xs-2">
-                                    @if (movie.Poster != null)
-                                    {
-                                        @Html.Image(Url.Action("GetImage", "Movies", new { movie.MovieID }), Url.Action("Details", "Movies", new { id = movie.MovieID }), new { @class = "img-responsive poster" })
-                                    }
-                                    else
-                                    {
-                                        @Html.Image("/Images/Brak_zdjecia.png", Url.Action("Details", "Movies", new { id = movie.MovieID }), new { @class = "img-responsive poster" })
-                                    }
+                                    @Html.Image(movie.PhotoURL, Url.Action("Details", "Movies", new { id = movie.MovieID }), new { @class = "img-responsive poster" })
                                 </div>
                                 <div class="col-xs-2">
                                     @Html.ActionLink(Html.DisplayFor(modelItem => movie.Title).ToString(), "Details", "Movies", new { id = movie.MovieID }, null)

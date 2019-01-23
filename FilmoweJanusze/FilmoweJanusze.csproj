@@ -209,6 +209,7 @@
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Infrastructure\CheckBirthday.cs" />
     <Compile Include="Infrastructure\MaximumGenreCount.cs" />
+    <Compile Include="Infrastructure\MinDate.cs" />
     <Compile Include="Infrastructure\MinimumProffesionCount.cs" />
     <Compile Include="Migrations\201811161952512_InitialCreate.cs" />
     <Compile Include="Migrations\201811161952512_InitialCreate.Designer.cs">
@@ -301,6 +302,10 @@
     <Compile Include="Migrations\201901221813305_PeoplePhotoBin2URL.cs" />
     <Compile Include="Migrations\201901221813305_PeoplePhotoBin2URL.Designer.cs">
       <DependentUpon>201901221813305_PeoplePhotoBin2URL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901231319032_MoviePhotoBin2URL.cs" />
+    <Compile Include="Migrations\201901231319032_MoviePhotoBin2URL.Designer.cs">
+      <DependentUpon>201901231319032_MoviePhotoBin2URL.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -575,6 +580,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901221813305_PeoplePhotoBin2URL.resx">
       <DependentUpon>201901221813305_PeoplePhotoBin2URL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901231319032_MoviePhotoBin2URL.resx">
+      <DependentUpon>201901231319032_MoviePhotoBin2URL.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -97,7 +97,7 @@ namespace FilmoweJanusze.Controllers
         {
             DateTime dateTime = DateTime.Parse(Birthdate);
      
-            if (DateTime.Now > dateTime)
+            if (dateTime <= DateTime.Today && dateTime.Year >= 1900 )
             {
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
@@ -106,6 +106,20 @@ namespace FilmoweJanusze.Controllers
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
 
+        }
+
+        public JsonResult CheckMinReleaseDate(string ReleaseDate)
+        {
+            DateTime dateTime = DateTime.Parse(ReleaseDate);
+
+            if (dateTime.Year >= 1900)
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
         }
 
         public string SaveNewFile(string foldername, string filename, HttpPostedFileBase image)

@@ -18,7 +18,7 @@ using Microsoft.AspNet.Identity;
 
 namespace FilmoweJanusze.Controllers
 {
-    public class MoviesController : Controller
+    public class MoviesController : ExtendedController
     {
         
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -200,7 +200,12 @@ namespace FilmoweJanusze.Controllers
             ViewBag.DirectorID = new SelectList(db.Peoples.Where(p => p.Proffesion.Director == true), "PeopleID", "FullName");
             ViewBag.CountryProduction = new SelectList(CountryList());
             ViewBag.DurationTimeValue = "00:00";
-            return View();
+
+            Movie movie = new Movie();
+            movie.PhotoURL = String.Empty;
+            movie.ReleaseDate = DateTime.Today;
+
+            return View(movie);
         }
 
         // POST: Movies/Create
@@ -208,18 +213,50 @@ namespace FilmoweJanusze.Controllers
         // Aby uzyskać więcej szczegółów, zobacz https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MovieID,Title,TitlePL,ReleaseDate,Genre,Description,Poster,PosterMimeType,DirectorID,Genre,TrailerURL,CountryProduction,DurationTime")] Movie movie, HttpPostedFileBase image)
+        public ActionResult Create([Bind(Include = "MovieID,Title,TitlePL,ReleaseDate,Genre,Description,DirectorID,Genre,TrailerURL,CountryProduction,DurationTime,PhotoURL")] Movie movie, string RadioPhotoBtn, string UrlPath, HttpPostedFileBase image)
         {
             ViewBag.DirectorID = new SelectList(db.Peoples.Where(p => p.Proffesion.Director == true), "PeopleID", "FullName", movie.DirectorID);
             ViewBag.CountryProduction = new SelectList(CountryList(), movie.CountryProduction);
             ViewBag.DurationTimeValue = movie.DurationTime.ToShortTimeString();
+
             if (ModelState.IsValid)
             {
-                if (image != null)
-                {
+                /* DELETED
+                if (image != null) {
                     movie.PosterMimeType = image.ContentType;
                     movie.Poster = new byte[image.ContentLength];
                     image.InputStream.Read(movie.Poster, 0, image.ContentLength);
+                }
+                */
+                if (!String.IsNullOrEmpty(RadioPhotoBtn))
+                {
+                    switch (RadioPhotoBtn)
+                    {
+                        case "FromFile":
+                            if (image != null)
+                                movie.PhotoURL = SaveNewFile("MoviePosters", movie.TitleYear, image);
+                            else
+                                movie.PhotoURL = IfEmptySetEmptyPhoto(movie.PhotoURL);
+                            break;
+                        case "FromURL":
+                            if (!String.IsNullOrEmpty(UrlPath))
+                            {
+                                DeleteOldFile(movie.PhotoURL);
+                                movie.PhotoURL = UrlPath;
+                            }
+                            break;
+                        case "None":
+                            DeleteOldFile(movie.PhotoURL);
+                            movie.PhotoURL = NoContentPhoto;
+                            break;
+                        default:
+                            movie.PhotoURL = IfEmptySetEmptyPhoto(movie.PhotoURL);
+                            break;
+                    }
+                }
+                else
+                {
+                    movie.PhotoURL = IfEmptySetEmptyPhoto(movie.PhotoURL);
                 }
 
                 if (movie.Genre.Count() == 0)
@@ -264,7 +301,7 @@ namespace FilmoweJanusze.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "User, Admin")]
-        public ActionResult Edit(int? id, HttpPostedFileBase image)
+        public ActionResult Edit(int? id, string RadioPhotoBtn, string UrlPath, HttpPostedFileBase image)
         {
             //[Bind(Include = "MovieID,Title,TitlePL,ReleaseDate,Genre,Description,Poster,PosterMimeType,DirectorID")] Movie movie
 
@@ -278,19 +315,48 @@ namespace FilmoweJanusze.Controllers
             ViewBag.DurationTimeValue = movie.DurationTime.ToShortTimeString();
             ViewBag.Name = movie.TitleYear;
 
-            if (TryUpdateModel(movie, "", new string[] { "MovieID", "Title", "TitlePL", "ReleaseDate", "Genre", "Description", "Poster", "PosterMimeType", "DirectorID", "TrailerURL", "CountryProduction","DurationTime" }))
+            if (TryUpdateModel(movie, "", new string[] { "MovieID", "Title", "TitlePL", "ReleaseDate", "Genre", "Description", "DirectorID", "TrailerURL", "CountryProduction","DurationTime", "PhotoURL" }))
             {
                 try
                 {
                     if (ModelState.IsValid)
                     {
-                        if (image != null)
-                        {
+                        /* DELETE
+                        if (image != null){
                             movie.PosterMimeType = image.ContentType;
                             movie.Poster = new byte[image.ContentLength];
                             image.InputStream.Read(movie.Poster, 0, image.ContentLength);
+                        }*/
+                        if (!String.IsNullOrEmpty(RadioPhotoBtn))
+                        {
+                            switch (RadioPhotoBtn)
+                            {
+                                case "FromFile":
+                                    if (image != null)
+                                        movie.PhotoURL = SaveNewFile("MoviePosters", movie.TitleYear, image);
+                                    else
+                                        movie.PhotoURL = IfEmptySetEmptyPhoto(movie.PhotoURL);
+                                    break;
+                                case "FromURL":
+                                    if (!String.IsNullOrEmpty(UrlPath))
+                                    {
+                                        DeleteOldFile(movie.PhotoURL);
+                                        movie.PhotoURL = UrlPath;
+                                    }
+                                    break;
+                                case "None":
+                                    DeleteOldFile(movie.PhotoURL);
+                                    movie.PhotoURL = NoContentPhoto;
+                                    break;
+                                default:
+                                    movie.PhotoURL = IfEmptySetEmptyPhoto(movie.PhotoURL);
+                                    break;
+                            }
                         }
-
+                        else
+                        {
+                            movie.PhotoURL = IfEmptySetEmptyPhoto(movie.PhotoURL);
+                        }
                         if (movie.Genre.Count() == 0)
                             movie.Genre = null;
 
@@ -362,6 +428,7 @@ namespace FilmoweJanusze.Controllers
 
         public FileContentResult GetImage(int movieId )
         {
+            /*
             Movie movie = db.Movies.FirstOrDefault(p => p.MovieID == movieId);
             if (movie != null)
             {
@@ -371,6 +438,8 @@ namespace FilmoweJanusze.Controllers
             {
                 return null;
             }
+            */
+            return null;
         }
 
         public static string ModifyTrailerURL(string url)

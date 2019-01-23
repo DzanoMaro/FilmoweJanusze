@@ -78,14 +78,17 @@
     <div class="col-xs-8 col-lg-9 nopadding">
         <!--PLAKAT-->
         <div class="col-xs-4 col-lg-3 movieinfo">
-            @if (Model.Movie.Poster != null)
-            {
-                @Html.Image(Url.Action("GetImage", "Movies", new { Model.Movie.MovieID }), Url.Action("Details", "Movies", new { id = Model.Movie.MovieID }), new { @class = "img-responsive img-thumbnail" })
-            }
-            else
-            {
-                @Html.Image("/Images/Brak_zdjecia.png", Url.Action("Details", "Movies", new { id = Model.Movie.MovieID }), new { @class = "img-responsive" })
-            }
+            @Html.Image(Model.Movie.PhotoURL, Url.Action("Details", "Movies", new { id = Model.Movie.MovieID }), new { @class = "img-responsive img-thumbnail" })
+            <!--
+    if (Model.Poster != null)
+    {
+        Html.Image(Url.Action("GetImage", "Movies", new { Model.MovieID }), Url.Action("Details", "Movies", new { id = Model.MovieID }), new { class = "img-responsive" })
+    }
+    else
+    {
+        Html.Image("/Images/Brak_zdjecia.png", Url.Action("Details", "Movies", new { id = Model.MovieID }), new { class = "img-responsive" })
+    }
+        -->
         </div>
 
         <!--DANE-->
