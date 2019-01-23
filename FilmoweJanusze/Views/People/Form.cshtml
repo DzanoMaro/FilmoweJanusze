@@ -1,4 +1,5 @@
 ﻿@model FilmoweJanusze.Models.People
+@using  FilmoweJanusze.Helpers
 
 <div class="form-group">
     @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -51,11 +52,29 @@
     @Html.LabelFor(model => model.Proffesion, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
         <ul>
-
-            <li>@Html.CheckBoxFor(model => model.Proffesion.Actor) @Html.LabelFor(model => model.Proffesion.Actor)</li>
-            <li>@Html.CheckBoxFor(model => model.Proffesion.Director) @Html.LabelFor(model => model.Proffesion.Director)</li>
-            <li>@Html.CheckBoxFor(model => model.Proffesion.Scenario) @Html.LabelFor(model => model.Proffesion.Scenario)</li>
+            <li class="nodecoration">@Html.CheckBoxFor(model => model.Proffesion.Actor) @Html.LabelFor(model => model.Proffesion.Actor)</li>
+            <li class="nodecoration">@Html.CheckBoxFor(model => model.Proffesion.Director) @Html.LabelFor(model => model.Proffesion.Director)</li>
+            <li class="nodecoration">@Html.CheckBoxFor(model => model.Proffesion.Scenario) @Html.LabelFor(model => model.Proffesion.Scenario)</li>
         </ul>
         @Html.ValidationMessageFor(model => model.Proffesion, "", new { @class = "text-danger" })
     </div>
 </div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.PhotoURL, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.Image(Model.PhotoURL)
+        <label class="radio-inline" onchange="ToggleRadio()">@Html.RadioButton("RadioPhotoBtn", "FromFile") Z pliku</label>
+        <label class="radio-inline" onchange="ToggleRadio()">@Html.RadioButton("RadioPhotoBtn", "FromURL") Ze ścieżki</label>
+        <label class="radio-inline" onchange="ToggleRadio()">@Html.RadioButton("RadioPhotoBtn", "None") Brak</label>
+
+        <div class="margintop10" id="file">
+            Prześlj nowe zdjęcie: <input type="file" name="Image" />
+        </div>
+        <div class="margintop10" id="url">
+            Podaj link do zdjęcia: <br />
+            @Html.TextBox("UrlPath", null, new { @class = "form-control" })
+        </div>
+    </div>
+</div>
+

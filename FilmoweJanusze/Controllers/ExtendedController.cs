@@ -11,6 +11,8 @@ namespace FilmoweJanusze.Controllers
 {
     public class ExtendedController : Controller
     {
+        public string NoContentPhoto = "/Images/Brak_zdjecia.png";
+
         public bool SaveCroppedImage(Image image, int maxWidth, int maxHeight, string filePath)
         {
             //source:https://www.codeproject.com/Tips/683699/%2FTips%2F683699%2FCropping-an-Image-from-Center-i
@@ -91,7 +93,6 @@ namespace FilmoweJanusze.Controllers
             return false;
         }
 
-
         public JsonResult CheckBirthdate(string Birthdate)
         {
             DateTime dateTime = DateTime.Parse(Birthdate);
@@ -105,6 +106,20 @@ namespace FilmoweJanusze.Controllers
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
 
+        }
+
+        public void DeleteOldFile(string Url)
+        {
+            if(Url != NoContentPhoto)
+                if (System.IO.File.Exists(Server.MapPath("~/") + Url))
+                    System.IO.File.Delete(Server.MapPath("~/") + Url);
+        }
+
+        public string IfEmptySetEmptyPhoto(string Url)
+        {
+            if (String.IsNullOrEmpty(Url))
+                return NoContentPhoto;
+            else return Url;
         }
 
     }

@@ -47,3 +47,28 @@ function openLogIn() {
     }
 }
 
+function ToggleRadio() {
+    var RadioButtons = document.getElementsByName("RadioPhotoBtn");
+    var checked, i;
+    var filebox = document.getElementById("file");
+    var inputbox = document.getElementById("url");
+
+    for (i = 0; i < RadioButtons.length; i++) {
+        if (RadioButtons[i].checked) {
+            checked = RadioButtons[i].value;
+        }
+    }
+
+    if (checked == "FromFile") {
+        filebox.style.display = "block";
+        inputbox.style.display = "none";
+    }
+    else if (checked == "FromURL") {
+        filebox.style.display = "none";
+        inputbox.style.display = "block";
+    }
+    else {
+        filebox.style.display = "none";
+        inputbox.style.display = "none";
+    }
+}

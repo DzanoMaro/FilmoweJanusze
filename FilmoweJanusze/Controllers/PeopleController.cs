@@ -154,9 +154,11 @@ namespace FilmoweJanusze.Controllers
             { 
                 if (image != null)
                 {
+                    /* TODO
                     people.FaceMimeType = image.ContentType;
                     people.FacePhoto = new byte[image.ContentLength];
                     image.InputStream.Read(people.FacePhoto, 0, image.ContentLength);
+                    */
                 }
 
                 db.Peoples.Add(people);
@@ -191,7 +193,7 @@ namespace FilmoweJanusze.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "User, Admin")]
-        public ActionResult Edit(int? id, HttpPostedFileBase image)
+        public ActionResult Edit(int? id, string RadioPhotoBtn, string UrlPath, HttpPostedFileBase image)
         {
             //[Bind(Include = "PeopleID,FirstName,LastName,Birthdate,Birthplace,Height,Biography,FacePhoto,FaceMimeType")] People people
 
@@ -206,15 +208,48 @@ namespace FilmoweJanusze.Controllers
             {
                 try
                 {
-                    //CheckBirthday(people.Birthdate);
-
                     if (ModelState.IsValid)
                     {
-                        if (image != null)
+                        if(!String.IsNullOrEmpty(RadioPhotoBtn))
                         {
-                            people.FaceMimeType = image.ContentType;
-                            people.FacePhoto = new byte[image.ContentLength];
-                            image.InputStream.Read(people.FacePhoto, 0, image.ContentLength);
+                            switch (RadioPhotoBtn)
+                            { 
+                                case "FromFile":
+                                    if (image != null)
+                                    {
+                                        string root = Server.MapPath("~/");
+                                        string folder = "/Images/PeopleFaces/";
+                                        string name = people.FirstName+people.LastName;
+                                        string ext = System.IO.Path.GetExtension(image.FileName);
+
+                                        //tworzy folder
+                                        System.IO.Directory.CreateDirectory(root + folder);
+
+                                        //ścieżka lokalna root jako Projekt
+                                        people.PhotoURL = folder + name + ext;
+                                        //zapisanie zdjecia wg sciezki do konkretnego miejsca na dysku
+                                        image.SaveAs(root + folder + name + ext);
+                                    }
+                                    break;
+                                case "FromURL":
+                                    if (!String.IsNullOrEmpty(UrlPath))
+                                    {
+                                        DeleteOldFile(people.PhotoURL);
+                                        people.PhotoURL = UrlPath;
+                                    }
+                                    break;
+                                case "None":
+                                    DeleteOldFile(people.PhotoURL);
+                                    people.PhotoURL = NoContentPhoto;
+                                    break;
+                                default:
+                                    people.PhotoURL = IfEmptySetEmptyPhoto(people.PhotoURL);
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            people.PhotoURL = IfEmptySetEmptyPhoto(people.PhotoURL);
                         }
 
                         if (people.Proffesion.Actor == false && people.Proffesion.Director == false && people.Proffesion.Scenario == false)
@@ -266,7 +301,7 @@ namespace FilmoweJanusze.Controllers
             /*
             People people = db.Peoples.Find(id);
             */
-            IQueryable actorroles = db.ActorRoles.Where(a => a.PeopleID == id);
+                            IQueryable actorroles = db.ActorRoles.Where(a => a.PeopleID == id);
             foreach (ActorRole a in actorroles)
                 db.ActorRoles.Remove(a);
 
@@ -288,6 +323,7 @@ namespace FilmoweJanusze.Controllers
 
         public FileContentResult GetImage(int peopleId)
         {
+            /* TODO
             People people = db.Peoples.FirstOrDefault(p => p.PeopleID == peopleId);
             if (people != null)
             {
@@ -295,8 +331,10 @@ namespace FilmoweJanusze.Controllers
             }
             else
             {
-                return null;
+                
             }
+            */
+            return null;
         }
 
         /* ZASTAPIONE ATRYBUTEM
@@ -327,5 +365,5 @@ namespace FilmoweJanusze.Controllers
                 ModelState.AddModelError("Birthdate", "Data urodzenia nie może być z przyszłości");
         }
         */
-    }
+        }
 }

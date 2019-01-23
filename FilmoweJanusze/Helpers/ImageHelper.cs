@@ -31,8 +31,6 @@ namespace FilmoweJanusze.Helpers
             var figure = new TagBuilder("figure");
             var img = new TagBuilder("img");
 
-            var returnstring = "";
-
             // Add attributes
             img.MergeAttribute("src", src);
             img.MergeAttributes(new RouteValueDictionary(htmlAttributes));
@@ -41,15 +39,13 @@ namespace FilmoweJanusze.Helpers
             {
                 var anchor = new TagBuilder("a");
                 anchor.Attributes["href"] = actionurl;
-                returnstring = figure.ToString(TagRenderMode.StartTag) + anchor.ToString(TagRenderMode.StartTag) + img.ToString(TagRenderMode.SelfClosing) + anchor.ToString(TagRenderMode.EndTag) + figure.ToString(TagRenderMode.EndTag);
+                return MvcHtmlString.Create(figure.ToString(TagRenderMode.StartTag) + anchor.ToString(TagRenderMode.StartTag) + img.ToString(TagRenderMode.SelfClosing) + anchor.ToString(TagRenderMode.EndTag) + figure.ToString(TagRenderMode.EndTag));
             }
             else
             {
-                returnstring = figure.ToString(TagRenderMode.StartTag) + img.ToString(TagRenderMode.SelfClosing) + figure.ToString(TagRenderMode.EndTag);
+                return MvcHtmlString.Create(figure.ToString(TagRenderMode.StartTag) + img.ToString(TagRenderMode.SelfClosing) + figure.ToString(TagRenderMode.EndTag));
             }
-             
-            // Render tag
-            return MvcHtmlString.Create(returnstring);
+            
         }
 
 
