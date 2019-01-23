@@ -43,13 +43,16 @@ namespace FilmoweJanusze.Models
         [DataType(DataType.MultilineText)]
         public string Biography { get; set; }
 
+        /*
         [Display(Name = "Zdjęcie")]
         public byte[] FacePhoto { get; set; }
         [HiddenInput(DisplayValue = false)]
         public string FaceMimeType { get; set; }
+        */
 
-
-        
+        [Display(Name = "Zdjęcie")]
+        [DataType(DataType.Url)]
+        public string PhotoURL { get; set; }
 
         [Display(Name = "Imię i nazwisko")]
         public string FullName

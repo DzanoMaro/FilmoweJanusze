@@ -137,7 +137,10 @@ namespace FilmoweJanusze.Controllers
         [Authorize(Roles = "User, Admin")]
         public ActionResult Create()
         {
-            return View();
+            People people = new People();
+            people.PhotoURL = String.Empty;
+            people.Birthdate = DateTime.Today;
+            return View(people);
         }
 
         // POST: People/Create
@@ -146,18 +149,50 @@ namespace FilmoweJanusze.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "User, Admin")]
-        public ActionResult Create([Bind(Include = "PeopleID,FirstName,LastName,Birthdate,Birthplace,Height,Biography,Proffesion,FacePhoto,FaceMimeType")] People people, HttpPostedFileBase image)
+        public ActionResult Create([Bind(Include = "PeopleID,FirstName,LastName,Birthdate,Birthplace,Height,Biography,Proffesion,PhotoURL")] People people, string RadioPhotoBtn, string UrlPath, HttpPostedFileBase image)
         {
             //CheckBirthday(people.Birthdate);
 
             if (ModelState.IsValid)
-            { 
-                if (image != null)
-                {
-                    people.FaceMimeType = image.ContentType;
-                    people.FacePhoto = new byte[image.ContentLength];
-                    image.InputStream.Read(people.FacePhoto, 0, image.ContentLength);
+            {
+                /* DELETED
+                 * if (image != null) {
+                people.FaceMimeType = image.ContentType;
+                people.FacePhoto = new byte[image.ContentLength];
+                image.InputStream.Read(people.FacePhoto, 0, image.ContentLength);
                 }
+                */
+                if (!String.IsNullOrEmpty(RadioPhotoBtn))
+                {
+                    switch (RadioPhotoBtn)
+                    {
+                        case "FromFile":
+                            if (image != null)
+                                people.PhotoURL = SaveNewFile("PeopleFaces", people.FullName, image);
+                            else
+                                people.PhotoURL = IfEmptySetEmptyPhoto(people.PhotoURL);
+                            break;
+                        case "FromURL":
+                            if (!String.IsNullOrEmpty(UrlPath))
+                            {
+                                DeleteOldFile(people.PhotoURL);
+                                people.PhotoURL = UrlPath;
+                            }
+                            break;
+                        case "None":
+                            DeleteOldFile(people.PhotoURL);
+                            people.PhotoURL = NoContentPhoto;
+                            break;
+                        default:
+                            people.PhotoURL = IfEmptySetEmptyPhoto(people.PhotoURL);
+                            break;
+                    }
+                }
+                else
+                {
+                    people.PhotoURL = IfEmptySetEmptyPhoto(people.PhotoURL);
+                }
+                
 
                 db.Peoples.Add(people);
                 db.SaveChanges();
@@ -191,7 +226,7 @@ namespace FilmoweJanusze.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "User, Admin")]
-        public ActionResult Edit(int? id, HttpPostedFileBase image)
+        public ActionResult Edit(int? id, string RadioPhotoBtn, string UrlPath, HttpPostedFileBase image)
         {
             //[Bind(Include = "PeopleID,FirstName,LastName,Birthdate,Birthplace,Height,Biography,FacePhoto,FaceMimeType")] People people
 
@@ -202,19 +237,41 @@ namespace FilmoweJanusze.Controllers
             var people = db.Peoples.Include(p => p.Proffesion).Where(p => p.PeopleID == id).Single();
             ViewBag.Name = people.FullName;
 
-            if (TryUpdateModel(people, "", new string[] { "PeopleID","FirstName","LastName","Birthdate","Birthplace","Height","Biography","Proffesion","FacePhoto","FaceMimeType" }))
+            if (TryUpdateModel(people, "", new string[] { "PeopleID","FirstName","LastName","Birthdate","Birthplace","Height","Biography","Proffesion","PhotoURL" }))
             {
                 try
                 {
-                    //CheckBirthday(people.Birthdate);
-
                     if (ModelState.IsValid)
                     {
-                        if (image != null)
+                        if(!String.IsNullOrEmpty(RadioPhotoBtn))
                         {
-                            people.FaceMimeType = image.ContentType;
-                            people.FacePhoto = new byte[image.ContentLength];
-                            image.InputStream.Read(people.FacePhoto, 0, image.ContentLength);
+                            switch (RadioPhotoBtn)
+                            { 
+                                case "FromFile":
+                                    if (image != null)
+                                        people.PhotoURL = SaveNewFile("PeopleFaces", people.FullName, image);
+                                    else
+                                        people.PhotoURL = IfEmptySetEmptyPhoto(people.PhotoURL);
+                                    break;
+                                case "FromURL":
+                                    if (!String.IsNullOrEmpty(UrlPath))
+                                    {
+                                        DeleteOldFile(people.PhotoURL);
+                                        people.PhotoURL = UrlPath;
+                                    }
+                                    break;
+                                case "None":
+                                    DeleteOldFile(people.PhotoURL);
+                                    people.PhotoURL = NoContentPhoto;
+                                    break;
+                                default:
+                                    people.PhotoURL = IfEmptySetEmptyPhoto(people.PhotoURL);
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            people.PhotoURL = IfEmptySetEmptyPhoto(people.PhotoURL);
                         }
 
                         if (people.Proffesion.Actor == false && people.Proffesion.Director == false && people.Proffesion.Scenario == false)
@@ -266,7 +323,7 @@ namespace FilmoweJanusze.Controllers
             /*
             People people = db.Peoples.Find(id);
             */
-            IQueryable actorroles = db.ActorRoles.Where(a => a.PeopleID == id);
+                            IQueryable actorroles = db.ActorRoles.Where(a => a.PeopleID == id);
             foreach (ActorRole a in actorroles)
                 db.ActorRoles.Remove(a);
 
@@ -288,6 +345,7 @@ namespace FilmoweJanusze.Controllers
 
         public FileContentResult GetImage(int peopleId)
         {
+            /* TODO
             People people = db.Peoples.FirstOrDefault(p => p.PeopleID == peopleId);
             if (people != null)
             {
@@ -295,8 +353,10 @@ namespace FilmoweJanusze.Controllers
             }
             else
             {
-                return null;
+                
             }
+            */
+            return null;
         }
 
         /* ZASTAPIONE ATRYBUTEM
@@ -327,5 +387,5 @@ namespace FilmoweJanusze.Controllers
                 ModelState.AddModelError("Birthdate", "Data urodzenia nie może być z przyszłości");
         }
         */
-    }
+        }
 }

@@ -33,7 +33,7 @@ section {
 
 .valid {
     border: 1px solid #33cc33;
-    background-color: #99ff99;
+    background-color: initial;
 }
 
 /* Pudełka filmów */

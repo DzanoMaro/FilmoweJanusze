@@ -26,30 +26,29 @@ namespace FilmoweJanusze.Helpers
 
         public static MvcHtmlString Image(this HtmlHelper helper, string src, string actionurl, object htmlAttributes)
         {
-
-            // Create tag builder
-            var figure = new TagBuilder("figure");
-            var img = new TagBuilder("img");
-
-            var returnstring = "";
-
-            // Add attributes
-            img.MergeAttribute("src", src);
-            img.MergeAttributes(new RouteValueDictionary(htmlAttributes));
-
-            if (!String.IsNullOrEmpty(actionurl))
+            if (!String.IsNullOrEmpty(src))
             {
-                var anchor = new TagBuilder("a");
-                anchor.Attributes["href"] = actionurl;
-                returnstring = figure.ToString(TagRenderMode.StartTag) + anchor.ToString(TagRenderMode.StartTag) + img.ToString(TagRenderMode.SelfClosing) + anchor.ToString(TagRenderMode.EndTag) + figure.ToString(TagRenderMode.EndTag);
+                // Create tag builder
+                var figure = new TagBuilder("figure");
+                var img = new TagBuilder("img");
+
+                // Add attributes
+                img.MergeAttribute("src", src);
+                img.MergeAttributes(new RouteValueDictionary(htmlAttributes));
+
+                if (!String.IsNullOrEmpty(actionurl))
+                {
+                    var anchor = new TagBuilder("a");
+                    anchor.Attributes["href"] = actionurl;
+                    return MvcHtmlString.Create(figure.ToString(TagRenderMode.StartTag) + anchor.ToString(TagRenderMode.StartTag) + img.ToString(TagRenderMode.SelfClosing) + anchor.ToString(TagRenderMode.EndTag) + figure.ToString(TagRenderMode.EndTag));
+                }
+                else
+                {
+                    return MvcHtmlString.Create(figure.ToString(TagRenderMode.StartTag) + img.ToString(TagRenderMode.SelfClosing) + figure.ToString(TagRenderMode.EndTag));
+                }
             }
-            else
-            {
-                returnstring = figure.ToString(TagRenderMode.StartTag) + img.ToString(TagRenderMode.SelfClosing) + figure.ToString(TagRenderMode.EndTag);
-            }
-             
-            // Render tag
-            return MvcHtmlString.Create(returnstring);
+            else return MvcHtmlString.Empty;
+
         }
 
 
