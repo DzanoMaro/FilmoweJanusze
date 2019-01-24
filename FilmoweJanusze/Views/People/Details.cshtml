@@ -214,8 +214,8 @@
                                         lastproductionyear = cast.Movie.ProductionYear;
                                     }
                                 </div>
-                                <div class="poster col-xs-2">
-                                    @Html.Image(cast.Movie.PhotoURL, Url.Action("Details", "Movies", new { id = cast.MovieID }), new { @class = "img-responsive poster" })
+                                <div class="col-xs-2">
+                                    @Html.Image(cast.Movie.PhotoURL, Url.Action("Details", "Movies", new { id = cast.MovieID }), new { @class = "img-responsive postermin" })
                                 </div>
                                 <div class="col-xs-3">
                                     @Html.ActionLink(Html.DisplayFor(modelItem => cast.Movie.Title).ToString(), "Details", "Movies", new { id = cast.MovieID }, null)
@@ -286,21 +286,23 @@
                         foreach (var movie in Model.DirectedMovies)
                         {
                             <div class="cast row">
-                                <div class="col-xs-1 col-md-offset-1">
-                                    @if (lastproductionyear != movie.ProductionYear)
-                                    {
-                                        @movie.ProductionYear
-                                        lastproductionyear = movie.ProductionYear;
-                                    }
-                                </div>
-                                <div class="poster col-xs-2">
-                                    @Html.Image(movie.PhotoURL, Url.Action("Details", "Movies", new { id = movie.MovieID }), new { @class = "img-responsive poster" })
-                                </div>
-                                <div class="col-xs-2">
-                                    @Html.ActionLink(Html.DisplayFor(modelItem => movie.Title).ToString(), "Details", "Movies", new { id = movie.MovieID }, null)
-                                    <br />
-                                    @Html.DisplayFor(modelitem => movie.TitlePL)
-                                </div>
+                                <a href="@Url.Action("Details", "Movies", new { id = movie.MovieID })" class="nodecoration">
+                                    <div class="col-xs-1 col-md-offset-1">
+                                        @if (lastproductionyear != movie.ProductionYear)
+                                        {
+                                            @movie.ProductionYear
+                                            lastproductionyear = movie.ProductionYear;
+                                        }
+                                    </div>
+                                    <div class="col-xs-2">
+                                        @Html.Image(movie.PhotoURL, Url.Action("Details", "Movies", new { id = movie.MovieID }), new { @class = "img-responsive postermin" })
+                                    </div>
+                                    <div class="col-xs-2">
+                                        @Html.DisplayFor(modelItem => movie.Title)
+                                        <br />
+                                        @Html.DisplayFor(modelitem => movie.TitlePL)
+                                    </div>
+                                </a>
                             </div>
                         }
                     }

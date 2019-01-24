@@ -18,7 +18,7 @@
         </dt>
         
         <dd>
-            @Html.Image(Model.PhotoURL, new { @class = "img-responsive img-thumbnail" })
+            @Html.Image(Model.PhotoURL, new { @class = "poster img-responsive img-thumbnail" })
         </dd>
 
         <dt>
@@ -55,8 +55,10 @@
         @Html.AntiForgeryToken()
 
     <div class="form-actions no-color">
-        <input type="submit" value="Usuń" class="btn btn-default" /> |
-        @Html.ActionLink("Wróć", "Details", new { id = Model.PeopleID })
+        <input type="submit" value="Usuń" class="btn btn-danger" />
+        <button class="btn btn-default">
+            @Html.ActionLink("Powrót", "Details", new { id = Model.PeopleID }, new { @class = "nodecoration" })
+        </button>
     </div>
     }
 </div>

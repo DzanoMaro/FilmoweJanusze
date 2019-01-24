@@ -4,7 +4,7 @@
 <div class="col-xs-12 col-sm-6 col-md-3 nopadding">
     <div class="tilediv container-fluid">
         <a href="@Url.Action("Details", "Movies", new { id = Model.MovieID })">
-            @Html.Image(Model.PhotoURL, new { @class = "img-responsive" })
+            @Html.Image(Model.PhotoURL, new { @class = "poster img-responsive" })
             <span class="title">
                 @Html.DisplayFor(modelItem => Model.TitleYear).ToString()
             </span>

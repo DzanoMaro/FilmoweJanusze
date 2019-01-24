@@ -25,6 +25,76 @@ section {
     padding-left: 5px;
 }
 
+/* OGÓLNE*/
+.well-jm {
+    min-width: 270px;
+    padding: 9px;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    margin-top: 20px;
+}
+
+.panel-heading:hover {
+    background-color: #eee;
+}
+
+.poster {
+    object-fit: cover;
+    width: 360px;
+    height: 435px;
+}
+
+.postermin {
+    object-fit: cover;
+    width: 120px;
+    height: 160px;
+}
+
+.nopadding {
+    padding: 0;
+}
+
+.nomargin {
+    margin: 0;
+}
+
+.nodecoration {
+    text-decoration: none;
+    display: block;
+    color: inherit;
+}
+
+    .nodecoration:link {
+        text-decoration: none;
+    }
+
+
+.searchbutton {
+    display: block;
+}
+
+.dropdownbutton {
+    margin-top: 15px;
+}
+
+.margintop10 {
+    margin-top: 10px;
+}
+
+.margintop20 {
+    margin-top: 20px;
+}
+
+.width5perc {
+    width: 5%;
+}
+
+.disabled {
+    pointer-events: inherit;
+}
+
 /* WALIDACJA */
 .input-validation-error {
     border: 1px solid #ff0000;
@@ -60,12 +130,6 @@ section {
         opacity: 0.6;
     }
 
-    .tilediv img {
-        object-fit: cover;
-        width: 360px;
-        height: 435px;
-    }
-
     .tilediv a {
         font-size: 16px;
         font-weight: 700;
@@ -81,11 +145,6 @@ section {
             opacity: 1;
         }
 
-.poster {
-    width: 120px;
-    padding-right: 3px;
-}
-
 
 /* OBSADA */
 
@@ -97,9 +156,13 @@ section {
     padding-bottom: 7px;
 }
 
+    .cast:hover {
+        background-color: #f5f5f596;
+    }
+
     .cast:first-child {
         border-top: 0;
-        padding-top: 0;
+
     }
 
     .cast div {
@@ -111,61 +174,6 @@ section {
     bottom: 0;
 }
 
-
-/* OGÓLNE*/
-
-.well-jm {
-    min-width: 270px;
-    padding: 9px;
-    background-color: #f5f5f5;
-    border: 1px solid #e3e3e3;
-    border-radius: 4px;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
-    margin-top: 20px;
-}
-
-.nopadding {
-    padding: 0;
-}
-
-.nomargin {
-    margin:0;
-}
-
-.nodecoration {
-    text-decoration: none;
-    display: block;
-    color:inherit;
-}
-
-    .nodecoration:link {
-        text-decoration: none;
-    }
-
-
- .searchbutton{
-     display: block;
- }
-
-.dropdownbutton{
-    margin-top: 15px;
-}
-
-.margintop10 {
-    margin-top: 10px;
-}
-
-.margintop20{
-    margin-top: 20px;
-}
-
-.width5perc {
-    width: 5%;
-}
-
-.disabled{
-    pointer-events: inherit;
-}
 
 /* Filtracja i sortowanie */
 .sortfilter select {

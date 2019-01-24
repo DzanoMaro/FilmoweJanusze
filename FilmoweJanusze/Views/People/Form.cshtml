@@ -64,7 +64,7 @@
     @Html.LabelFor(model => model.PhotoURL, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
 
-        @Html.Image(Model.PhotoURL)
+        @Html.Image(Model.PhotoURL, new { @class = "poster img-responsive img-thumbnail"})
 
         <label class="radio-inline" onchange="ToggleRadio()">@Html.RadioButton("RadioPhotoBtn", "FromFile") Z pliku</label>
         <label class="radio-inline" onchange="ToggleRadio()">@Html.RadioButton("RadioPhotoBtn", "FromURL") Ze ścieżki</label>

@@ -269,15 +269,15 @@
             <div class="clearfix"></div>
         </div>
         <div id="coll_cast" class="panel-collapse collapse @coll_cast_in">
-            <div class="panel-body">
+            <div class="panel-body nopadding">
                 @if (Model.Cast.Count != 0)
                 {
                     bool first = true;
                     foreach (var cast in Model.Cast)
                     {
-                        <div class="cast row">
-                            <div class="poster col-xs-2 col-md-offset-1 col-lg-offset-2">
-                                @Html.Image(cast.People.PhotoURL, Url.Action("Details", "People", new { id = cast.PeopleID }), new { @class = "img-responsive poster" })
+                        <div class="cast container-fluid">
+                            <div class="col-xs-2 col-md-offset-1 col-lg-offset-2">
+                                @Html.Image(cast.People.PhotoURL, Url.Action("Details", "People", new { id = cast.PeopleID }), new { @class = "img-responsive postermin" })
                             </div>
                             <div class="col-xs-2">
                                 @Html.ActionLink(Html.DisplayFor(modelItem => cast.People.FullName).ToString(), "Details", "People", new { id = cast.PeopleID }, null)
