@@ -8,8 +8,8 @@
 }
 
 <!--NAGŁÓWEK-->
-<div class="page-header well-jm">
-    <div class="col-xs-11">
+<div class="page-header well-jm realative">
+    <div class="col-xs-10 col-sm-11 nopadding">
         <h3>Galeria zdjęć</h3>
         @if (ViewBag.MovieID != null)
         {
@@ -23,8 +23,8 @@
 
     @if (User.IsInRole("User") || User.IsInRole("Admin"))
     {
-        <div class="dropdown col-xs-1 dropdownbutton">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        <div class="col-xs-2 col-sm-1">
+            <button type="button" class="btn btn-default dropdown-toggle dropdownbutton margintop20" data-toggle="dropdown">
                 <i class="glyphicon glyphicon-menu-down"></i>
             </button>
             <ul class="dropdown-menu">

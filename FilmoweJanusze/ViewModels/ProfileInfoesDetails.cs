@@ -21,9 +21,9 @@ namespace FilmoweJanusze.ViewModels
         [Display(Name = "Ostatnio edytowane filmy")]
         public ICollection<Movie> LastEditedMovies { get; set; }
 
-        [Display(Name = "Utworzeni ludzie filmu")]
+        [Display(Name = "Utworzeni ludzie kina")]
         public ICollection<People> CreatedPeoples { get; set; }
-        [Display(Name = "Ostatnio edytowani ludzie filmu")]
+        [Display(Name = "Ostatnio edytowani ludzie kina")]
         public ICollection<People> LastEditedPeoples { get; set; }
     }
 }

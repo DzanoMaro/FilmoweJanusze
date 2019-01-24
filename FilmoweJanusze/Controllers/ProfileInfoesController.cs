@@ -35,6 +35,7 @@ namespace FilmoweJanusze.Controllers
 
             ViewBag.CurrentUserID = User.Identity.GetUserId();
             profileInfoesDetails.RatedMovies = db.UserRates.Include(u=>u.Movie).Where(u => u.User.Id == profileInfoesDetails.ProfileInfo.User.Id && u.MovieID != null).ToList();
+            profileInfoesDetails.RatedPeoples = db.UserRates.Include(u => u.People).Where(u => u.User.Id == profileInfoesDetails.ProfileInfo.User.Id && u.PeopleID != null).ToList();
 
             return View(profileInfoesDetails);
         }
