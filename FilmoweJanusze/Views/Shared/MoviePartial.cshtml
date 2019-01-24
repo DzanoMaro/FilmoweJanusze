@@ -1,59 +1,13 @@
 ﻿@model FilmoweJanusze.Models.Movie
 @using FilmoweJanusze.Helpers
 
-<div class="col-sm-12 col-md-4 nopadding">
-    <div class="moviediv">
-        <table class="table-responsive">
-            <tr>
-                <td rowspan="5" class="poster">
-                    @Html.Image(Model.PhotoURL, Url.Action("Details", "Movies", new { id = Model.MovieID }), new { @class = "img-responsive" })
-                    <!--
-                        if (Model.Poster != null)
-                        {
-                            Html.Image(Url.Action("GetImage", "Movies", new { Model.MovieID }), Url.Action("Details", "Movies", new { id = Model.MovieID }), new { class = "img-responsive" })
-                        }
-                        else
-                        {
-                            Html.Image("/Images/Brak_zdjecia.png", Url.Action("Details", "Movies", new { id = Model.MovieID }), new { class = "img-responsive" })
-                        }
-                            -->
-                </td>
-                <td colspan="2">
-                    <h4>@Html.ActionLink(Html.DisplayFor(modelItem => Model.TitleYear).ToString(), "Details", "Movies", new { id = Model.MovieID }, null)</h4>
-                    <h5>@Html.DisplayFor(modelItem => Model.TitlePL)</h5>
-                </td>
-            </tr>
-            @if (Model.DurationTime != null && !Model.DurationTime.ToShortTimeString().Contains("00:00"))
-            {
-                <tr>
-                    <td>@Html.DisplayNameFor(modelItem => Model.DurationTime)</td>
-                    <td>@Html.DisplayFor(modelItem => Model.DurationTime)</td>
-                </tr>
-            }
-            @if (Model.ReleaseDate != null)
-            {
-                <tr>
-                    <td>@Html.DisplayNameFor(modelItem => Model.ReleaseDate)</td>
-                    <td>@Html.DisplayFor(modelItem => Model.ReleaseDate)</td>
-                </tr>
-            }
-            @if (Model.Genre != null)
-            {
-                if (Model.Genre.Count() > 0)
-                {
-                    <tr>
-                        <td>@Html.DisplayNameFor(modelItem => Model.Genre)</td>
-                        <td>@Html.DisplayFor(modelItem => Model.Genre)</td>
-                    </tr>
-                }
-            }
-            @if (Model.CountryProduction != null)
-            {
-                <tr>
-                    <td>@Html.DisplayNameFor(modelItem => Model.CountryProduction)</td>
-                    <td>@Html.DisplayFor(modelItem => Model.CountryProduction)</td>
-                </tr>
-            }
-        </table>
+<div class="col-xs-12 col-sm-6 col-md-3 nopadding">
+    <div class="tilediv container-fluid">
+        <a href="@Url.Action("Details", "Movies", new { id = Model.MovieID })">
+            @Html.Image(Model.PhotoURL, new { @class = "img-responsive" })
+            <span class="title">
+                @Html.DisplayFor(modelItem => Model.TitleYear).ToString()
+            </span>
+        </a>
     </div>
 </div>    

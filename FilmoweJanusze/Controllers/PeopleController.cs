@@ -27,11 +27,11 @@ namespace FilmoweJanusze.Controllers
             ViewBag.SortParam = new SelectList(new[] { "Nazwisko", "Imię", "Data urodzenia" }, sortParam);
             ViewBag.SortOrder = new SelectList(new[] { "Rosnąco", "Malejąco" }, sortOrder);
             ViewBag.Proffesion = new SelectList(new[] { "Aktor", "Reżyser", "Scenarzysta"}, proffesion);
-            ViewBag.PageSize = new SelectList(new[] { 3, 5, 10, 15 }, pageSize);
+            ViewBag.PageSize = new SelectList(new[] { 4, 8, 12, 20 }, pageSize);
 
-            int pagesize = (pageSize ?? 10);
+            int pagesize = (pageSize ?? 8);
             int pageNumber = (page ?? 1);
-
+            
             switch(proffesion)
             {
                 case "Aktor":

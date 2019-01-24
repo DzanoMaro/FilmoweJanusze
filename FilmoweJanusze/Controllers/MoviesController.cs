@@ -101,9 +101,9 @@ namespace FilmoweJanusze.Controllers
             ViewBag.SortOrder = new SelectList(new[] { "Rosnąco", "Malejąco" }, sortOrder);
             ViewBag.Genre = new SelectList(new[] { "Akcja", "Animowany", "Biograficzny", "Dokumentalny", "Dramat", "Familijny", "Fantasy", "Horror", "Komedia", "Krótkometrażowy", "Kryminalny", "Melodramat", "Musical", "Muzyczny", "Przygodowy", "Romans", "Sci-Fi", "Thriller" },genre);
             ViewBag.CountryProduction = new SelectList(CountryList(), countryProduction);
-            ViewBag.PageSize = new SelectList(new[] { 3, 5, 10, 15 }, pageSize);
+            ViewBag.PageSize = new SelectList(new[] { 4, 8, 12, 20 }, pageSize);
 
-            int pagesize = (pageSize ?? 10);
+            int pagesize = (pageSize ?? 8);
             int pageNumber = (page ?? 1);
 
             if (!String.IsNullOrEmpty(countryProduction))

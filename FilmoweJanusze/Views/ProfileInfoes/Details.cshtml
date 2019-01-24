@@ -1,8 +1,10 @@
 ﻿@model FilmoweJanusze.ViewModels.ProfileInfoesDetails
+@using FilmoweJanusze.Models
 
 @{
     ViewBag.Title = "Profil użytkownika " + Model.ProfileInfo.User.UserName;
 
+    int tilesPerRow = 4;
     string coll_ratedmovies_in = null;
 
     if (Model.RatedMovies.Count() > 0)
@@ -79,7 +81,7 @@
             </h4>
         </div>
         <div id="coll_ratedmovies" class="panel-collapse collapse @coll_ratedmovies_in">
-            <div class="panel-body container-fluid ">
+            <div class="panel-body container-fluid nopadding">
                 @if (Model.RatedMovies.Count() > 0)
                 {
                     <div id="RatedMoviesCarousel" class="container-fluid nopadding carousel slide" data-ride="carousel">
@@ -87,17 +89,16 @@
                             <div class="item active">
                                 @for (var i = 0; i < Model.RatedMovies.Count(); i++)
                                 {
-                                    var item = Model.RatedMovies.ElementAt(i);
-                                    if (i % 3 == 0 && i != 0)
+                                    if (i % tilesPerRow == 0 && i != 0)
                                     {
                                     @:</div><div class="item">
                                     }
-                                    //Html.RenderPartial("MoviePartial", item.Movie);
+                                    Html.RenderPartial("MoviePartial", Model.RatedMovies.ElementAt(i).Movie);
                                 }
                             </div>
                         </div>
 
-                        @if (Model.RatedMovies.Count() > 3)
+                        @if (Model.RatedMovies.Count() > tilesPerRow)
                         {
                             <!-- Left and right controls -->
                             <a class="left carousel-control width5perc" href="#RatedMoviesCarousel" data-slide="prev">
@@ -119,3 +120,5 @@
         </div>
     </div>
 </div>
+
+

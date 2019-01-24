@@ -36,68 +36,56 @@ section {
     background-color: initial;
 }
 
-/* Pudełka filmów */
-.moviediv {
-    min-width: 270px;
+/* KAFELKI */
+.tilediv {
+    width: 100%;
+    min-width: 235px;
+    max-width: 362px;
     min-height: 210px;
-    padding: 5px;
+    padding: 0;
     border: 1px solid #eee;
-    margin: 2px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    position: relative;
 }
 
-    .moviediv table{
-        text-align: justify;
-        padding: 5px;
-        border: 0;
+    .tilediv .title {
+        position: absolute;
+        top: 5px;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        padding: 5px 10px;
+        background-color: black;
+        opacity: 0.6;
     }
 
-    .moviediv td {
-        text-align: left;
-        min-width: 95px;
-        max-height: 94px;
-        padding: 2px;
+    .tilediv img {
+        object-fit: cover;
+        width: 360px;
+        height: 435px;
     }
 
-    .moviediv h4>a {
-        text-decoration: none;
+    .tilediv a {
+        font-size: 16px;
         font-weight: 700;
+        color: sandybrown;
+        text-decoration: none;
+        opacity: 1;
     }
 
+    .tilediv:hover {
+        opacity: 0.8;
+    }
+        .tilediv:hover .title {
+            opacity: 1;
+        }
 
 .poster {
     width: 120px;
     padding-right: 3px;
 }
 
-/* Pudełka ludzi */
-
-.peoplediv {
-    min-width: 270px;
-    height: 150px;
-    padding: 5px;
-    border: 1px solid #eee;
-    margin: 2px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
-
-    .peoplediv table {
-        text-align: justify;
-        padding: 5px;
-        border: 0;
-    }
-
-    .peoplediv td {
-        text-align: left;
-        min-width: 95px;
-        max-height: 94px;
-        padding: 2px;
-    }
-
-    .peoplediv h4 > a {
-        text-decoration: none;
-        font-weight: 700;
-    }
 
 /* OBSADA */
 

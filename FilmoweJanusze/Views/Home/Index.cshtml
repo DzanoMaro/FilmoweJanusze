@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Strona główna";
+    int tilesPerRow = 4;
 }
 
 <!--LATEST RELEASED-->
@@ -19,7 +20,7 @@
                     @for (var i = 0; i < Model.LatestReleased.Count(); i++)
                     {
                         var item = Model.LatestReleased.ElementAt(i);
-                        if (i % 3 == 0 && i!=0)
+                        if (i % tilesPerRow == 0 && i!=0)
                         {
                             @:</div><div class="item">
                         }
@@ -28,7 +29,7 @@
                 </div>
             </div>
 
-            @if(Model.LatestReleased.Count() > 3)
+            @if(Model.LatestReleased.Count() > tilesPerRow)
             {
                 <!-- Left and right controls -->
                 <a class="left carousel-control width5perc" href="#LatestReleasedCarousel" data-slide="prev">
@@ -62,7 +63,7 @@
                     @for (var i = 0; i < Model.NotYetReleased.Count(); i++)
                     {
                         var item = Model.NotYetReleased.ElementAt(i);
-                        if (i % 3 == 0 && i != 0)
+                        if (i % tilesPerRow == 0 && i != 0)
                         {
                         @:</div><div class="item">
                         }
@@ -71,7 +72,7 @@
                 </div>
             </div>
 
-            @if (Model.NotYetReleased.Count() > 3)
+            @if (Model.NotYetReleased.Count() > tilesPerRow)
             {
                 <!-- Left and right controls -->
                 <a class="left carousel-control width5perc" href="#NotYetReleasedCarousel" data-slide="prev">
@@ -104,7 +105,7 @@
                     @for (var i = 0; i < Model.PeoplesBirthdays.Count(); i++)
                     {
                         var item = Model.PeoplesBirthdays.ElementAt(i);
-                        if (i % 3 == 0 && i != 0)
+                        if (i % tilesPerRow == 0 && i != 0)
                         {
                         @:</div><div class="item">
                         }
@@ -113,7 +114,7 @@
                 </div>
             </div>
 
-            @if (Model.PeoplesBirthdays.Count() > 3)
+            @if (Model.PeoplesBirthdays.Count() > tilesPerRow)
             {
                 <!-- Left and right controls -->
                 <a class="left carousel-control width5perc" href="#PeoplesBirthdaysCarousel" data-slide="prev">

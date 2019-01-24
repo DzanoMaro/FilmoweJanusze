@@ -1,34 +1,13 @@
 ﻿@model FilmoweJanusze.Models.People
 @using FilmoweJanusze.Helpers
 
-<div class="col-sm-12 col-md-4 nopadding">
-    <div class="peoplediv">
-        <table class="table-responsive">
-            <tr>
-                <td rowspan="5" class="poster">
-                    @Html.Image(Model.PhotoURL, Url.Action("Details", "People", new { id = Model.PeopleID }), new { @class = "img-responsive" })
-                </td>
-                <td colspan="2">
-                    <h4>@Html.ActionLink(Html.DisplayFor(modelItem => Model.FullName).ToString(), "Details", "People", new { id = Model.PeopleID }, null)</h4>
-                </td>
-            </tr>
-
-            @if (!String.IsNullOrEmpty(Model.Age))
-            {
-                <tr>
-                    <td>@Html.DisplayNameFor(modelItem => Model.Age)</td>
-                    <td>@Html.DisplayFor(modelItem => Model.Age)</td>
-                </tr>
-            }
-
-            @if (Model.Proffesion != null)
-            {
-                <tr>
-                    <td>@Html.DisplayNameFor(modelItem => Model.Proffesion)</td>
-                    <td>@Html.DisplayFor(modelItem => Model.Proffesion)</td>
-                </tr>
-            }
-
-        </table>
+<div class="col-xs-12 col-sm-6 col-md-3 nopadding">
+    <div class="tilediv container-fluid">
+        <a href="@Url.Action("Details", "People", new { id = Model.PeopleID })">
+            @Html.Image(Model.PhotoURL, new { @class = "img-responsive" })
+            <span class="title">
+                @Html.DisplayFor(modelItem => Model.FullName).ToString()
+            </span>
+        </a>
     </div>
 </div>
