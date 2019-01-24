@@ -1,6 +1,7 @@
 ﻿@model FilmoweJanusze.ViewModels.Found
 @{
     ViewBag.Title = "Wyniki wyszukiwania";
+    int tilesPerRow = 4;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -10,49 +11,35 @@
 @if (Model.Movies.Count() > 0)
 {
     <h4>Znalezione filmy: @Model.Movies.Count()</h4>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Movies.FirstOrDefault().Poster)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Movies.FirstOrDefault().Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Movies.FirstOrDefault().Genre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Movies.FirstOrDefault().ReleaseDate)
-            </th>
 
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model.Movies)
-        {
-            <tr>
-                <td>
-                    @if (item.Poster != null)
+    <div id="MovieCarousel" class="container-fluid nopadding carousel slide" data-ride="carousel" data-interval="0">
+        <div class="carousel-inner">
+            <div class="item active">
+                @for (var i = 0; i < Model.Movies.Count(); i++)
+                {
+                    var item = Model.Movies.ElementAt(i);
+                    if (i % tilesPerRow == 0 && i != 0)
                     {
-                        <div style="float:left;margin-right:20px">
-                            <img width="55" height="75" src="@Url.Action("GetImage", "Movies", new { item.MovieID })" />
-                        </div>
+                    @:</div><div class="item">
                     }
-                </td>
-                <td>
-                    <p>@Html.ActionLink(Html.DisplayFor(modelItem => item.TitleYear).ToString(), "Details","Movies", new { id = item.MovieID },null)</p>
-                    <p>@Html.DisplayFor( m => item.TitlePL)</p>
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.Genre)
-                </td>
-                <td>
-                    @Html.DisplayFor( m => item.ReleaseDate)
-                </td>
-            </tr>
-        }
+                    Html.RenderPartial("MoviePartial", item);
+                }
+            </div>
+        </div>
 
-    </table>
+        @if (Model.Movies.Count() > tilesPerRow)
+        {
+            <!-- Left and right controls -->
+            <a class="left carousel-control width5perc" href="#MovieCarousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control width5perc" href="#MovieCarousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        }
+    </div>
 }
 else
 {
@@ -63,41 +50,34 @@ else
 @if (Model.Peoples.Count() > 0)
 {
     <h4>Znalezioni aktorzy: @Model.Peoples.Count()</h4>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Peoples.FirstOrDefault().FacePhoto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Peoples.FirstOrDefault().FullName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Peoples.FirstOrDefault().Birthdate)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model.Peoples)
-        {
-            <tr>
-                <td>
-                    @if (item.FacePhoto != null)
+    <div id="PeopleCarousel" class="container-fluid nopadding carousel slide" data-ride="carousel" data-interval="0">
+        <div class="carousel-inner">
+            <div class="item active">
+                @for (var i = 0; i < Model.Peoples.Count(); i++)
+                {
+                    var item = Model.Peoples.ElementAt(i);
+                    if (i % tilesPerRow == 0 && i != 0)
                     {
-                        <div style="float:left;margin-right:20px">
-                            <img width="75" height="75" src="@Url.Action("GetImage", "People", new { item.PeopleID })" />
-                        </div>
+                    @:</div><div class="item">
                     }
-                </td>
-                <td>
-                    @Html.ActionLink(Html.DisplayFor(modelItem => item.FullName).ToString(), "Details", "People", new { id = item.PeopleID }, null)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Birthdate)
-                </td>
-            </tr>
-        }
+                    Html.RenderPartial("PeoplePartial", item);
+                }
+            </div>
+        </div>
 
-    </table>
+        @if (Model.Peoples.Count() > tilesPerRow)
+        {
+            <!-- Left and right controls -->
+            <a class="left carousel-control width5perc" href="#PeopleCarousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control width5perc" href="#PeopleCarousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        }
+    </div>
 }
 else
 {
