@@ -1,4 +1,5 @@
 ﻿@model FilmoweJanusze.Models.Photo
+@using  FilmoweJanusze.Helpers
 
 @{
     ViewBag.Title = "Edycja zdjęcia galerii " + ViewBag.Name;
@@ -24,26 +25,29 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
+    <div class="form-horizontal">
 
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.PhotoID)
-    @Html.HiddenFor(model => model.PhotoURL)
-    @Html.HiddenFor(model => model.PhotoThumbURL)
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.PhotoID)
+        @Html.HiddenFor(model => model.PhotoURL)
 
-    <div class="form-group">
-        <img class="col-xs-6 img-responsive" src="@Model.PhotoURL" />
-    </div>
+        <div class="form-group">
+            @Html.Image(Model.PhotoURL,new { @class= "col-xs-6 img-responsive" })
+        </div>
 
-    @Html.Partial("Form")
+        @Html.Partial("Form")
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Zapisz" class="btn btn-primary" />
-            <button type="button" class="btn btn-default">
-                @Html.ActionLink("Anuluj", "Details", "Photo", new { photoID = Model.PhotoID, movieID, peopleID }, new { @class = "nodecoration" })
-            </button>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
+                <button type="button" class="btn btn-default">
+                    @Html.ActionLink("Anuluj", "Details", "Photo", new { photoID = Model.PhotoID, movieID, peopleID }, new { @class = "nodecoration" })
+                </button>
+            </div>
         </div>
     </div>
-</div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }

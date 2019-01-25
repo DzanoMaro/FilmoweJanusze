@@ -159,7 +159,7 @@
                             @foreach (var photo in Model.Photos)
                             {
                                 <div class="col-xs-4 col-md-2 moviegalery">
-                                    @Html.Image(photo.PhotoThumbURL, Url.Action("Details", "Photo", new { peopleID = Model.People.PeopleID, photoID = photo.PhotoID }), new { @class = "img-thumbnail", data_toggle = "tooltip", title = photo.Description })
+                                    @Html.Image(photo.PhotoURL, Url.Action("Details", "Photo", new { peopleID = Model.People.PeopleID, photoID = photo.PhotoID }), new { @class = "img-thumbnail", data_toggle = "tooltip", title = photo.Description })
                                 </div>
                             }
                         </div>

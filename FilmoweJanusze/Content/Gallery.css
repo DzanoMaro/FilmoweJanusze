@@ -47,7 +47,7 @@
     opacity: 0.6;
 }
 
-    .active,
+    .actived,
     .demo:hover {
         opacity: 1;
     }
@@ -69,13 +69,15 @@
     width: inherit;
     margin-left: inherit;
     padding-left: inherit;
+    padding-right: 0;
     list-style: none;
     text-align: center;
 }
 
     .carousel-indicators .active {
-        width: 16.66%;
+        width: 16.66666667%;
         height: inherit;
         margin: inherit;
         background-color: inherit;
     }
+

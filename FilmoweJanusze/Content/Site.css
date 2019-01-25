@@ -103,6 +103,10 @@ section {
     width: 5%;
 }
 
+.minwidth270 {
+    min-width: 270px;
+}
+
 .disabled {
     pointer-events: inherit;
 }
@@ -278,14 +282,12 @@ section {
     cursor: pointer;
 }
 
-.moviegalery {
-    padding: 0;
+.gallerythumb {
+        object-fit: cover;
+    width: 230px;
+    height: 276px;
 }
 
-.moviegalery image
-{
-    max-width: 292.5px;
-}
 
 /* LOGIN POPUP*/
 .form-popup {
@@ -311,3 +313,14 @@ section {
 }
 /* NOWE */
 
+@media only screen and (max-width: 600px) {
+    .gallerythumb {
+        height: 207px;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .gallerythumb {
+        height: 100px;
+    }
+}

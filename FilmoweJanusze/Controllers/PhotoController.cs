@@ -136,13 +136,10 @@ namespace FilmoweJanusze.Controllers
             return View();
         }
 
-        // POST: ActorRoles/Create
-        // Aby zapewnić ochronę przed atakami polegającymi na przesyłaniu dodatkowych danych, włącz określone właściwości, z którymi chcesz utworzyć powiązania.
-        // Aby uzyskać więcej szczegółów, zobacz https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "User,Admin")]
-        public ActionResult Create([Bind(Include = "PhotoID,MovieID,PeopleID,ActorRoleID")] Photo photo, HttpPostedFileBase image, bool? ismovie, bool? ispeople)
+        public ActionResult Create([Bind(Include = "PhotoID,MovieID,PeopleID,ActorRoleID")] Photo photo, string RadioPhotoBtn, string UrlPath, HttpPostedFileBase image, bool? ismovie, bool? ispeople)
         {
             if ((photo.MovieID == null && photo.PeopleID == null) || (photo.MovieID != null && photo.PeopleID != null))
             {
@@ -175,6 +172,35 @@ namespace FilmoweJanusze.Controllers
                 ViewBag.ActorRoleID = new SelectList(db.ActorRoles.Where(p => p.PeopleID == photo.PeopleID).ToList(), "ActorRoleID", "RoleMovie", photo.ActorRoleID);
             }
 
+            if (!String.IsNullOrEmpty(RadioPhotoBtn))
+            {
+                switch (RadioPhotoBtn)
+                {
+                    case "FromFile":
+                        if (image != null)
+                            photo.PhotoURL = SaveNewFile(ViewBag.Name, System.IO.Path.GetFileNameWithoutExtension(image.FileName), image, false);
+                        else
+                            ModelState.AddModelError("", "Nie wybrano zdjęcia do wysłania");
+                        break;
+                    case "FromURL":
+                        if (!String.IsNullOrEmpty(UrlPath))
+                        {
+                            DeleteOldFile(photo.PhotoURL);
+                            photo.PhotoURL = UrlPath;
+                        }
+                        else
+                            ModelState.AddModelError("", "Nie dodano ścieżki do zdjęcia");
+                        break;
+                    default:
+                        ModelState.AddModelError("", "Nie wybrano zdjęcia");
+                        break;
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Nie wybrano zdjęcia");
+            }
+
             if (ModelState.IsValid)
             {
                 if (photo.ActorRoleID!=null)
@@ -184,49 +210,30 @@ namespace FilmoweJanusze.Controllers
                     photo.PeopleID = photo.ActorRole.PeopleID;
                 }
 
-                if (image != null)
-                {
-                    string root = Server.MapPath("~/");
-                    string folder = "/Images/" + ViewBag.Name + "/";
-                    string thumbfolder = "/Images/Thumb/" + ViewBag.Name + "/";
-                    string name = System.IO.Path.GetFileNameWithoutExtension(image.FileName);
-                    string ext = System.IO.Path.GetExtension(image.FileName);
+                //ścieżka lokalna root jako Projekt
                     
-                    //tworzy folder dla oryginału
-                    System.IO.Directory.CreateDirectory(root+folder);
-                    //tworzy folder dla thumbnails
-                    System.IO.Directory.CreateDirectory(root+thumbfolder);
 
-                    //jeśli istnieje już takie zdjęcie
-                    if (System.IO.File.Exists(root + folder + name + ext))
-                    {
-                        return View();
-                    }
+                //nie używam już Thumbnaili, a zapisywanie jest przez metode SaveNewFile
+                //photo.PhotoThumbURL = thumbfolder + named + ext;
+                //zapisanie zdjecia wg sciezki do konkretnego miejsca na dysku
+                //image.SaveAs(root+folder+name+ext);
+                //stworzenie thumbnail
+                //Image thumb = Image.FromStream(image.InputStream, true, true);
+                //SaveCroppedImage(thumb, 300, 400, root+thumbfolder+name+ext);
 
-                    //ścieżka lokalna root jako Projekt
-                    photo.PhotoURL = folder + name + ext;
-                    photo.PhotoThumbURL = thumbfolder + name + ext;
-                    //zapisanie zdjecia wg sciezki do konkretnego miejsca na dysku
-                    image.SaveAs(root+folder+name+ext);
-                    //stworzenie thumbnail
-                    Image thumb = Image.FromStream(image.InputStream, true, true);
-                    SaveCroppedImage(thumb, 300, 400, root+thumbfolder+name+ext);
+                db.Photos.Add(photo);
+                db.SaveChanges();
 
-                    db.Photos.Add(photo);
-                    db.SaveChanges();
-                    TempData["Success"] = "Poprawnie dodano zdjęcie.";
-                    if (ismovie == true)
-                    {
-                        return RedirectToAction("Index", "Photo", new { movieID = photo.MovieID });
-                    }
-                    else if (ispeople == true)
-                    {
-                        return RedirectToAction("Index", "Photo", new { peopleID = photo.PeopleID });
-                    }
-
+                TempData["Success"] = "Poprawnie dodano zdjęcie.";
+                if (ismovie == true)
+                {
+                    return RedirectToAction("Index", "Photo", new { movieID = photo.MovieID });
                 }
-                ViewData["Error"] = "Nie można zapisać, popraw błędy!";
-                return View();
+                else if (ispeople == true)
+                {
+                    return RedirectToAction("Index", "Photo", new { peopleID = photo.PeopleID });
+                }
+
             }
             ViewData["Error"] = "Nie można zapisać, popraw błędy!";
             return View();
@@ -410,12 +417,13 @@ namespace FilmoweJanusze.Controllers
             }
 
             //usuniecie miniaturki z dysku
+            /*
             path = Server.MapPath("~/") + photo.PhotoThumbURL;
             if (System.IO.File.Exists(path))
             {
                 System.IO.File.Delete(path);
             }
-
+            */
             int redirectid = 0;
             if (ismovie == true)
             {

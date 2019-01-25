@@ -1,4 +1,5 @@
 ﻿@model ICollection<FilmoweJanusze.Models.Photo>
+@using FilmoweJanusze.Helpers
 
 @{
     ViewBag.Title = "Galeria zdjęć " + ViewBag.Name;
@@ -37,7 +38,7 @@
 </div>
 
 <!--GALERIA - KARUZELA-->
-<div id="GaleryCarousel" class="carousel slide" data-ride="carousel" data-interval="0">
+<div id="GaleryCarousel" class="carousel slide minwidth270" data-ride="carousel" data-interval="0">
     <div class="carousel-inner">
         <!--ZDJĘCIA-->
         @for (int i = 0; i < Model.Count(); i++)
@@ -52,18 +53,22 @@
 
             <div class="@caruselclass" id="@photo.PhotoID">
                 <div class="numbertext"> @(i + 1)/@Model.Count</div>
-                <img src="@photo.PhotoURL" class="img-responsive center">
+                @Html.Image(photo.PhotoURL, new { @class="img-responsive center" })
             </div>
         }
-        <!-- Left and right controls -->
-        <a class=" left carousel-control" href="#GaleryCarousel" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class=" right carousel-control" href="#GaleryCarousel" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right"></span>
-            <span class="sr-only">Next</span>
-        </a>
+
+        @if(Model.Count() > 1)
+        {
+            <!-- Left and right controls -->
+            <a class=" left carousel-control" href="#GaleryCarousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class=" right carousel-control" href="#GaleryCarousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        }
     </div>
 
     <div class="caption-container margintop10">
@@ -71,16 +76,20 @@
     </div>
 
     <!--MINIATURKI-->
-    <div class="row nomargin carousel-indicators">
+    <div class="container-fluid nomargin carousel-indicators">
         @for (int i = 0; i < Model.Count(); i++)
         {
             var photo = Model.ElementAt(i);
-            var caruselclass = "demo cursor img-responsive column";
+            var caruselclass = "col-xs-2 nopadding";
+            var photoclass = "";
             if (photo.PhotoID == ViewBag.PhotoID)
             {
                 caruselclass += " active";
+                photoclass += " actived";
             }
-            <img class="@caruselclass" data-target="#GaleryCarousel" data-slide-to=@i src="@photo.PhotoThumbURL" alt="@photo.Description">
+            <div class="@caruselclass">
+                <img class="gallerythumb demo cursor img-responsive @photoclass" data-target="#GaleryCarousel" data-slide-to=@i src="@photo.PhotoURL" alt="@photo.Description">
+            </div>
         }
     </div>
 
@@ -123,9 +132,13 @@
         }
 
         function SetCaption() {
-            var dots = document.getElementsByClassName("demo cursor img-responsive column active");
+            var oldimage = document.getElementsByClassName("gallerythumb demo cursor img-responsive actived")[0];
+            oldimage.className = oldimage.className.replace(" actived", "") 
+            var newimage = document.getElementsByClassName("col-xs-2 nopadding active")[0].getElementsByTagName('img')[0];
+            newimage.className += " actived"
+
             var captionText = document.getElementById("caption");
-            captionText.innerHTML = dots[0].alt;
+            captionText.innerHTML = newimage.alt;
         }
     </script>
 

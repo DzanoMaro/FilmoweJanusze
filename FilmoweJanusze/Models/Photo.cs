@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace FilmoweJanusze.Models
 {
+    
     public class Photo
     {
-
         public int PhotoID { get; set; }
         [Display(Name = "Zdjęcie")]
         [DataType(DataType.Url)]
         public string PhotoURL { get; set; }
-        public string PhotoThumbURL { get; set; }
+        //public string PhotoThumbURL { get; set; }
 
         public int? MovieID { get; set; }
         public int? PeopleID { get; set; }

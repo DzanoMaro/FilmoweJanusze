@@ -11,8 +11,54 @@ namespace FilmoweJanusze.Controllers
 {
     public class ExtendedController : Controller
     {
+
+        //REKORDY
         public string NoContentPhoto = "/Images/Brak_zdjecia.png";
 
+
+        //WALIDACJA JSON
+        public JsonResult CheckBirthdate(string Birthdate)
+        {
+            DateTime dateTime = DateTime.Parse(Birthdate);
+     
+            if (dateTime <= DateTime.Today && dateTime.Year >= 1900 )
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public JsonResult CheckMinReleaseDate(string ReleaseDate)
+        {
+            DateTime dateTime = DateTime.Parse(ReleaseDate);
+
+            if (dateTime.Year >= 1900)
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult CheckImageSelected(string RadioPhotoBtn)
+        {
+            if (RadioPhotoBtn == "FromFile")
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        //METODY UŻYTKOWE
         public bool SaveCroppedImage(Image image, int maxWidth, int maxHeight, string filePath)
         {
             //source:https://www.codeproject.com/Tips/683699/%2FTips%2F683699%2FCropping-an-Image-from-Center-i
@@ -93,36 +139,11 @@ namespace FilmoweJanusze.Controllers
             return false;
         }
 
-        public JsonResult CheckBirthdate(string Birthdate)
-        {
-            DateTime dateTime = DateTime.Parse(Birthdate);
-     
-            if (dateTime <= DateTime.Today && dateTime.Year >= 1900 )
-            {
-                return Json(true, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json(false, JsonRequestBehavior.AllowGet);
-            }
-
-        }
-
-        public JsonResult CheckMinReleaseDate(string ReleaseDate)
-        {
-            DateTime dateTime = DateTime.Parse(ReleaseDate);
-
-            if (dateTime.Year >= 1900)
-            {
-                return Json(true, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json(false, JsonRequestBehavior.AllowGet);
-            }
-        }
-
         public string SaveNewFile(string foldername, string filename, HttpPostedFileBase image)
+        {
+            return SaveNewFile(foldername, filename, image, true);
+        }
+        public string SaveNewFile(string foldername, string filename, HttpPostedFileBase image, bool overwite)
         {
             string root = Server.MapPath("~/");
             string folder = "/Images/" + foldername + "/";
@@ -131,6 +152,17 @@ namespace FilmoweJanusze.Controllers
 
             //tworzy folder
             System.IO.Directory.CreateDirectory(root + folder);
+
+            if (System.IO.File.Exists(root + folder + name + ext) && overwite == false)
+            {
+                int i = 0;
+                do
+                {
+                    i++;
+                    name = filename + i.ToString();
+                }
+                while (System.IO.File.Exists(root + folder + name + ext));
+            }
 
             //zapisanie zdjecia wg sciezki do konkretnego miejsca na dysku
             image.SaveAs(root + folder + name + ext);

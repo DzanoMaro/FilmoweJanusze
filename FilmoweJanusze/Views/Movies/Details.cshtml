@@ -184,7 +184,7 @@
 
 <div class="container-fluid nopadding">
     <!--ZWIASTUN-->
-    <div class="panel-group col-lg-6 nopadding">
+    <div class="panel-group nopadding">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
@@ -212,7 +212,7 @@
     </div>
 
     <!--GALERIA-->
-    <div class="panel-group col-lg-6 nopadding">
+    <div class="panel-group nopadding">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
@@ -228,8 +228,8 @@
                         <div class="col-xs-12 nopadding">
                             @foreach (var photo in Model.Photos)
                             {
-                                <div class="col-xs-4 col-md-2 moviegalery">
-                                    @Html.Image(photo.PhotoThumbURL, Url.Action("Details", "Photo", new { movieID = Model.Movie.MovieID, photoID = photo.PhotoID }), new { @class = "img-thumbnail", data_toggle = "tooltip", title = photo.Description })
+                                <div class="col-xs-4 col-md-2 nopadding">
+                                    @Html.Image(photo.PhotoURL, Url.Action("Details", "Photo", new { movieID = Model.Movie.MovieID, photoID = photo.PhotoID }), new { @class = "gallerythumb img-thumbnail", data_toggle = "tooltip", title = photo.Description })
                                 </div>
                             }
                         </div>
