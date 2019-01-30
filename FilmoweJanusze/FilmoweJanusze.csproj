@@ -323,6 +323,10 @@
     <Compile Include="Migrations\201901301223187_ChangeProfileInfo.Designer.cs">
       <DependentUpon>201901301223187_ChangeProfileInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901301245455_UserRate_UserId_changeto_UserID.cs" />
+    <Compile Include="Migrations\201901301245455_UserRate_UserId_changeto_UserID.Designer.cs">
+      <DependentUpon>201901301245455_UserRate_UserId_changeto_UserID.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ActorRole.cs" />
@@ -611,6 +615,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901301223187_ChangeProfileInfo.resx">
       <DependentUpon>201901301223187_ChangeProfileInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901301245455_UserRate_UserId_changeto_UserID.resx">
+      <DependentUpon>201901301245455_UserRate_UserId_changeto_UserID.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

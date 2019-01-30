@@ -13,7 +13,7 @@ namespace FilmoweJanusze.Models
 
         public int? MovieID { get; set; }
         public int? PeopleID { get; set; }
-        public string UserId { get; set; }
+        public string UserID { get; set; }
 
         [Display(Name = "Twoja ocena")]
         [Range(1, 6)]
@@ -27,7 +27,7 @@ namespace FilmoweJanusze.Models
         public Movie Movie { get; set; }
         public People People { get; set; }
 
-        [ForeignKey("UserId")]
+        [ForeignKey("UserID")]
         public ApplicationUser User { get; set; }
     }
 }

@@ -116,7 +116,7 @@ namespace FilmoweJanusze.Controllers
                 ViewBag.PeopleRate = movieandCast.UserRates.Average(ur => ur.Rate);
                 if (ViewBag.UserID != null)
                 {
-                    movieandCast.LoggedInURate = movieandCast.UserRates.FirstOrDefault(ur => ur.UserId == ViewBag.UserID);
+                    movieandCast.LoggedInURate = movieandCast.UserRates.FirstOrDefault(ur => ur.UserID == ViewBag.UserID);
                 }
             }
 

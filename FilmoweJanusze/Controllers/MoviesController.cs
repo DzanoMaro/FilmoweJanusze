@@ -173,7 +173,7 @@ namespace FilmoweJanusze.Controllers
                 ViewBag.PeopleRate = null;
                 if (ViewBag.UserID != null)
                 {
-                    movieandCast.LoggedInURate = movieandCast.UserRates.FirstOrDefault(ur => ur.UserId == ViewBag.UserID);
+                    movieandCast.LoggedInURate = movieandCast.UserRates.FirstOrDefault(ur => ur.UserID == ViewBag.UserID);
                 }
             }
 
