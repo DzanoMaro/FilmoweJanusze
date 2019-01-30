@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using FilmoweJanusze.Models;
+using FilmoweJanusze.ViewModels;
 using reCAPTCHA.MVC;
 
 namespace FilmoweJanusze.Controllers

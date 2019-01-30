@@ -16,8 +16,8 @@ namespace FilmoweJanusze.ViewModels
 
         [Display(Name = "Galeria zdjęć")]
         public ICollection<Photo> Photos { get; set; }
-        public ICollection<ActorRole> Cast { get; set; }
-        public ICollection<Movie> DirectedMovies { get; set; }
+        //public ICollection<ActorRole> Cast { get; set; }
+        //public ICollection<Movie> DirectedMovies { get; set; }
         public ICollection<UserRate> UserRates { get; set; }
     }
 }

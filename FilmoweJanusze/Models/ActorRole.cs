@@ -22,9 +22,8 @@ namespace FilmoweJanusze.Models
         [Display(Name = "Dubbing?")]
         public bool Dubbing { get; set; }
 
-        
-        public virtual People People { get; set; }
-        public virtual Movie Movie { get; set; }
+        public People People { get; set; }
+        public Movie Movie { get; set; }
 
         public string FullRoleName
         {

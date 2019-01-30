@@ -5,7 +5,7 @@
     string submitCaption = "";
     string ratename = "";
 
-    if (Model.User == null)
+    if (Model.UserID == null)
     {
         formAction = "Create";
         submitCaption = "Zapisz";
@@ -63,7 +63,7 @@
                 @Html.HiddenFor(ur => ur.UserRateID)
                 @Html.HiddenFor(ur => ur.MovieID)
                 @Html.HiddenFor(ur => ur.PeopleID)
-                @Html.HiddenFor(ur => ur.User.Id, new { Value = ViewBag.UserID })
+                @Html.HiddenFor(ur => ur.UserID, new { Value = ViewBag.UserID })
                 @Html.HiddenFor(ur => ur.Rate)
                 <div>
                     @Html.LabelFor(ur => ur.Rate)

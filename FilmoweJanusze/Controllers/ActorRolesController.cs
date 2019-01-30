@@ -132,7 +132,7 @@ namespace FilmoweJanusze.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ActorRole actorRole = db.ActorRoles.Find(id);
+            ActorRole actorRole = db.ActorRoles.Include(ar => ar.Movie).Include(ar => ar.People).FirstOrDefault(ar => ar.ActorRoleID == id);
             if (actorRole == null)
             {
                 return HttpNotFound();
@@ -219,7 +219,7 @@ namespace FilmoweJanusze.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ActorRole actorRole = db.ActorRoles.Find(id);
+            ActorRole actorRole = db.ActorRoles.Include(ar => ar.Movie).Include(ar => ar.People).FirstOrDefault(ar => ar.ActorRoleID == id);
             if (actorRole == null)
             {
                 return HttpNotFound();

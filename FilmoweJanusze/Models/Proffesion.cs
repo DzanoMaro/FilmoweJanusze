@@ -21,6 +21,6 @@ namespace FilmoweJanusze.Models
         public bool Scenario { get; set; }
 
 
-        public virtual People People { get; set; }
+        public People People { get; set; }
     }
 }

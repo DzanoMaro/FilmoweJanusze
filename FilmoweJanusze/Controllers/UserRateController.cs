@@ -21,7 +21,7 @@ namespace FilmoweJanusze.Controllers
         */
         // POST: UserRate/Create
         [HttpPost]
-        public ActionResult Create([Bind(Include = "UserRateID,MovieID,PeopleID,User,Rate,Comment")]UserRate userRate)
+        public ActionResult Create([Bind(Include = "UserRateID,MovieID,PeopleID,UserID,Rate,Comment")]UserRate userRate)
         {
             if(userRate.MovieID != null && userRate.PeopleID != null)
                 ModelState.AddModelError("", "Nie można przypisać oceny jednocześnie do filmu i aktora");
@@ -30,8 +30,6 @@ namespace FilmoweJanusze.Controllers
 
             if (ModelState.IsValid)
             {
-                userRate.User = db.Users.Find(userRate.User.Id);
-                
                 db.UserRates.Add(userRate);
                 db.SaveChanges();
                 TempData["Success"] = "Twoja ocena została zapisana.";
@@ -54,7 +52,7 @@ namespace FilmoweJanusze.Controllers
         [HttpPost]
         public ActionResult Edit(UserRate userRate)
         {
-            if (TryUpdateModel(userRate, "", new string[] { "UserRateID", "MovieID", "PeopleID", "User", "Rate", "Comment" }))
+            if (TryUpdateModel(userRate, "", new string[] { "UserRateID", "MovieID", "PeopleID", "UserID", "Rate", "Comment" }))
             {
                 try
                 {
