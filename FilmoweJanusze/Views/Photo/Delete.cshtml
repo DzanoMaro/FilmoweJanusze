@@ -52,7 +52,14 @@
         <div class="form-actions no-color">
             <input type="submit" value="Usuń" class="btn btn-danger" />
             <button type="button" class="btn btn-default">
-                @Html.ActionLink("Anuluj", "Details", "Photo", new { photoID = Model.PhotoID, movieID, peopleID }, new { @class = "nodecoration" })
+                @if (ViewBag.MovieID == true)
+                {
+                    @Html.ActionLink("Anuluj", "Details", "Photo", new { photoid = Model.PhotoID, movieID = Model.MovieID }, new { @class = "nodecoration" })
+                }
+                else if (ViewBag.PeopleID == true)
+                {
+                    @Html.ActionLink("Anuluj", "Details", "Photo", new { photoid = Model.PhotoID, peopleID = Model.PeopleID }, new { @class = "nodecoration" })
+                }
             </button>
         </div>
     }

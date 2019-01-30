@@ -27,7 +27,7 @@ namespace FilmoweJanusze.Controllers
 
             if (movieID != null)
             {
-                photos = db.Photos.Where(p => p.MovieID == movieID).ToList();
+                photos = db.Photos.Include(p => p.Movie).Include(p => p.People).Where(p => p.MovieID == movieID).ToList();
                 if(photos.Count == 0)
                 {
                     return HttpNotFound();
@@ -39,7 +39,7 @@ namespace FilmoweJanusze.Controllers
 
             if (peopleID != null)
             {
-                photos = db.Photos.Where(p => p.PeopleID == peopleID).ToList();
+                photos = db.Photos.Include(p => p.Movie).Include(p => p.People).Where(p => p.PeopleID == peopleID).ToList();
                 if (photos.Count == 0)
                 {
                     return HttpNotFound();
@@ -63,7 +63,7 @@ namespace FilmoweJanusze.Controllers
 
             if (movieID != null)
             {
-                photos = db.Photos.Where(p => p.MovieID == movieID).ToList();
+                photos = db.Photos.Include(p => p.Movie).Include(p => p.People).Where(p => p.MovieID == movieID).ToList();
                 if (photos.Count == 0)
                 {
                     return HttpNotFound();
@@ -75,7 +75,7 @@ namespace FilmoweJanusze.Controllers
             else
             if (peopleID != null)
             {
-                photos = db.Photos.Where(p => p.PeopleID == peopleID).ToList();
+                photos = db.Photos.Include(p => p.People).Include(p => p.Movie).Where(p => p.PeopleID == peopleID).ToList();
                 if (photos.Count == 0)
                 {
                     return HttpNotFound();
@@ -117,7 +117,7 @@ namespace FilmoweJanusze.Controllers
                 ViewBag.MovieID = movieID;
                 ViewBag.PeopleID = null;
                 ViewBag.Name = movie.TitleYear;
-                ViewBag.ActorRoleID = new SelectList(db.ActorRoles.Where(p => p.MovieID == movieID).ToList(), "ActorRoleID", "FullRoleName");
+                ViewBag.ActorRoleID = new SelectList(db.ActorRoles.Include(ar=>ar.People).Where(p => p.MovieID == movieID).ToList(), "ActorRoleID", "FullRoleName");
             }
 
             if (peopleID != null)
@@ -130,7 +130,7 @@ namespace FilmoweJanusze.Controllers
                 ViewBag.PeopleID = peopleID;
                 ViewBag.MovieID = null;
                 ViewBag.Name = people.FullName;
-                ViewBag.ActorRoleID = new SelectList(db.ActorRoles.Where(p => p.PeopleID == peopleID).ToList(), "ActorRoleID", "RoleMovie");
+                ViewBag.ActorRoleID = new SelectList(db.ActorRoles.Include(ar => ar.Movie).Where(p => p.PeopleID == peopleID).ToList(), "ActorRoleID", "RoleMovie");
             }
 
             return View();
@@ -248,7 +248,7 @@ namespace FilmoweJanusze.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Photo photo = db.Photos.Where(p=>p.PhotoID == id).Single();
+            Photo photo = db.Photos.Include(p=>p.Movie).Include(p => p.People).Where(p=>p.PhotoID == id).Single();
             if (photo == null)
             {
                 return HttpNotFound();
@@ -259,7 +259,7 @@ namespace FilmoweJanusze.Controllers
                 ViewBag.PeopleID = null;
                 ViewBag.MovieID = true;
                 ViewBag.Name = photo.Movie.TitleYear;
-                ViewBag.ActorRoleID = new SelectList(db.ActorRoles.Where(p => p.MovieID == photo.MovieID).ToList(), "ActorRoleID", "FullRoleName", photo.ActorRoleID);
+                ViewBag.ActorRoleID = new SelectList(db.ActorRoles.Include(ar=>ar.People).Where(p => p.MovieID == photo.MovieID).ToList(), "ActorRoleID", "FullRoleName", photo.ActorRoleID);
             }
 
             if (ispeople == true)
@@ -267,7 +267,7 @@ namespace FilmoweJanusze.Controllers
                 ViewBag.PeopleID = true;
                 ViewBag.MovieID = null;
                 ViewBag.Name = photo.People.FullName;
-                ViewBag.ActorRoleID = new SelectList(db.ActorRoles.Where(p => p.PeopleID == photo.PeopleID).ToList(), "ActorRoleID", "RoleMovie", photo.ActorRoleID);
+                ViewBag.ActorRoleID = new SelectList(db.ActorRoles.Include(ar => ar.Movie).Where(p => p.PeopleID == photo.PeopleID).ToList(), "ActorRoleID", "RoleMovie", photo.ActorRoleID);
             }
 
             return View(photo);
@@ -366,7 +366,7 @@ namespace FilmoweJanusze.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Photo photo = db.Photos.Where(p => p.PhotoID == id).Single();
+            Photo photo = db.Photos.Include(p => p.Movie).Include(p => p.People).Where(p => p.PhotoID == id).Single();
             if (photo == null)
             {
                 return HttpNotFound();
