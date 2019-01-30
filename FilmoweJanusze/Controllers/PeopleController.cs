@@ -87,7 +87,7 @@ namespace FilmoweJanusze.Controllers
             }
 
             MovieandCast movieandCast = new MovieandCast();
-            movieandCast.People = db.Peoples.Find(id);
+            movieandCast.People = db.Peoples.Include("Roles.Movie").Include(p => p.Proffesion).Include(p => p.DirectedMovies).FirstOrDefault(p => p.PeopleID == id);
 
             if (movieandCast.People == null)
             {
@@ -95,9 +95,9 @@ namespace FilmoweJanusze.Controllers
             }
 
             //pobranie roli filmowych
-            movieandCast.Cast = db.ActorRoles.Where(a => a.PeopleID == movieandCast.People.PeopleID).OrderByDescending(a=>a.Movie.ReleaseDate).ToList();
+            //movieandCast.Cast = db.ActorRoles.Where(a => a.PeopleID == movieandCast.People.PeopleID).OrderByDescending(a=>a.Movie.ReleaseDate).ToList();
             //pobranie wyreżyserowanych filmów
-            movieandCast.DirectedMovies = db.Movies.Where(m => m.DirectorID == movieandCast.People.PeopleID).OrderByDescending(m => m.ReleaseDate).ToList();
+            //movieandCast.DirectedMovies = db.Movies.Where(m => m.DirectorID == movieandCast.People.PeopleID).OrderByDescending(m => m.ReleaseDate).ToList();
             //pobranie przykładowych zdjęć
             movieandCast.Photos = db.Photos.Where(p => p.PeopleID == id).Take(6).ToList();
             //pobranie ocen użytkowników
@@ -116,7 +116,7 @@ namespace FilmoweJanusze.Controllers
                 ViewBag.PeopleRate = movieandCast.UserRates.Average(ur => ur.Rate);
                 if (ViewBag.UserID != null)
                 {
-                    movieandCast.LoggedInURate = movieandCast.UserRates.FirstOrDefault(ur => ur.User.Id == ViewBag.UserID);
+                    movieandCast.LoggedInURate = movieandCast.UserRates.FirstOrDefault(ur => ur.UserId == ViewBag.UserID);
                 }
             }
 
@@ -235,6 +235,10 @@ namespace FilmoweJanusze.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var people = db.Peoples.Include(p => p.Proffesion).Where(p => p.PeopleID == id).Single();
+            if (people == null)
+            {
+                return HttpNotFound();
+            }
             ViewBag.Name = people.FullName;
 
             if (TryUpdateModel(people, "", new string[] { "PeopleID","FirstName","LastName","Birthdate","Birthplace","Height","Biography","Proffesion","PhotoURL" }))

@@ -25,7 +25,7 @@
         embed_responsive_16by9 = "embed-responsive-16by9";
     }
 
-    if (Model.Cast.Count > 0)
+    if (Model.Movie.Cast.Count > 0)
     {
         coll_cast_in = "in";
     }
@@ -259,7 +259,7 @@
                 </h4>
             </div>
             <div class="col-xs-2 col-sm-1">
-                @if ((User.IsInRole("User") || User.IsInRole("Admin")) && Model.Cast.Count != 0)
+                @if ((User.IsInRole("User") || User.IsInRole("Admin")) && Model.Movie.Cast.Count != 0)
                 {
                     <button type="button" class="btn btn-default dropdownbutton" onclick="UnHide()">
                         <i class="glyphicon glyphicon-menu-down"></i>
@@ -270,10 +270,10 @@
         </div>
         <div id="coll_cast" class="panel-collapse collapse @coll_cast_in">
             <div class="panel-body nopadding">
-                @if (Model.Cast.Count != 0)
+                @if (Model.Movie.Cast.Count != 0)
                 {
                     bool first = true;
-                    foreach (var cast in Model.Cast)
+                    foreach (var cast in Model.Movie.Cast)
                     {
                         <div class="cast container-fluid">
                             <div class="col-xs-6 col-sm-2 col-sm-offset-1 col-lg-offset-2">

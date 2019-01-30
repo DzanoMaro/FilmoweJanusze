@@ -22,9 +22,9 @@ namespace FilmoweJanusze.Models
         [Display(Name = "Rola filmowa ze zdjęcia")]
         public int? ActorRoleID { get; set; }
 
-        public virtual Movie Movie { get; set; }
-        public virtual People People { get; set; }
-        public virtual ActorRole ActorRole { get; set; }
+        public Movie Movie { get; set; }
+        public People People { get; set; }
+        public ActorRole ActorRole { get; set; }
 
         public string Description
         {

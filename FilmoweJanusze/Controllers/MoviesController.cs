@@ -93,8 +93,7 @@ namespace FilmoweJanusze.Controllers
             }
             
             //lista lat z dostepnych filmow
-            var yearList = movies.Select(m => m.ReleaseDate.Year).Distinct().ToList();
-            ViewBag.Years = new SelectList(yearList, years);
+            ViewBag.Years = new SelectList(movies.Select(m => m.ReleaseDate.Year).Distinct().ToList(), years);
 
             //listy sortujacefiltrujace
             ViewBag.SortParam = new SelectList(new[] { "Tytułu", "Daty premiery" }, sortParam);
@@ -147,7 +146,7 @@ namespace FilmoweJanusze.Controllers
             }
 
             MovieandCast movieandCast = new MovieandCast();
-            movieandCast.Movie = db.Movies.Find(id);
+            movieandCast.Movie = db.Movies.Include(m=>m.Genre).Include("Cast.People").FirstOrDefault(m=>m.MovieID == id);
 
             if (movieandCast.Movie == null)
             {
@@ -157,8 +156,6 @@ namespace FilmoweJanusze.Controllers
             //pobranie reżysera
             movieandCast.People = db.Peoples.Find(movieandCast.Movie.DirectorID);
             //pobranie obsady
-            movieandCast.Cast = db.ActorRoles.Where(a => a.MovieID == movieandCast.Movie.MovieID).ToList();
-            //pobranie ocen użytkowników
             movieandCast.UserRates = db.UserRates.Where(ur => ur.MovieID == id).ToList();
             //pobranie przykładowych zdjęć
             movieandCast.Photos = db.Photos.Where(p => p.MovieID == id).Take(6).ToList();
@@ -176,7 +173,7 @@ namespace FilmoweJanusze.Controllers
                 ViewBag.PeopleRate = null;
                 if (ViewBag.UserID != null)
                 {
-                    movieandCast.LoggedInURate = movieandCast.UserRates.FirstOrDefault(ur => ur.User.Id == ViewBag.UserID);
+                    movieandCast.LoggedInURate = movieandCast.UserRates.FirstOrDefault(ur => ur.UserId == ViewBag.UserID);
                 }
             }
 
@@ -389,7 +386,7 @@ namespace FilmoweJanusze.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Movie movie = db.Movies.Find(id);
+            Movie movie = db.Movies.Include(m => m.Genre).FirstOrDefault(m => m.MovieID == id);
             if (movie == null)
             {
                 return HttpNotFound();

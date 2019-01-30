@@ -27,7 +27,7 @@ namespace FilmoweJanusze.Controllers
             }
             ProfileInfoesDetails profileInfoesDetails = new ProfileInfoesDetails();
 
-            profileInfoesDetails.ProfileInfo = db.ProfileInfos.FirstOrDefault(p=>p.User.UserName == UserName);
+            profileInfoesDetails.ProfileInfo = db.ProfileInfos.Include(pi=>pi.User).FirstOrDefault(p=>p.User.UserName == UserName);
             if (profileInfoesDetails.ProfileInfo == null)
             {
                 return RedirectToAction("Create");
@@ -48,7 +48,7 @@ namespace FilmoweJanusze.Controllers
             ProfileInfo profileInfo = db.ProfileInfos.FirstOrDefault(p => p.User.Id == UserID);
             if (profileInfo != null)
             {
-                RedirectToAction("Edit", profileInfo.ProfileInfoID);
+                RedirectToAction("Edit", profileInfo.UserID);
             }
 
             profileInfo = new ProfileInfo();
@@ -97,13 +97,13 @@ namespace FilmoweJanusze.Controllers
         }
 
         // GET: ProfileInfoes/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(string id)
         {
-            if (id == null)
+            if (String.IsNullOrEmpty(id))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProfileInfo profileInfo = db.ProfileInfos.Find(id);
+            ProfileInfo profileInfo = db.ProfileInfos.Include(pi => pi.User).FirstOrDefault(pi => pi.UserID == id);
             if (profileInfo == null)
             {
                 return HttpNotFound();
@@ -116,12 +116,13 @@ namespace FilmoweJanusze.Controllers
         // Aby uzyskać więcej szczegółów, zobacz https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProfileInfoID,FirstName,LastName,Birthdate,User")] ProfileInfo profileInfo, HttpPostedFileBase image)
+        public ActionResult Edit([Bind(Include = "UserID,FirstName,LastName,Birthdate")] ProfileInfo profileInfo, HttpPostedFileBase image)
         {
-            profileInfo.User = db.Users.Find(profileInfo.User.Id);
             //CheckBirthday(profileInfo.Birthdate);
             if (ModelState.IsValid)
             {
+                profileInfo.User = db.Users.Find(profileInfo.UserID);
+
                 if (image != null)
                 {
                     string root = Server.MapPath("~/");

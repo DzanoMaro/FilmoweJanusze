@@ -50,7 +50,7 @@ namespace FilmoweJanusze.Models
         [Display(Name = "Thriller")]
         public bool Thriller { get; set; }
 
-        public virtual Movie Movie { get; set; }
+        public Movie Movie { get; set; }
 
         public int Count()
         {

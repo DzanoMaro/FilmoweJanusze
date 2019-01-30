@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,7 +11,9 @@ namespace FilmoweJanusze.Models
 {
     public class ProfileInfo
     {
-        public int ProfileInfoID { get; set; }
+        [Key]
+        [ForeignKey("User")]
+        public string UserID { get; set; }
 
         [Required(ErrorMessage = "Podaj swoje imię")]
         [StringLength(25, MinimumLength = 2, ErrorMessage = "{0} musi zawierać od {2} do {1} znaków")]
@@ -35,7 +38,6 @@ namespace FilmoweJanusze.Models
         [DataType(DataType.Url)]
         public string PhotoURL { get; set; }
 
-        [Required]
-        public virtual ApplicationUser User { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

@@ -311,6 +311,18 @@
     <Compile Include="Migrations\201901251128183_DeleteThumbnailsFromPhoto.Designer.cs">
       <DependentUpon>201901251128183_DeleteThumbnailsFromPhoto.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901301011140_ExtractUserIDinUserRate.cs" />
+    <Compile Include="Migrations\201901301011140_ExtractUserIDinUserRate.Designer.cs">
+      <DependentUpon>201901301011140_ExtractUserIDinUserRate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901301017356_MoviesDirector.cs" />
+    <Compile Include="Migrations\201901301017356_MoviesDirector.Designer.cs">
+      <DependentUpon>201901301017356_MoviesDirector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901301223187_ChangeProfileInfo.cs" />
+    <Compile Include="Migrations\201901301223187_ChangeProfileInfo.Designer.cs">
+      <DependentUpon>201901301223187_ChangeProfileInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ActorRole.cs" />
@@ -590,6 +602,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901251128183_DeleteThumbnailsFromPhoto.resx">
       <DependentUpon>201901251128183_DeleteThumbnailsFromPhoto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901301011140_ExtractUserIDinUserRate.resx">
+      <DependentUpon>201901301011140_ExtractUserIDinUserRate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901301017356_MoviesDirector.resx">
+      <DependentUpon>201901301017356_MoviesDirector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901301223187_ChangeProfileInfo.resx">
+      <DependentUpon>201901301223187_ChangeProfileInfo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

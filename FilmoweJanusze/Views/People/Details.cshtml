@@ -17,12 +17,12 @@
         coll_biography_in = "in";
     }
 
-    if (Model.Cast.Count > 0)
+    if (Model.People.Roles.Count > 0)
     {
         coll_cast_in = "in";
     }
 
-    if (Model.DirectedMovies.Count > 0)
+    if (Model.People.DirectedMovies.Count > 0)
     {
         coll_director_in = "in";
     }
@@ -191,7 +191,7 @@
                         </h4>
                     </div>
                     <div class="col-xs-2 col-sm-1">
-                        @if ((User.IsInRole("User") || User.IsInRole("Admin")) && Model.Cast.Count != 0)
+                        @if ((User.IsInRole("User") || User.IsInRole("Admin")) && Model.People.Roles.Count != 0)
                         {
                             <button type="button" class="btn btn-default dropdownbutton" onclick="UnHide()">
                                 <i class="glyphicon glyphicon-menu-down"></i>
@@ -202,11 +202,11 @@
                 </div>
                 <div id="coll_cast" class="panel-collapse collapse @coll_cast_in">
                     <div class="panel-body nopadding">
-                        @if (Model.Cast.Count != 0)
+                        @if (Model.People.Roles.Count != 0)
                         {
                             bool first = true;
                             int lastproductionyear = 0;
-                            foreach (var cast in Model.Cast)
+                            foreach (var cast in Model.People.Roles)
                             {
                                 <div class="cast container-fluid">
                                     <div class="col-xs-12 col-sm-1 col-sm-offset-1 col-lg-offset-1">
@@ -282,9 +282,9 @@
                 </div>
                 <div id="coll_dir" class="panel-collapse collapse @coll_director_in">
                     <div class="panel-body">
-                        @if (Model.DirectedMovies.Count != 0)
+                        @if (Model.People.DirectedMovies.Count != 0)
                         {
-                            foreach (var movie in Model.DirectedMovies)
+                            foreach (var movie in Model.People.DirectedMovies)
                             {
                                 @Html.Partial("MoviePartial",movie)                        
                             }

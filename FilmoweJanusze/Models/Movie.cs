@@ -10,7 +10,6 @@ namespace FilmoweJanusze.Models
 {
     public class Movie
     {
-        //info
         public int MovieID { get; set; }
 
         [Required(ErrorMessage ="Podaj tytuł filmu")]
@@ -63,15 +62,18 @@ namespace FilmoweJanusze.Models
         [Display(Name = "Reżyser")]
         [DisplayFormat(NullDisplayText = "Brak reżysera")]
         public int? DirectorID { get; set; }
-
-        //obsada
-        [Display(Name = "Obsada")]
-        public virtual ICollection<ActorRole> Cast { get; set; }
         
         [Display(Name = "Gatunek")]
         [Remote("ValidateMovieGenreCount", "Movies", HttpMethod = "POST", ErrorMessage = "Możesz wybrać max. 3 kategorie")]          //po stronie klienta
         [MaximumGenreCount(ErrorMessage ="Możesz wybrać max. 3 kategorie")]                                                       //po stronie serwera
-        public virtual MovieGenre Genre { get; set; }
+        public MovieGenre Genre { get; set; }
+
+        //obsada
+        [Display(Name = "Obsada")]
+        public ICollection<ActorRole> Cast { get; set; }
+
+        [ForeignKey("DirectorID")]
+        public People Director { get; set; }
 
         [Display(Name = "Rok wydania")]
         public int ProductionYear
