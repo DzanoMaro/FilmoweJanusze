@@ -1,4 +1,4 @@
-﻿@model FilmoweJanusze.Models.Movie
+﻿@model FilmoweJanusze.ViewModels.MovieFormView
 
 @{
     ViewBag.Title = "Edycja filmu " + ViewBag.Name;
@@ -15,8 +15,6 @@
     <div class="form-horizontal">
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.MovieID)
-
         @Html.Partial("Form")
 
         <div class="form-group">

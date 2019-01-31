@@ -26,67 +26,67 @@ namespace FilmoweJanusze.Controllers
         // GET: Movies
         public ActionResult Index(string sortParam, string sortOrder, string genre, string countryProduction, string years, int? pageSize, int? page)
         {
-            IQueryable<Movie> movies = db.Movies.Include(m => m.Genre);
+            IQueryable<Movie> movies = db.Movies.Include(m=>m.MovieInfo);
 
             switch (genre)
             {
                 case "Akcja":
-                    movies = movies.Where(m => m.Genre.Action == true);
+                    movies = movies.Where(m => m.MovieInfo.Genre.Action == true);
                     break;
                 case "Animowany":
-                    movies = movies.Where(m => m.Genre.Anime == true);
+                    movies = movies.Where(m => m.MovieInfo.Genre.Anime == true);
                     break;
                 case "Biograficzny":
-                    movies = movies.Where(m => m.Genre.Biographic == true);
+                    movies = movies.Where(m => m.MovieInfo.Genre.Biographic == true);
                     break;
                 case "Dokumentalny":
-                    movies = movies.Where(m => m.Genre.Documental == true);
+                    movies = movies.Where(m => m.MovieInfo.Genre.Documental == true);
                     break;
                 case "Dramat":
-                    movies = movies.Where(m => m.Genre.Drama == true);
+                    movies = movies.Where(m => m.MovieInfo.Genre.Drama == true);
                     break;
                 case "Familijny":
-                    movies = movies.Where(m => m.Genre.Familly == true);
+                    movies = movies.Where(m => m.MovieInfo.Genre.Familly == true);
                     break;
                 case "Fantasy":
-                    movies = movies.Where(m => m.Genre.Fantasy == true);
+                    movies = movies.Where(m => m.MovieInfo.Genre.Fantasy == true);
                     break;
                 case "Horror":
-                    movies = movies.Where(m => m.Genre.Horror == true);
+                    movies = movies.Where(m => m.MovieInfo.Genre.Horror == true);
                     break;
                 case "Komedia":
-                    movies = movies.Where(m => m.Genre.Comedy == true);
+                    movies = movies.Where(m => m.MovieInfo.Genre.Comedy == true);
                     break;
                 case "Krótkometrażowy":
-                    movies = movies.Where(m => m.Genre.Short == true);
+                    movies = movies.Where(m => m.MovieInfo.Genre.Short == true);
                     break;
                 case "Krotkometrażowy":    //dont delete
-                    movies = movies.Where(m => m.Genre.Short == true);
+                    movies = movies.Where(m => m.MovieInfo.Genre.Short == true);
                     genre = "Krótkometrażowy";
                     break;
                 case "Kryminalny":
-                    movies = movies.Where(m => m.Genre.Criminal == true);
+                    movies = movies.Where(m => m.MovieInfo.Genre.Criminal == true);
                     break;
                 case "Melodramat":
-                    movies = movies.Where(m => m.Genre.Melodrama == true);
+                    movies = movies.Where(m => m.MovieInfo.Genre.Melodrama == true);
                     break;
                 case "Musical":
-                    movies = movies.Where(m => m.Genre.Musical == true);
+                    movies = movies.Where(m => m.MovieInfo.Genre.Musical == true);
                     break;
                 case "Muzyczny":
-                    movies = movies.Where(m => m.Genre.Music == true);
+                    movies = movies.Where(m => m.MovieInfo.Genre.Music == true);
                     break;
                 case "Przygodowy":
-                    movies = movies.Where(m => m.Genre.Adventure == true);
+                    movies = movies.Where(m => m.MovieInfo.Genre.Adventure == true);
                     break;
                 case "Romans":
-                    movies = movies.Where(m => m.Genre.Romans == true);
+                    movies = movies.Where(m => m.MovieInfo.Genre.Romans == true);
                     break;
                 case "Sci-Fi":
-                    movies = movies.Where(m => m.Genre.SciFi == true);
+                    movies = movies.Where(m => m.MovieInfo.Genre.SciFi == true);
                     break;
                 case "Thriller":
-                    movies = movies.Where(m => m.Genre.Thriller == true);
+                    movies = movies.Where(m => m.MovieInfo.Genre.Thriller == true);
                     break;
                 default:
                     break;
@@ -107,7 +107,7 @@ namespace FilmoweJanusze.Controllers
 
             if (!String.IsNullOrEmpty(countryProduction))
             {
-                movies = movies.Where(m => m.CountryProduction == countryProduction);
+                movies = movies.Where(m => m.MovieInfo.CountryProduction == countryProduction);
             }
 
             if(!String.IsNullOrEmpty(years))
@@ -146,7 +146,7 @@ namespace FilmoweJanusze.Controllers
             }
 
             MovieandCast movieandCast = new MovieandCast();
-            movieandCast.Movie = db.Movies.Include(m=>m.Genre).Include("Cast.People").FirstOrDefault(m=>m.MovieID == id);
+            movieandCast.Movie = db.Movies.Include(m=>m.MovieInfo.Genre).Include("Cast.People").FirstOrDefault(m=>m.MovieID == id);
 
             if (movieandCast.Movie == null)
             {
@@ -154,7 +154,7 @@ namespace FilmoweJanusze.Controllers
             }
 
             //pobranie reżysera
-            movieandCast.People = db.Peoples.Find(movieandCast.Movie.DirectorID);
+            movieandCast.People = db.Peoples.Find(movieandCast.Movie.MovieInfo.DirectorID);
             //pobranie obsady
             movieandCast.UserRates = db.UserRates.Where(ur => ur.MovieID == id).ToList();
             //pobranie przykładowych zdjęć
@@ -198,11 +198,10 @@ namespace FilmoweJanusze.Controllers
             ViewBag.CountryProduction = new SelectList(CountryList());
             ViewBag.DurationTimeValue = "00:00";
 
-            Movie movie = new Movie();
-            movie.PhotoURL = String.Empty;
-            movie.ReleaseDate = DateTime.Today;
+            MovieFormView movieFormView = new MovieFormView();
+            movieFormView.PhotoURL = "";
 
-            return View(movie);
+            return View(movieFormView);
         }
 
         // POST: Movies/Create
@@ -210,11 +209,11 @@ namespace FilmoweJanusze.Controllers
         // Aby uzyskać więcej szczegółów, zobacz https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MovieID,Title,TitlePL,ReleaseDate,Genre,Description,DirectorID,Genre,TrailerURL,CountryProduction,DurationTime,PhotoURL")] Movie movie, string RadioPhotoBtn, string UrlPath, HttpPostedFileBase image)
+        public ActionResult Create([Bind(Include = "MovieID,Title,TitlePL,ReleaseDate,Genre,Description,DirectorID,Genre,TrailerURL,CountryProduction,DurationTime,PhotoURL")] MovieFormView movieFormView, string RadioPhotoBtn, string UrlPath, HttpPostedFileBase image)
         {
-            ViewBag.DirectorID = new SelectList(db.Peoples.Where(p => p.Proffesion.Director == true), "PeopleID", "FullName", movie.DirectorID);
-            ViewBag.CountryProduction = new SelectList(CountryList(), movie.CountryProduction);
-            ViewBag.DurationTimeValue = movie.DurationTime.ToShortTimeString();
+            ViewBag.DirectorID = new SelectList(db.Peoples.Where(p => p.Proffesion.Director == true), "PeopleID", "FullName", movieFormView.DirectorID);
+            ViewBag.CountryProduction = new SelectList(CountryList(), movieFormView.CountryProduction);
+            ViewBag.DurationTimeValue = movieFormView.DurationTime.ToShortTimeString();
 
             if (ModelState.IsValid)
             {
@@ -225,6 +224,23 @@ namespace FilmoweJanusze.Controllers
                     image.InputStream.Read(movie.Poster, 0, image.ContentLength);
                 }
                 */
+                Movie movie = new Movie {
+                    Title = movieFormView.Title,
+                    TitlePL = movieFormView.TitlePL,
+                    ReleaseDate = movieFormView.ReleaseDate,
+                };
+
+                movie.MovieInfo = new MovieInfo
+                {
+                    CountryProduction = movieFormView.CountryProduction,
+                    Description = movieFormView.Description,
+                    DirectorID = movieFormView.DirectorID,
+                    DurationTime = movieFormView.DurationTime,
+                    Genre = movieFormView.Genre,
+                    TrailerURL = movieFormView.TrailerURL
+                };
+
+
                 if (!String.IsNullOrEmpty(RadioPhotoBtn))
                 {
                     switch (RadioPhotoBtn)
@@ -256,10 +272,10 @@ namespace FilmoweJanusze.Controllers
                     movie.PhotoURL = IfEmptySetEmptyPhoto(movie.PhotoURL);
                 }
 
-                if (movie.Genre.Count() == 0)
-                    movie.Genre = null;
+                if (movie.MovieInfo.Genre.Count() == 0)
+                    movie.MovieInfo.Genre = null;
 
-                movie.TrailerURL = ModifyTrailerURL(movie.TrailerURL);
+                movie.MovieInfo.TrailerURL = ModifyTrailerURL(movie.MovieInfo.TrailerURL);
 
                 db.Movies.Add(movie);
                 db.SaveChanges();
@@ -267,7 +283,7 @@ namespace FilmoweJanusze.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["Error"] = "Nie można zapisać, popraw błędy!";
-            return View(movie);
+            return View(movieFormView);
         }
 
         // GET: Movies/Edit/5
@@ -278,18 +294,34 @@ namespace FilmoweJanusze.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Movie movie = db.Movies.Include(m => m.Genre).Where(m => m.MovieID == id).Single();
+            Movie movie = db.Movies.Include(m => m.MovieInfo.Genre).Where(m => m.MovieID == id).Single();
             if (movie == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.DirectorID = new SelectList(db.Peoples.Where(p => p.Proffesion.Director == true), "PeopleID", "FullName", movie.DirectorID);
-            ViewBag.CountryProduction = new SelectList(CountryList(), movie.CountryProduction);
-            ViewBag.DurationTimeValue = movie.DurationTime.ToShortTimeString();
+            MovieFormView movieFormView = new MovieFormView
+            {
+                MovieID = movie.MovieID,
+                Title = movie.Title,
+                TitlePL = movie.TitlePL,
+                ReleaseDate = movie.ReleaseDate,
+                PhotoURL = movie.PhotoURL,
+
+                CountryProduction = movie.MovieInfo.CountryProduction,
+                Description = movie.MovieInfo.Description,
+                DirectorID = movie.MovieInfo.DirectorID,
+                DurationTime = movie.MovieInfo.DurationTime,
+                Genre = movie.MovieInfo.Genre,
+                TrailerURL = movie.MovieInfo.TrailerURL
+            };
+
+            ViewBag.DirectorID = new SelectList(db.Peoples.Where(p => p.Proffesion.Director == true), "PeopleID", "FullName", movieFormView.DirectorID);
+            ViewBag.CountryProduction = new SelectList(CountryList(), movieFormView.CountryProduction);
+            ViewBag.DurationTimeValue = movieFormView.DurationTime.ToShortTimeString();
             ViewBag.Name = movie.TitleYear;
 
-            return View(movie);
+            return View(movieFormView);
         }
 
         // POST: Movies/Edit/5
@@ -306,70 +338,76 @@ namespace FilmoweJanusze.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Movie movie = db.Movies.Include(m => m.Genre).Where(m => m.MovieID == id).Single();
-            ViewBag.DirectorID = new SelectList(db.Peoples.Where(p => p.Proffesion.Director == true), "PeopleID", "FullName", movie.DirectorID);
-            ViewBag.CountryProduction = new SelectList(CountryList(), movie.CountryProduction);
-            ViewBag.DurationTimeValue = movie.DurationTime.ToShortTimeString();
+            Movie movie = db.Movies.Include(m => m.MovieInfo).Where(m => m.MovieID == id).Single();
+            ViewBag.DirectorID = new SelectList(db.Peoples.Where(p => p.Proffesion.Director == true), "PeopleID", "FullName", movie.MovieInfo.DirectorID);
+            ViewBag.CountryProduction = new SelectList(CountryList(), movie.MovieInfo.CountryProduction);
+            ViewBag.DurationTimeValue = movie.MovieInfo.DurationTime.ToShortTimeString();
             ViewBag.Name = movie.TitleYear;
 
-            if (TryUpdateModel(movie, "", new string[] { "MovieID", "Title", "TitlePL", "ReleaseDate", "Genre", "Description", "DirectorID", "TrailerURL", "CountryProduction","DurationTime", "PhotoURL" }))
+            if (TryUpdateModel(movie, "", new string[] { "Title", "TitlePL", "ReleaseDate"}))
             {
-                try
-                {
-                    if (ModelState.IsValid)
+                if(TryUpdateModel(movie.MovieInfo,"", new string[] { "Genre", "Description", "DirectorID", "TrailerURL", "CountryProduction", "DurationTime" }))
+                { 
+                    try
                     {
-                        /* DELETE
-                        if (image != null){
-                            movie.PosterMimeType = image.ContentType;
-                            movie.Poster = new byte[image.ContentLength];
-                            image.InputStream.Read(movie.Poster, 0, image.ContentLength);
-                        }*/
-                        if (!String.IsNullOrEmpty(RadioPhotoBtn))
+                        if (ModelState.IsValid)
                         {
-                            switch (RadioPhotoBtn)
+                            /* DELETE
+                            if (image != null){
+                                movie.PosterMimeType = image.ContentType;
+                                movie.Poster = new byte[image.ContentLength];
+                                image.InputStream.Read(movie.Poster, 0, image.ContentLength);
+                            }*/
+                            if (!String.IsNullOrEmpty(RadioPhotoBtn))
                             {
-                                case "FromFile":
-                                    if (image != null)
-                                        movie.PhotoURL = SaveNewFile("MoviePosters", movie.TitleYear, image);
-                                    else
-                                        movie.PhotoURL = IfEmptySetEmptyPhoto(movie.PhotoURL);
-                                    break;
-                                case "FromURL":
-                                    if (!String.IsNullOrEmpty(UrlPath))
-                                    {
+                                switch (RadioPhotoBtn)
+                                {
+                                    case "FromFile":
+                                        if (image != null)
+                                            movie.PhotoURL = SaveNewFile("MoviePosters", movie.TitleYear, image);
+                                        else
+                                            movie.PhotoURL = IfEmptySetEmptyPhoto(movie.PhotoURL);
+                                        break;
+                                    case "FromURL":
+                                        if (!String.IsNullOrEmpty(UrlPath))
+                                        {
+                                            DeleteOldFile(movie.PhotoURL);
+                                            movie.PhotoURL = UrlPath;
+                                        }
+                                        break;
+                                    case "None":
                                         DeleteOldFile(movie.PhotoURL);
-                                        movie.PhotoURL = UrlPath;
-                                    }
-                                    break;
-                                case "None":
-                                    DeleteOldFile(movie.PhotoURL);
-                                    movie.PhotoURL = NoContentPhoto;
-                                    break;
-                                default:
-                                    movie.PhotoURL = IfEmptySetEmptyPhoto(movie.PhotoURL);
-                                    break;
+                                        movie.PhotoURL = NoContentPhoto;
+                                        break;
+                                    default:
+                                        movie.PhotoURL = IfEmptySetEmptyPhoto(movie.PhotoURL);
+                                        break;
+                                }
                             }
-                        }
-                        else
-                        {
-                            movie.PhotoURL = IfEmptySetEmptyPhoto(movie.PhotoURL);
-                        }
-                        if (movie.Genre.Count() == 0)
-                            movie.Genre = null;
+                            else
+                            {
+                                movie.PhotoURL = IfEmptySetEmptyPhoto(movie.PhotoURL);
+                            }
+                            /*
+                            if (movie.MovieInfo.Genre.Count() == 0)
+                            {
+                                movie.MovieInfo.Genre = null;
+                            }
+                            */
+                            movie.MovieInfo.TrailerURL = ModifyTrailerURL(movie.MovieInfo.TrailerURL);
 
-                        movie.TrailerURL= ModifyTrailerURL(movie.TrailerURL);
-
-                        db.Entry(movie).State = EntityState.Modified;
-                        db.SaveChanges();
-                        TempData["Success"] = "Poprawnie zmieniono informacje o filmie.";
-                        return RedirectToAction("Details", "Movies", new { id = movie.MovieID });
+                            db.Entry(movie).State = EntityState.Modified;
+                            db.SaveChanges();
+                            TempData["Success"] = "Poprawnie zmieniono informacje o filmie.";
+                            return RedirectToAction("Details", "Movies", new { id = movie.MovieID });
+                        }
+                        ViewData["Error"] = "Nie można zapisać, popraw błędy!";
+                        return View(movie);
                     }
-                    ViewData["Error"] = "Nie można zapisać, popraw błędy!";
-                    return View(movie);
-                }
-                catch (RetryLimitExceededException)
-                {
-                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                    catch (RetryLimitExceededException)
+                    {
+                        ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                    }
                 }
             }
             ViewData["Error"] = "Nie można zapisać, popraw błędy!";
@@ -386,7 +424,7 @@ namespace FilmoweJanusze.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Movie movie = db.Movies.Include(m => m.Genre).FirstOrDefault(m => m.MovieID == id);
+            Movie movie = db.Movies.Include(m => m.MovieInfo.Genre).FirstOrDefault(m => m.MovieID == id);
             if (movie == null)
             {
                 return HttpNotFound();
@@ -400,7 +438,7 @@ namespace FilmoweJanusze.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
-            Movie movie = db.Movies.Include(m => m.Genre).Where(m => m.MovieID == id).Single();
+            Movie movie = db.Movies.Include(m => m.MovieInfo.Genre).Where(m => m.MovieID == id).FirstOrDefault();
             db.Movies.Remove(movie);
 
             IQueryable actorroles = db.ActorRoles.Where(a => a.MovieID == id);

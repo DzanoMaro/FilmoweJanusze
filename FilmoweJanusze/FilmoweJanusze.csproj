@@ -208,6 +208,7 @@
     <Compile Include="Helpers\CustomHtmlHelpers.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Infrastructure\CheckBirthday.cs" />
+    <Compile Include="Infrastructure\ITile.cs" />
     <Compile Include="Infrastructure\MaximumGenreCount.cs" />
     <Compile Include="Infrastructure\MinDate.cs" />
     <Compile Include="Infrastructure\MinimumProffesionCount.cs" />
@@ -327,6 +328,14 @@
     <Compile Include="Migrations\201901301245455_UserRate_UserId_changeto_UserID.Designer.cs">
       <DependentUpon>201901301245455_UserRate_UserId_changeto_UserID.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901301822051_MovieSeperatedTo2Classes.cs" />
+    <Compile Include="Migrations\201901301822051_MovieSeperatedTo2Classes.Designer.cs">
+      <DependentUpon>201901301822051_MovieSeperatedTo2Classes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901310914108_LimitTitlePLinMovie.cs" />
+    <Compile Include="Migrations\201901310914108_LimitTitlePLinMovie.Designer.cs">
+      <DependentUpon>201901310914108_LimitTitlePLinMovie.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ActorRole.cs" />
@@ -334,6 +343,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\MovieGenre.cs" />
+    <Compile Include="Models\MovieInfo.cs" />
     <Compile Include="Models\People.cs" />
     <Compile Include="Models\Photo.cs" />
     <Compile Include="Models\Proffesion.cs" />
@@ -344,6 +354,7 @@
     <Compile Include="ViewModels\Found.cs" />
     <Compile Include="ViewModels\IndexView.cs" />
     <Compile Include="ViewModels\MovieandCast.cs" />
+    <Compile Include="ViewModels\MovieFormView.cs" />
     <Compile Include="ViewModels\ProfileInfoesDetails.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -623,6 +634,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901301245455_UserRate_UserId_changeto_UserID.resx">
       <DependentUpon>201901301245455_UserRate_UserId_changeto_UserID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901301822051_MovieSeperatedTo2Classes.resx">
+      <DependentUpon>201901301822051_MovieSeperatedTo2Classes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901310914108_LimitTitlePLinMovie.resx">
+      <DependentUpon>201901310914108_LimitTitlePLinMovie.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

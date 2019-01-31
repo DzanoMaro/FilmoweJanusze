@@ -90,7 +90,7 @@ namespace FilmoweJanusze.Models
         [MinimumProffesionCount(ErrorMessage = "Wybierz przynajmniej jeden zawód")]
         public Proffesion Proffesion { get; set; }
         public ICollection<ActorRole> Roles { get; set; }
-        public ICollection<Movie> DirectedMovies { get; set; }
+        //public ICollection<Movie> DirectedMovies { get; set; }
 
     }
 }

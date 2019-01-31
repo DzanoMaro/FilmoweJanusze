@@ -14,12 +14,12 @@
     string deleteclass = null;
     string padding = null;
 
-    if (!String.IsNullOrEmpty(Model.Movie.Description))
+    if (!String.IsNullOrEmpty(Model.Movie.MovieInfo.Description))
     {
         coll_descript_in = "in";
     }
 
-    if (!String.IsNullOrEmpty(Model.Movie.TrailerURL))
+    if (!String.IsNullOrEmpty(Model.Movie.MovieInfo.TrailerURL))
     {
         coll_trailer_in = "in";
         embed_responsive_16by9 = "embed-responsive-16by9";
@@ -96,14 +96,14 @@
         <!--DANE-->
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-5 nopadding">
             <dl class="dl-horizontal">
-                @if (Model.Movie.DurationTime != null && !Model.Movie.DurationTime.ToShortTimeString().Contains("00:00"))
+                @if (Model.Movie.MovieInfo.DurationTime != null && !Model.Movie.MovieInfo.DurationTime.ToShortTimeString().Contains("00:00"))
                 {
                     <dt>
-                        @Html.DisplayNameFor(model => model.Movie.DurationTime)
+                        @Html.DisplayNameFor(model => model.Movie.MovieInfo.DurationTime)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.Movie.DurationTime)
+                        @Html.DisplayFor(model => model.Movie.MovieInfo.DurationTime)
                     </dd>
                 }
 
@@ -118,35 +118,35 @@
                     </dd>
                 }
 
-                @if (Model.Movie.Genre != null)
+                @if (Model.Movie.MovieInfo.Genre != null)
                 {
-                    if (Model.Movie.Genre.Count() > 0)
+                    if (Model.Movie.MovieInfo.Genre.Count() > 0)
                     {
                         <dt>
-                            @Html.DisplayNameFor(model => model.Movie.Genre)
+                            @Html.DisplayNameFor(model => model.Movie.MovieInfo.Genre)
                         </dt>
 
                         <dd>
-                            @Html.DisplayFor(model => model.Movie.Genre)
+                            @Html.DisplayFor(model => model.Movie.MovieInfo.Genre)
                         </dd>
                     }
                 }
 
-                @if (!String.IsNullOrEmpty(Model.Movie.CountryProduction))
+                @if (!String.IsNullOrEmpty(Model.Movie.MovieInfo.CountryProduction))
                 {
                     <dt>
-                        @Html.DisplayNameFor(model => model.Movie.CountryProduction)
+                        @Html.DisplayNameFor(model => model.Movie.MovieInfo.CountryProduction)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.Movie.CountryProduction)
+                        @Html.DisplayFor(model => model.Movie.MovieInfo.CountryProduction)
                     </dd>
                 }
 
-                @if (Model.Movie.DirectorID != null)
+                @if (Model.Movie.MovieInfo.DirectorID != null)
                 {
                     <dt>
-                        @Html.DisplayNameFor(model => model.Movie.DirectorID)
+                        @Html.DisplayNameFor(model => model.Movie.MovieInfo.DirectorID)
                     </dt>
 
                     <dd>
@@ -160,12 +160,12 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#coll_description" class="panel-link">@Html.DisplayNameFor(model => model.Movie.Description)</a>
+                            <a data-toggle="collapse" href="#coll_description" class="panel-link">@Html.DisplayNameFor(model => model.Movie.MovieInfo.Description)</a>
                         </h4>
                     </div>
                     <div id="coll_description" class="panel-collapse collapse @coll_descript_in">
                         <div class="panel-body">
-                            @Html.DisplayFor(model => model.Movie.Description)
+                            @Html.DisplayFor(model => model.Movie.MovieInfo.Description)
                         </div>
                     </div>
                 </div>
@@ -188,16 +188,16 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#coll_trailer" class="panel-link">@Html.DisplayNameFor(model => model.Movie.TrailerURL)</a>
+                    <a data-toggle="collapse" href="#coll_trailer" class="panel-link">@Html.DisplayNameFor(model => model.Movie.MovieInfo.TrailerURL)</a>
                 </h4>
             </div>
             <div id="coll_trailer" class="panel-collapse collapse @coll_trailer_in">
                 <div class="panel-body">
-                    @if (!String.IsNullOrEmpty(Model.Movie.TrailerURL))
+                    @if (!String.IsNullOrEmpty(Model.Movie.MovieInfo.TrailerURL))
                     {
                         <div class="col-md-8 col-md-offset-2">
                             <div class="embed-responsive @embed_responsive_16by9">
-                                <iframe class="embed-responsive-item" src=@Model.Movie.TrailerURL frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <iframe class="embed-responsive-item" src=@Model.Movie.MovieInfo.TrailerURL frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
                         </div>
                     }

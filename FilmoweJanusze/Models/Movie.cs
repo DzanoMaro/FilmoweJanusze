@@ -5,75 +5,41 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
 using FilmoweJanusze.Infrastructure;
+using FilmoweJanusze.ViewModels;
 
 namespace FilmoweJanusze.Models
 {
-    public class Movie
+    public class Movie : ITile
     {
+
+
+
         public int MovieID { get; set; }
 
-        [Required(ErrorMessage ="Podaj tytuł filmu")]
-        [StringLength(100, MinimumLength = 2, ErrorMessage = "Tytuł filmu musi zawierać od 2 do 100 znaków")]
+        [Required]
         [Display(Name = "Tytuł")]
+        [StringLength(100, MinimumLength = 2)]
         public string Title { get; set; }
 
         [Display(Name = "Polski tytuł")]
+        [StringLength(100, MinimumLength = 2)]
         public string TitlePL { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Required(ErrorMessage = "Podaj datę wydania filmu")]
         [Display(Name = "Data premiery")]
-        [MinDate(ErrorMessage ="{0} nie może być sprzed 1900r.")]
-        [Remote("CheckMinReleaseDate", "Extended", ErrorMessage = "{0} nie może być z przyszłości, ani sprzed 1900r.")]
         public DateTime ReleaseDate { get; set; }
 
-        [Display(Name = "Kraj produkcji")]
-        [UIHint("CountryProduction")]
-        public string CountryProduction { get; set; }
 
-        [DataType(DataType.Time)]
-        [Display(Name = "Czas trwania")]
-        [UIHint("DurationTime")]
-        public DateTime DurationTime { get; set; }
-
-        [StringLength(999, MinimumLength = 25, ErrorMessage = "Opis filmu musi zawierać od 25 do 999 znaków")]
-        [DataType(DataType.MultilineText)]
-        [DisplayFormat(NullDisplayText = "Nie dodano opisu filmu :( ")]
-        [Display(Name = "Opis filmu")]
-        public string Description { get; set; }
-
-        /*
-        //plakat
-        [Display(Name = "Plakat")]
-        public byte[] Poster { get; set; }
-        [HiddenInput(DisplayValue = false)]
-        public string PosterMimeType { get; set; }
-        */
         [Display(Name = "Plakat")]
         [DataType(DataType.Url)]
         public string PhotoURL { get; set; }
-
-        [DataType(DataType.Url)]
-        [Display(Name ="Zwiastun")]
-        public string TrailerURL { get; set; }
-
-        //reżyser
-        [Display(Name = "Reżyser")]
-        [DisplayFormat(NullDisplayText = "Brak reżysera")]
-        public int? DirectorID { get; set; }
-        
-        [Display(Name = "Gatunek")]
-        [Remote("ValidateMovieGenreCount", "Movies", HttpMethod = "POST", ErrorMessage = "Możesz wybrać max. 3 kategorie")]          //po stronie klienta
-        [MaximumGenreCount(ErrorMessage ="Możesz wybrać max. 3 kategorie")]                                                       //po stronie serwera
-        public MovieGenre Genre { get; set; }
 
         //obsada
         [Display(Name = "Obsada")]
         public ICollection<ActorRole> Cast { get; set; }
 
-        [ForeignKey("DirectorID")]
-        public People Director { get; set; }
+        public MovieInfo MovieInfo { get; set; }
 
         [Display(Name = "Rok wydania")]
         public int ProductionYear
@@ -91,5 +57,38 @@ namespace FilmoweJanusze.Models
                 return Title + " (" + ProductionYear.ToString() + ")";
             }
         }       
+
+        //INTERFACE
+        public int ActionID
+        {
+            get
+            {
+                return MovieID;
+            }
+        }
+
+        public string MainTitle
+        {
+            get
+            {
+                return TitleYear;
+            }
+        }
+
+        public string SubTitle
+        {
+            get
+            {
+                return TitlePL;
+            }
+        }
+
+        public string Controller
+        {
+            get
+            {
+                return "Movies";
+            }
+        }
     }
 }

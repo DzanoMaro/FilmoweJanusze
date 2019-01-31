@@ -34,16 +34,24 @@ namespace FilmoweJanusze.Controllers
 
         public JsonResult CheckMinReleaseDate(string ReleaseDate)
         {
-            DateTime dateTime = DateTime.Parse(ReleaseDate);
-
-            if (dateTime.Year >= 1900)
+            DateTime dateTime = new DateTime();
+            if( DateTime.TryParse(ReleaseDate, out dateTime) )
             {
-                return Json(true, JsonRequestBehavior.AllowGet);
+                if (dateTime.Year >= 1900)
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(false, JsonRequestBehavior.AllowGet);
+                }
             }
             else
             {
-                return Json(false, JsonRequestBehavior.AllowGet);
+                return Json("Nieprawidłowy format daty", JsonRequestBehavior.AllowGet);
             }
+
+
         }
 
         public JsonResult CheckImageSelected(string RadioPhotoBtn)

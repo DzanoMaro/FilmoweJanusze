@@ -87,7 +87,7 @@ namespace FilmoweJanusze.Controllers
             }
 
             MovieandCast movieandCast = new MovieandCast();
-            movieandCast.People = db.Peoples.Include("Roles.Movie").Include(p => p.Proffesion).Include(p => p.DirectedMovies).FirstOrDefault(p => p.PeopleID == id);
+            movieandCast.People = db.Peoples.Include("Roles.Movie").Include(p => p.Proffesion).FirstOrDefault(p => p.PeopleID == id);
 
             if (movieandCast.People == null)
             {
