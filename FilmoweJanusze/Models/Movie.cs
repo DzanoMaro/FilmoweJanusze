@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Web.Mvc;
 using FilmoweJanusze.Infrastructure;
 using FilmoweJanusze.ViewModels;
@@ -27,7 +28,7 @@ namespace FilmoweJanusze.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Data premiery")]
         public DateTime ReleaseDate { get; set; }
-        
+
         [Display(Name = "Plakat")]
         [DataType(DataType.Url)]
         public string PhotoURL { get; set; }
@@ -36,7 +37,9 @@ namespace FilmoweJanusze.Models
         //ZALEZNOSCI
         [Display(Name = "Obsada")]
         public ICollection<ActorRole> Cast { get; set; }
-
+        public ICollection<UserRate> UserRates { get; set; }
+        [Display(Name = "Galeria zdjęć")]
+        public ICollection<Photo> Photos { get; set; }
 
         public MovieInfo MovieInfo { get; set; }
 
@@ -55,14 +58,14 @@ namespace FilmoweJanusze.Models
                 return ReleaseDate.Year;
             }
         }
-        
+
         public string TitleYear
         {
             get
             {
                 return Title + " (" + ProductionYear.ToString() + ")";
             }
-        }       
+        }
 
         //INTERFACE
         public int ActionID

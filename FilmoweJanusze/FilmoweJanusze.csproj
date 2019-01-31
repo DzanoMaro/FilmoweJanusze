@@ -357,7 +357,6 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\Found.cs" />
     <Compile Include="ViewModels\IndexView.cs" />
-    <Compile Include="ViewModels\MovieandCast.cs" />
     <Compile Include="ViewModels\MovieFormView.cs" />
     <Compile Include="ViewModels\ProfileInfoesDetails.cs" />
   </ItemGroup>

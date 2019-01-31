@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FilmoweJanusze.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,8 @@ namespace FilmoweJanusze.Infrastructure
         string MainTitle { get;}
         string SubTitle { get;}
         string PhotoURL { get; set; }
+
+        ICollection<UserRate> UserRates { get; set; }
 
     }
 }

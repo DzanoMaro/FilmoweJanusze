@@ -77,7 +77,7 @@ namespace FilmoweJanusze.Controllers
 
             return View(peoples.ToPagedList(pageNumber, pagesize));
         }
-
+        /* TODO odkemntować
         // GET: People/Details/5
         public ActionResult Details(int? id)
         {
@@ -85,8 +85,8 @@ namespace FilmoweJanusze.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            MovieandCast movieandCast = new MovieandCast();
+            
+            DetailViewModel movieandCast = new DetailViewModel();
             movieandCast.People = db.Peoples.Include("Roles.Movie").Include(p => p.Proffesion).FirstOrDefault(p => p.PeopleID == id);
 
             if (movieandCast.People == null)
@@ -131,8 +131,9 @@ namespace FilmoweJanusze.Controllers
             }
 
             return View(movieandCast);
-        }
-
+            
+    }
+    8*/
         // GET: People/Create
         [Authorize(Roles = "User, Admin")]
         public ActionResult Create()

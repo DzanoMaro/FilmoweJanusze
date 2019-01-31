@@ -16,11 +16,11 @@
         submitCaption = "Zmień";
     }
 
-    if (ViewBag.MovieRate > 0)
+    if (ViewBag.Controller == "Movies")
     {
         ratename = "Ocena filmu:";
     }
-    if (ViewBag.PeopleRate > 0)
+    if (ViewBag.Controller == "People")
     {
         ratename = "Ocena postaci:";
     }
@@ -30,12 +30,12 @@
 
 <!-- OCENA FILMU -->
 <div class="rating">
-    @if (ViewBag.MovieRate > 0 || ViewBag.PeopleRate > 0)
+    @if (ViewBag.Rate!=null)
     {
         <div>
             <h4>
                 @ratename
-                @ViewBag.MovieRate@ViewBag.PeopleRate <span class="glyphicon glyphicon-star"></span> / 6 <span class="glyphicon glyphicon-star"></span>
+                @ViewBag.Rate <span class="glyphicon glyphicon-star"></span> / 6 <span class="glyphicon glyphicon-star"></span>
             </h4>
         </div>
     }

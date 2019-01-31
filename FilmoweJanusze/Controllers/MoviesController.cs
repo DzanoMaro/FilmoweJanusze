@@ -145,20 +145,19 @@ namespace FilmoweJanusze.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            MovieandCast movieandCast = new MovieandCast();
-            movieandCast.Movie = db.Movies.Include(m => m.MovieInfo).Include(m=>m.Genre).Include("Cast.People").FirstOrDefault(m=>m.MovieID == id);
+            Movie movie = db.Movies.Include(m => m.MovieInfo).Include(m=>m.Genre).Include("Cast.People").Include(m=>m.UserRates).FirstOrDefault(m=>m.MovieID == id);
 
-            if (movieandCast.Movie == null)
+            if (movie == null)
             {
                 return HttpNotFound();
             }
 
             //pobranie reżysera
-            movieandCast.People = db.Peoples.Find(movieandCast.Movie.MovieInfo.DirectorID);
+            //detailViewModel.People = db.Peoples.Find(movie.MovieInfo.DirectorID);
             //pobranie obsady
-            movieandCast.UserRates = db.UserRates.Where(ur => ur.MovieID == id).ToList();
+            //movieandCast.UserRates = db.UserRates.Where(ur => ur.MovieID == id).ToList();
             //pobranie przykładowych zdjęć
-            movieandCast.Photos = db.Photos.Where(p => p.MovieID == id).Take(6).ToList();
+            movie.Photos = db.Photos.Where(p => p.MovieID == id).Take(6).ToList();
 
             //id usera
             ViewBag.UserID = User.Identity.GetUserId();
@@ -167,27 +166,25 @@ namespace FilmoweJanusze.Controllers
 
 
             //pobranie oceny zalogowanego usera
-            if (movieandCast.UserRates.Count > 0)
+            if (movie.UserRates.Count > 0)
             {
-                ViewBag.MovieRate = movieandCast.UserRates.Average(ur => ur.Rate);
-                ViewBag.PeopleRate = null;
-                if (ViewBag.UserID != null)
-                {
-                    movieandCast.LoggedInURate = movieandCast.UserRates.FirstOrDefault(ur => ur.UserID == ViewBag.UserID);
-                }
+                ViewBag.Rate = movie.UserRates.Average(ur=>ur.Rate);
+                ViewBag.Controller = movie.Controller;
             }
 
             //jeśli nie oceniono jeszcze
-            if (movieandCast.LoggedInURate == null)
+            /*
+            if (detailViewModel.LoggedInURate == null)
             {
-                movieandCast.LoggedInURate = new UserRate();
-                movieandCast.LoggedInURate.MovieID = (int)id;
-                movieandCast.LoggedInURate.Movie = movieandCast.Movie;
-                movieandCast.LoggedInURate.PeopleID = null;
-                movieandCast.LoggedInURate.People = null;
+                detailViewModel.LoggedInURate = new UserRate();
+                detailViewModel.LoggedInURate.MovieID = (int)id;
+                detailViewModel.LoggedInURate.Movie = detailViewModel.Movie;
+                detailViewModel.LoggedInURate.PeopleID = null;
+                detailViewModel.LoggedInURate.People = null;
             }
+            */
 
-            return View(movieandCast);
+            return View(movie);
         }
 
         // GET: Movies/Create
