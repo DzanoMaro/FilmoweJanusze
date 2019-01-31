@@ -118,16 +118,16 @@
                     </dd>
                 }
 
-                @if (Model.Movie.MovieInfo.Genre != null)
+                @if (Model.Movie.Genre != null)
                 {
-                    if (Model.Movie.MovieInfo.Genre.Count() > 0)
+                    if (Model.Movie.Genre.Count() > 0)
                     {
                         <dt>
-                            @Html.DisplayNameFor(model => model.Movie.MovieInfo.Genre)
+                            @Html.DisplayNameFor(model => model.Movie.Genre)
                         </dt>
 
                         <dd>
-                            @Html.DisplayFor(model => model.Movie.MovieInfo.Genre)
+                            @Html.DisplayFor(model => model.Movie.Genre)
                         </dd>
                     }
                 }

@@ -39,9 +39,6 @@ namespace FilmoweJanusze.Models
         [DisplayFormat(NullDisplayText = "Brak reżysera")]
         public int? DirectorID { get; set; }
 
-        [Display(Name = "Gatunek")]
-        virtual public MovieGenre Genre { get; set; }
-
         [ForeignKey("DirectorID")]
         virtual public People Director { get; set; }
 

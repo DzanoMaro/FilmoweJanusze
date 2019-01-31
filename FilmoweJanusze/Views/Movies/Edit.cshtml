@@ -21,7 +21,7 @@
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Zapisz" class="btn btn-primary" />
                 <button class="btn btn-default">
-                    @Html.ActionLink("Powrót", "Details", new { id = Model.MovieID }, new { @class = "nodecoration" })
+                    @Html.ActionLink("Powrót", "Details", new { id = ViewBag.MovieID }, new { @class = "nodecoration" })
                 </button>
             </div>
         </div>

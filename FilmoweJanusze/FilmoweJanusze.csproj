@@ -336,6 +336,10 @@
     <Compile Include="Migrations\201901310914108_LimitTitlePLinMovie.Designer.cs">
       <DependentUpon>201901310914108_LimitTitlePLinMovie.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901311218402_movedGenreToMovieInfo.cs" />
+    <Compile Include="Migrations\201901311218402_movedGenreToMovieInfo.Designer.cs">
+      <DependentUpon>201901311218402_movedGenreToMovieInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ActorRole.cs" />
@@ -640,6 +644,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901310914108_LimitTitlePLinMovie.resx">
       <DependentUpon>201901310914108_LimitTitlePLinMovie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901311218402_movedGenreToMovieInfo.resx">
+      <DependentUpon>201901311218402_movedGenreToMovieInfo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

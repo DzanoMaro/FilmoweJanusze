@@ -55,39 +55,41 @@ namespace FilmoweJanusze.Models
         public int Count()
         {
             int count = 0;
-            if (Action == true)
+            if (this.Action == true)
                 count++;
-            if (Anime == true)
+            if (this.Anime == true)
                 count++;
-            if (Biographic == true)
+            if (this.Biographic == true)
                 count++;
-            if (Documental == true)
+            if (this.Documental == true)
                 count++;
-            if (Drama == true)
+            if (this.Drama == true)
                 count++;
-            if (Familly == true)
+            if (this.Familly == true)
                 count++;
-            if (Horror == true)
+            if (this.Fantasy == true)
                 count++;
-            if (Comedy == true)
+            if (this.Horror == true)
                 count++;
-            if (Short == true)
+            if (this.Comedy == true)
                 count++;
-            if (Criminal == true)
+            if (this.Short == true)
                 count++;
-            if (Melodrama == true)
+            if (this.Criminal == true)
                 count++;
-            if (Musical == true)
+            if (this.Melodrama == true)
                 count++;
-            if (Music == true)
+            if (this.Musical == true)
                 count++;
-            if (Adventure == true)
+            if (this.Music == true)
                 count++;
-            if (Romans == true)
+            if (this.Adventure == true)
                 count++;
-            if (SciFi == true)
+            if (this.Romans == true)
                 count++;
-            if (Thriller == true)
+            if (this.SciFi == true)
+                count++;
+            if (this.Thriller == true)
                 count++;
             return count;
         }

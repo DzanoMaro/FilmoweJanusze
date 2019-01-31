@@ -11,8 +11,6 @@ namespace FilmoweJanusze.ViewModels
 {
     public class MovieFormView
     {
-        public int MovieID { get; set; }
-
         [Required(ErrorMessage = "Podaj tytuł filmu")]
         [StringLength(100, MinimumLength = 2, ErrorMessage = "{0} filmu musi zawierać od 2 do 100 znaków")]
         [Display(Name = "Tytuł")]
@@ -61,6 +59,6 @@ namespace FilmoweJanusze.ViewModels
         [Display(Name = "Gatunek")]
         [Remote("ValidateMovieGenreCount", "Movies", HttpMethod = "POST", ErrorMessage = "Możesz wybrać max. 3 kategorie")]          //po stronie klienta
         [MaximumGenreCount(ErrorMessage = "Możesz wybrać max. 3 kategorie")]                                                       //po stronie serwera
-        virtual public MovieGenre Genre { get; set; }
+        public MovieGenre Genre { get; set; }
     }
 }

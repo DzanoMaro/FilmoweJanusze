@@ -12,8 +12,6 @@ namespace FilmoweJanusze.Models
     public class Movie : ITile
     {
 
-
-
         public int MovieID { get; set; }
 
         [Required]
@@ -29,18 +27,26 @@ namespace FilmoweJanusze.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Data premiery")]
         public DateTime ReleaseDate { get; set; }
-
-
+        
         [Display(Name = "Plakat")]
         [DataType(DataType.Url)]
         public string PhotoURL { get; set; }
 
-        //obsada
+
+        //ZALEZNOSCI
         [Display(Name = "Obsada")]
         public ICollection<ActorRole> Cast { get; set; }
 
+
         public MovieInfo MovieInfo { get; set; }
 
+        [Display(Name = "Gatunek")]
+        [Remote("ValidateMovieGenreCount", "Movies", HttpMethod = "POST", ErrorMessage = "Możesz wybrać max. 3 kategorie")]          //po stronie klienta
+        [MaximumGenreCount(ErrorMessage = "Możesz wybrać max. 3 kategorie")]                                                       //po stronie serwera
+        public MovieGenre Genre { get; set; }
+
+
+        //METODY
         [Display(Name = "Rok wydania")]
         public int ProductionYear
         {
