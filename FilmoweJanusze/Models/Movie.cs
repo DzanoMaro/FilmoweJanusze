@@ -35,18 +35,18 @@ namespace FilmoweJanusze.Models
 
 
         //ZALEZNOSCI
-        [Display(Name = "Obsada")]
-        public ICollection<ActorRole> Cast { get; set; }
-        public ICollection<UserRate> UserRates { get; set; }
-        [Display(Name = "Galeria zdjęć")]
-        public ICollection<Photo> Photos { get; set; }
-
         public MovieInfo MovieInfo { get; set; }
 
         [Display(Name = "Gatunek")]
         [Remote("ValidateMovieGenreCount", "Movies", HttpMethod = "POST", ErrorMessage = "Możesz wybrać max. 3 kategorie")]          //po stronie klienta
         [MaximumGenreCount(ErrorMessage = "Możesz wybrać max. 3 kategorie")]                                                       //po stronie serwera
         public MovieGenre Genre { get; set; }
+
+        [Display(Name = "Obsada")]
+        public ICollection<ActorRole> Cast { get; set; }
+        public ICollection<UserRate> UserRates { get; set; }
+        [Display(Name = "Galeria zdjęć")]
+        public ICollection<Photo> Photos { get; set; }
 
 
         //METODY

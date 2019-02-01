@@ -1,8 +1,8 @@
-﻿@model FilmoweJanusze.ViewModels.MovieandCast
+﻿@model FilmoweJanusze.Models.People
 @using FilmoweJanusze.Helpers
 
 @{
-    ViewBag.Title = Model.People.FullName;
+    ViewBag.Title = Model.FullName;
 
     string coll_biography_in = null;
     string coll_cast_in = null;
@@ -12,21 +12,21 @@
     string padding = null;
 
 
-    if (!String.IsNullOrEmpty(Model.People.Biography))
+    if (!String.IsNullOrEmpty(Model.PeopleInfo.Biography))
     {
         coll_biography_in = "in";
     }
 
-    if (Model.People.Roles.Count > 0)
+    if (Model.Roles.Count > 0)
     {
         coll_cast_in = "in";
     }
-
-    if (Model.People.DirectedMovies.Count > 0)
+    
+    if (Model.DirectedMovies.Count > 0)
     {
         coll_director_in = "in";
     }
-
+    
     if (Model.Photos.Count > 0)
     {
         coll_gallery_in = "in";
@@ -42,6 +42,13 @@
         padding = "padding-top:8px";
     }
 
+    var LoggedInUserRate = Model.UserRates.Where(m => m.UserID == ViewBag.UserID).FirstOrDefault();
+    if (LoggedInUserRate == null)
+    {
+        LoggedInUserRate = new FilmoweJanusze.Models.UserRate();
+        LoggedInUserRate.MovieID = null;
+        LoggedInUserRate.PeopleID = Model.PeopleID;
+    }
 }
 
 <!--NAGŁÓWEK-->
@@ -58,8 +65,8 @@
                 <i class="glyphicon glyphicon-menu-down"></i>
             </button>
             <ul class="dropdown-menu">
-                <li>@Html.ActionLink("Edytuj", "Edit", new { id = Model.People.PeopleID })</li>
-                <li class=@deleteclass>@Html.ActionLink("Usuń", "Delete", new { id = Model.People.PeopleID }, new { data_toggle = "tooltip", title = "Tylko admin może usuwać filmy!" })</li>
+                <li>@Html.ActionLink("Edytuj", "Edit", new { id = Model.PeopleID })</li>
+                <li class=@deleteclass>@Html.ActionLink("Usuń", "Delete", new { id = Model.PeopleID }, new { data_toggle = "tooltip", title = "Tylko admin może usuwać filmy!" })</li>
             </ul>
         </div>
     }
@@ -71,47 +78,47 @@
 
     <!--ZDJECIE-->
     <div class="col-xs-12 col-sm-6 col-md-4">
-        @Html.Image(Model.People.PhotoURL, Url.Action("Details", "People", new { id = Model.People.PeopleID }), new { @class = "poster img-responsive img-thumbnail" })
+        @Html.Image(Model.PhotoURL, Url.Action("Details", "People", new { id = Model.PeopleID }), new { @class = "poster img-responsive img-thumbnail" })
     </div>
 
     <!--DANE-->
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-5 nopadding">
         <dl class="dl-horizontal">
 
-            @if (!String.IsNullOrEmpty(Model.People.FirstName))
+            @if (!String.IsNullOrEmpty(Model.FirstName))
             {
-                <dt>@Html.DisplayNameFor(model => model.People.FirstName)</dt>
-                <dd>@Html.DisplayFor(model => model.People.FirstName)</dd>
+                <dt>@Html.DisplayNameFor(model => model.FirstName)</dt>
+                <dd>@Html.DisplayFor(model => model.FirstName)</dd>
             }
 
-            @if (!String.IsNullOrEmpty(Model.People.LastName))
+            @if (!String.IsNullOrEmpty(Model.LastName))
             {
-                <dt>@Html.DisplayNameFor(model => model.People.LastName)</dt>
-                <dd>@Html.DisplayFor(model => model.People.LastName)</dd>
+                <dt>@Html.DisplayNameFor(model => model.LastName)</dt>
+                <dd>@Html.DisplayFor(model => model.LastName)</dd>
             }
 
-            @if (Model.People.Birthdate != null)
+            @if (Model.Birthdate != null)
             {
-                <dt>@Html.DisplayNameFor(model => model.People.Birthdate)</dt>
+                <dt>@Html.DisplayNameFor(model => model.Birthdate)</dt>
                 <dd>
-                    @Html.DisplayFor(model => model.People.Birthdate)
-                    @if (!String.IsNullOrEmpty(Model.People.Age))
+                    @Html.DisplayFor(model => model.Birthdate)
+                    @if (!String.IsNullOrEmpty(Model.Age))
                     {
-                        @:(@Html.DisplayFor(model => model.People.Age))
+                        @:(@Html.DisplayFor(model => model.Age))
                     }
                 </dd>
             }
 
-            @if (!String.IsNullOrEmpty(Model.People.Birthplace))
+            @if (!String.IsNullOrEmpty(Model.PeopleInfo.Birthplace))
             {
-                <dt>@Html.DisplayNameFor(model => model.People.Birthplace)</dt>
-                <dd>@Html.DisplayFor(model => model.People.Birthplace)</dd>
+                <dt>@Html.DisplayNameFor(model => model.PeopleInfo.Birthplace)</dt>
+                <dd>@Html.DisplayFor(model => model.PeopleInfo.Birthplace)</dd>
             }
 
-            @if (Model.People.Height != null && Model.People.Height > 50)
+            @if (Model.PeopleInfo.Height != null && Model.PeopleInfo.Height > 50)
             {
-                <dt>@Html.DisplayNameFor(model => model.People.Height)</dt>
-                <dd>@Html.DisplayFor(model => model.People.Height)</dd>
+                <dt>@Html.DisplayNameFor(model => model.PeopleInfo.Height)</dt>
+                <dd>@Html.DisplayFor(model => model.PeopleInfo.Height)</dd>
             }
 
         </dl>
@@ -119,7 +126,7 @@
 
     <!--OCENY-->
     <div class="col-xs-5 col-md-4 col-lg-3 nopadding">
-        @Html.Partial("UserRatePartial", Model.LoggedInURate)
+        @Html.Partial("UserRatePartial", LoggedInUserRate)
     </div>
     <div class="clearfix"></div>
 </div>
@@ -131,12 +138,12 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#coll_description" class="panel-link">@Html.DisplayNameFor(model => model.People.Biography)</a>
+                    <a data-toggle="collapse" href="#coll_description" class="panel-link">@Html.DisplayNameFor(model => model.PeopleInfo.Biography)</a>
                 </h4>
             </div>
             <div id="coll_description" class="panel-collapse collapse @coll_biography_in">
                 <div class="panel-body">
-                    @Html.DisplayFor(model => model.People.Biography)
+                    @Html.DisplayFor(model => model.PeopleInfo.Biography)
                 </div>
             </div>
         </div>
@@ -159,11 +166,11 @@
                             @foreach (var photo in Model.Photos)
                             {
                                 <div class="col-xs-4 col-md-2 moviegalery">
-                                    @Html.Image(photo.PhotoURL, Url.Action("Details", "Photo", new { peopleID = Model.People.PeopleID, photoID = photo.PhotoID }), new { @class = "img-thumbnail", data_toggle = "tooltip", title = photo.Description })
+                                    @Html.Image(photo.PhotoURL, Url.Action("Details", "Photo", new { peopleID = Model.PeopleID, photoID = photo.PhotoID }), new { @class = "img-thumbnail", data_toggle = "tooltip", title = photo.Description })
                                 </div>
                             }
                         </div>
-                        @Html.ActionLink("Zobacz całą galerię", "Index", "Photo", new { peopleID = Model.People.PeopleID }, new { @class = "btn btn-default margintop20", style = "float:right" })
+                        @Html.ActionLink("Zobacz całą galerię", "Index", "Photo", new { peopleID = Model.PeopleID }, new { @class = "btn btn-default margintop20", style = "float:right" })
                     }
                     else
                     {
@@ -178,7 +185,7 @@
 </div>
 <div class="container-fluid nopadding">
     <!--ROLE FILMOWE-->
-    @if (Model.People.Proffesion.Actor == true)
+    @if (Model.Proffesion.Actor == true)
     {
         <div class="panel-group nopadding realative">
             <div class="panel panel-default">
@@ -191,7 +198,7 @@
                         </h4>
                     </div>
                     <div class="col-xs-2 col-sm-1">
-                        @if ((User.IsInRole("User") || User.IsInRole("Admin")) && Model.People.Roles.Count != 0)
+                        @if ((User.IsInRole("User") || User.IsInRole("Admin")) && Model.Roles.Count != 0)
                         {
                             <button type="button" class="btn btn-default dropdownbutton" onclick="UnHide()">
                                 <i class="glyphicon glyphicon-menu-down"></i>
@@ -202,11 +209,11 @@
                 </div>
                 <div id="coll_cast" class="panel-collapse collapse @coll_cast_in">
                     <div class="panel-body nopadding">
-                        @if (Model.People.Roles.Count != 0)
+                        @if (Model.Roles.Count != 0)
                         {
                             bool first = true;
                             int lastproductionyear = 0;
-                            foreach (var cast in Model.People.Roles)
+                            foreach (var cast in Model.Roles)
                             {
                                 <div class="cast container-fluid">
                                     <div class="col-xs-12 col-sm-1 col-sm-offset-1 col-lg-offset-1">
@@ -259,7 +266,7 @@
                         }
                         @if (User.IsInRole("User") || User.IsInRole("Admin"))
                         {
-                            @Html.ActionLink("Dodaj członka obsady", "Create", "ActorRoles", new { peopleID = Model.People.PeopleID }, new { @class = "btn btn-default", style = "float:right" })
+                            @Html.ActionLink("Dodaj członka obsady", "Create", "ActorRoles", new { peopleID = Model.PeopleID }, new { @class = "btn btn-default", style = "float:right" })
                         }
                     </div>
                 </div>
@@ -269,38 +276,39 @@
     }
 
     <!--REŻYSERKA-->
-    @if (Model.People.Proffesion.Director == true)
-    {
-        <div class="panel-group nopadding">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#coll_dir" class="panel-link">
-                            Reżyseria
-                        </a>
-                    </h4>
-                </div>
-                <div id="coll_dir" class="panel-collapse collapse @coll_director_in">
-                    <div class="panel-body">
-                        @if (Model.People.DirectedMovies.Count != 0)
-                        {
-                            foreach (var movie in Model.People.DirectedMovies)
+    
+        @if (Model.Proffesion.Director == true)
+        {
+            <div class="panel-group nopadding">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#coll_dir" class="panel-link">
+                                Reżyseria
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="coll_dir" class="panel-collapse collapse @coll_director_in">
+                        <div class="panel-body">
+                            @if (Model.DirectedMovies.Count != 0)
                             {
-                                @Html.Partial("MoviePartial",movie)                        
+                                foreach (var movie in Model.DirectedMovies)
+                                {
+                                    @Html.Partial("MoviePartial", movie)
+                                }
                             }
-                        }
-                        else
-                        {
-                            @:Brak wyreżyserowanych filmów :(
-                        }
+                            else
+                            {
+                                @:Brak wyreżyserowanych filmów :(
+                            }
+                        </div>
                     </div>
                 </div>
+                <div class="clearfix"></div>
             </div>
-            <div class="clearfix"></div>
-        </div>
-    }
-</div>
-
+        }
+    </div>
+           
     <button class="btn btn-default">
         @Html.ActionLink("Powrót", "Index", null, new { @class = "nodecoration" })
     </button>

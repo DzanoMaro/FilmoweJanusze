@@ -1,7 +1,7 @@
-﻿@model FilmoweJanusze.Models.People
+﻿@model FilmoweJanusze.ViewModels.PeopleFormView
 
 @{
-    ViewBag.Title = "Edycja aktora " + Model.FullName;
+    ViewBag.Title = "Edycja aktora " + ViewBag.Name;
 }
 
 <h2>Edycja aktora</h2>
@@ -15,7 +15,6 @@
     <div class="form-horizontal">
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.PeopleID)
 
         @Html.Partial("Form")
 
@@ -23,7 +22,7 @@
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Zapisz" class="btn btn-primary" />
                 <button class="btn btn-default">
-                    @Html.ActionLink("Powrót", "Details", new { id = Model.PeopleID }, new { @class = "nodecoration" })
+                    @Html.ActionLink("Powrót", "Details", new { id = ViewBag.PeopleID }, new { @class = "nodecoration" })
                 </button>
             </div>
         </div>

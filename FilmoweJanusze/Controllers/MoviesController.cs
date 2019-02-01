@@ -145,7 +145,7 @@ namespace FilmoweJanusze.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Movie movie = db.Movies.Include(m => m.MovieInfo).Include(m=>m.Genre).Include("Cast.People").Include(m=>m.UserRates).FirstOrDefault(m=>m.MovieID == id);
+            Movie movie = db.Movies.Include(m => m.MovieInfo).Include(m=>m.Genre).Include(m => m.UserRates).Include("Cast.People").FirstOrDefault(m=>m.MovieID == id);
 
             if (movie == null)
             {
@@ -206,7 +206,7 @@ namespace FilmoweJanusze.Controllers
         // Aby uzyskać więcej szczegółów, zobacz https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MovieID,Title,TitlePL,ReleaseDate,Genre,Description,DirectorID,Genre,TrailerURL,CountryProduction,DurationTime,PhotoURL")] MovieFormView movieFormView, string RadioPhotoBtn, string UrlPath, HttpPostedFileBase image)
+        public ActionResult Create([Bind(Include = "Title,TitlePL,ReleaseDate,Genre,Description,DirectorID,Genre,TrailerURL,CountryProduction,DurationTime,PhotoURL")] MovieFormView movieFormView, string RadioPhotoBtn, string UrlPath, HttpPostedFileBase image)
         {
             ViewBag.DirectorID = new SelectList(db.Peoples.Where(p => p.Proffesion.Director == true), "PeopleID", "FullName", movieFormView.DirectorID);
             ViewBag.CountryProduction = new SelectList(CountryList(), movieFormView.CountryProduction);
@@ -214,14 +214,9 @@ namespace FilmoweJanusze.Controllers
 
             if (ModelState.IsValid)
             {
-                /* DELETED
-                if (image != null) {
-                    movie.PosterMimeType = image.ContentType;
-                    movie.Poster = new byte[image.ContentLength];
-                    image.InputStream.Read(movie.Poster, 0, image.ContentLength);
-                }
-                */
-                Movie movie = new Movie {
+
+                Movie movie = new Movie
+                {
                     Title = movieFormView.Title,
                     TitlePL = movieFormView.TitlePL,
                     ReleaseDate = movieFormView.ReleaseDate,
@@ -438,7 +433,7 @@ namespace FilmoweJanusze.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Movie movie = db.Movies.Include(m => m.MovieInfo).Include(m=>m.Genre).FirstOrDefault(m => m.MovieID == id);
+            Movie movie = db.Movies.Find(id);
             if (movie == null)
             {
                 return HttpNotFound();
