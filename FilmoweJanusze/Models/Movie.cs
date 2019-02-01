@@ -10,7 +10,7 @@ using FilmoweJanusze.ViewModels;
 
 namespace FilmoweJanusze.Models
 {
-    public class Movie : ITile
+    public class Movie : Tile
     {
 
         public int MovieID { get; set; }
@@ -31,8 +31,7 @@ namespace FilmoweJanusze.Models
 
         [Display(Name = "Plakat")]
         [DataType(DataType.Url)]
-        public string PhotoURL { get; set; }
-
+        override public string PhotoURL { get; set; }
 
         //ZALEZNOSCI
         public MovieInfo MovieInfo { get; set; }
@@ -44,7 +43,7 @@ namespace FilmoweJanusze.Models
 
         [Display(Name = "Obsada")]
         public ICollection<ActorRole> Cast { get; set; }
-        public ICollection<UserRate> UserRates { get; set; }
+        override public ICollection<UserRate> UserRates { get; set; }
         [Display(Name = "Galeria zdjęć")]
         public ICollection<Photo> Photos { get; set; }
 
@@ -68,7 +67,7 @@ namespace FilmoweJanusze.Models
         }
 
         //INTERFACE
-        public int ActionID
+        override public int ActionID
         {
             get
             {
@@ -76,7 +75,7 @@ namespace FilmoweJanusze.Models
             }
         }
 
-        public string MainTitle
+        override public string MainTitle
         {
             get
             {
@@ -84,7 +83,7 @@ namespace FilmoweJanusze.Models
             }
         }
 
-        public string SubTitle
+        override public string SubTitle
         {
             get
             {
@@ -92,7 +91,7 @@ namespace FilmoweJanusze.Models
             }
         }
 
-        public string Controller
+        override public string Controller
         {
             get
             {

@@ -200,6 +200,7 @@
     <Compile Include="Controllers\PeopleController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
     <Compile Include="Controllers\ProfileInfoesController.cs" />
+    <Compile Include="Models\Tile.cs" />
     <Compile Include="Controllers\UserRateController.cs" />
     <Compile Include="DAL\MovieContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -512,15 +513,13 @@
     <Content Include="Views\ActorRoles\Edit.cshtml" />
     <Content Include="Views\ActorRoles\Index.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Enum.cshtml" />
-    <Content Include="Views\Movies\Form.cshtml" />
+    <Content Include="Views\Movies\_Form.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\MovieGenre.cshtml" />
-    <Content Include="Views\People\Form.cshtml" />
+    <Content Include="Views\People\_Form.cshtml" />
     <Content Include="Views\ActorRoles\Form.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CountryProduction.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DurationTime.cshtml" />
-    <Content Include="Views\Shared\MoviePartial.cshtml" />
-    <Content Include="Views\Shared\PeoplePartial.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Proffesion.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
@@ -549,6 +548,7 @@
     <Content Include="Views\Shared\Errors\NotFound.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\NotFound.cshtml" />
+    <Content Include="Views\Shared\_Tile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

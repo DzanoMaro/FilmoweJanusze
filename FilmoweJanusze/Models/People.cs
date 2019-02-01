@@ -6,7 +6,7 @@ using FilmoweJanusze.Infrastructure;
 
 namespace FilmoweJanusze.Models
 {
-    public class People : ITile
+    public class People : Tile
     {
         public int PeopleID { get; set; }
 
@@ -22,7 +22,7 @@ namespace FilmoweJanusze.Models
 
         [Display(Name = "Zdjęcie")]
         [DataType(DataType.Url)]
-        public string PhotoURL { get; set; }
+        override public string PhotoURL { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -37,7 +37,7 @@ namespace FilmoweJanusze.Models
 
         public ICollection<ActorRole> Roles { get; set; }
         public ICollection<Movie> DirectedMovies { get; set; }
-        public ICollection<UserRate> UserRates { get; set; }
+        override public ICollection<UserRate> UserRates { get; set; }
         [Display(Name = "Galeria zdjęć")]
         public ICollection<Photo> Photos { get; set; }
 
@@ -74,7 +74,7 @@ namespace FilmoweJanusze.Models
         }
 
         //INTERFACE
-        public int ActionID
+        override public int ActionID
         {
             get
             {
@@ -82,7 +82,7 @@ namespace FilmoweJanusze.Models
             }
         }
 
-        public string MainTitle
+        override public string MainTitle
         {
             get
             {
@@ -90,7 +90,7 @@ namespace FilmoweJanusze.Models
             }
         }
 
-        public string SubTitle
+        override public string SubTitle
         {
             get
             {
@@ -98,7 +98,7 @@ namespace FilmoweJanusze.Models
             }
         }
 
-        public string Controller
+        override public string Controller
         {
             get
             {

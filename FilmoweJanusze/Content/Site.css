@@ -161,9 +161,18 @@ section {
     .tilediv:hover {
         opacity: 0.8;
     }
-        .tilediv:hover .title {
+        .tilediv:hover .title .star-box {
             opacity: 1;
         }
+
+.star-box {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    background-color: black;
+    opacity: 0.8;
+    padding: 5px;
+}
 
 
 /* OBSADA */
