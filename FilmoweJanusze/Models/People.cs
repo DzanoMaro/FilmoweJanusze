@@ -6,55 +6,42 @@ using FilmoweJanusze.Infrastructure;
 
 namespace FilmoweJanusze.Models
 {
-    public class People
+    public class People : ITile
     {
         public int PeopleID { get; set; }
 
-        [Required(ErrorMessage ="Podaj imię")]
-        [StringLength(25, MinimumLength = 2, ErrorMessage = "{0} musi zawierać od 2 do 25 znaków")]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$",ErrorMessage = "{0} nie może zawierać znaków specjalnych, ani liczb")]
+        [Required]
+        [StringLength(25, MinimumLength = 2)]
         [Display(Name = "Imię")]
         public string FirstName { get; set; }
 
-        [Required(ErrorMessage = "Podaj nazwisko")]
+        [Required]
         [Display(Name = "Nazwisko")]
-        [StringLength(25, ErrorMessage = "{0} musi zawierać od  do  znaków", MinimumLength = 2)]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$", ErrorMessage = "{0} nie może zawierać znaków specjalnych, ani liczb")]
+        [StringLength(25,MinimumLength = 2)]
         public string LastName { get; set; }
-
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Data urodzenia")]
-        [CheckBirthday(ErrorMessage = "{0} nie może być z przyszłości")]
-        [MinDate(ErrorMessage = "Data nie może być sprzed 1900r.")]
-        [Remote("CheckBirthdate", "Extended", ErrorMessage = "{0} nie może być z przyszłości, ani sprzed 1900r.")]
-        public DateTime Birthdate { get; set; }
-
-        [Display(Name = "Miejsce urodzenia")]
-        public string Birthplace { get; set; }
-
-        [Display(Name = "Wzrost")]
-        [Range(0,220,ErrorMessage = "{0} musi być nieujemny i nie może przekraczać 220cm")]
-        [DisplayFormat(DataFormatString = "{0} cm")]
-        public uint? Height { get; set; }
-
-        [Display(Name = "Biografia")]
-        [DisplayFormat(NullDisplayText = "Nie dodano biografii :( ")]
-        [StringLength(9999,ErrorMessage ="Nie możesz przekroczyć 9999 znaków")]
-        [DataType(DataType.MultilineText)]
-        public string Biography { get; set; }
-
-        /*
-        [Display(Name = "Zdjęcie")]
-        public byte[] FacePhoto { get; set; }
-        [HiddenInput(DisplayValue = false)]
-        public string FaceMimeType { get; set; }
-        */
 
         [Display(Name = "Zdjęcie")]
         [DataType(DataType.Url)]
         public string PhotoURL { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Data urodzenia")]
+        public DateTime Birthdate { get; set; }
+
+        //ZALEZNOSCI
+        [Display(Name ="Zawód")]
+        public Proffesion Proffesion { get; set; }
+
+        public PeopleInfo PeopleInfo { get; set; }
+
+        public ICollection<ActorRole> Roles { get; set; }
+        public ICollection<Movie> DirectedMovies { get; set; }
+        public ICollection<UserRate> UserRates { get; set; }
+        [Display(Name = "Galeria zdjęć")]
+        public ICollection<Photo> Photos { get; set; }
+
+        //METODY
         [Display(Name = "Imię i nazwisko")]
         public string FullName
         {
@@ -86,11 +73,37 @@ namespace FilmoweJanusze.Models
             }
         }
 
-        [Display(Name ="Zawód")]
-        [MinimumProffesionCount(ErrorMessage = "Wybierz przynajmniej jeden zawód")]
-        public Proffesion Proffesion { get; set; }
-        public ICollection<ActorRole> Roles { get; set; }
-        //public ICollection<Movie> DirectedMovies { get; set; }
+        //INTERFACE
+        public int ActionID
+        {
+            get
+            {
+                return PeopleID;
+            }
+        }
 
+        public string MainTitle
+        {
+            get
+            {
+                return FullName;
+            }
+        }
+
+        public string SubTitle
+        {
+            get
+            {
+                return Age;
+            }
+        }
+
+        public string Controller
+        {
+            get
+            {
+                return "People";
+            }
+        }
     }
 }

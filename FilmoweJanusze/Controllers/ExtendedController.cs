@@ -19,17 +19,22 @@ namespace FilmoweJanusze.Controllers
         //WALIDACJA JSON
         public JsonResult CheckBirthdate(string Birthdate)
         {
-            DateTime dateTime = DateTime.Parse(Birthdate);
-     
-            if (dateTime <= DateTime.Today && dateTime.Year >= 1900 )
+            DateTime dateTime = new DateTime();
+            if (DateTime.TryParse(Birthdate, out dateTime))
             {
-                return Json(true, JsonRequestBehavior.AllowGet);
+                if (dateTime <= DateTime.Today && dateTime.Year >= 1900)
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(false, JsonRequestBehavior.AllowGet);
+                }
             }
             else
             {
-                return Json(false, JsonRequestBehavior.AllowGet);
+                return Json("Nieprawidłowy format daty", JsonRequestBehavior.AllowGet);
             }
-
         }
 
         public JsonResult CheckMinReleaseDate(string ReleaseDate)
@@ -50,8 +55,6 @@ namespace FilmoweJanusze.Controllers
             {
                 return Json("Nieprawidłowy format daty", JsonRequestBehavior.AllowGet);
             }
-
-
         }
 
         public JsonResult CheckImageSelected(string RadioPhotoBtn)

@@ -41,7 +41,7 @@ namespace FilmoweJanusze.Controllers
                     peoples = peoples.Where(p => p.Proffesion.Director == true);
                     break;
                 case "Scenarzysta":
-                    peoples = peoples.Where(p => p.Proffesion.Director == true);
+                    peoples = peoples.Where(p => p.Proffesion.Scenario == true);
                     break;
                 default:
                     break;
@@ -77,7 +77,7 @@ namespace FilmoweJanusze.Controllers
 
             return View(peoples.ToPagedList(pageNumber, pagesize));
         }
-        /* TODO odkemntować
+        
         // GET: People/Details/5
         public ActionResult Details(int? id)
         {
@@ -86,10 +86,9 @@ namespace FilmoweJanusze.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             
-            DetailViewModel movieandCast = new DetailViewModel();
-            movieandCast.People = db.Peoples.Include("Roles.Movie").Include(p => p.Proffesion).FirstOrDefault(p => p.PeopleID == id);
+            People people = db.Peoples.Include(p=>p.PeopleInfo).Include(p => p.Proffesion).Include(p=>p.UserRates).Include("Roles.Movie").FirstOrDefault(p => p.PeopleID == id);
 
-            if (movieandCast.People == null)
+            if (people == null)
             {
                 return HttpNotFound();
             }
@@ -99,10 +98,10 @@ namespace FilmoweJanusze.Controllers
             //pobranie wyreżyserowanych filmów
             //movieandCast.DirectedMovies = db.Movies.Where(m => m.DirectorID == movieandCast.People.PeopleID).OrderByDescending(m => m.ReleaseDate).ToList();
             //pobranie przykładowych zdjęć
-            movieandCast.Photos = db.Photos.Where(p => p.PeopleID == id).Take(6).ToList();
+            people.Photos = db.Photos.Where(p => p.PeopleID == id).Take(6).ToList();
             //pobranie ocen użytkowników
-            movieandCast.UserRates = db.UserRates.Where(p => p.PeopleID == id).ToList();
-
+            //movieandCast.UserRates = db.UserRates.Where(p => p.PeopleID == id).ToList();
+            people.DirectedMovies = db.Movies.Where(m => m.MovieInfo.DirectorID == id).ToList();
 
             //liczba zdjęć w galerii
             ViewBag.PhotoCount = db.Photos.Where(p => p.PeopleID == id).Count();
@@ -110,17 +109,22 @@ namespace FilmoweJanusze.Controllers
             ViewBag.UserID = User.Identity.GetUserId();
 
             //pobranie oceny zalogowanego usera
-            if (movieandCast.UserRates.Count > 0)
+            if (people.UserRates.Count > 0)
             {
+                ViewBag.Rate = Math.Round(people.UserRates.Average(ur => ur.Rate),2);
+                ViewBag.Controller = people.Controller;
+                /*
                 ViewBag.MovieRate = null;
                 ViewBag.PeopleRate = movieandCast.UserRates.Average(ur => ur.Rate);
                 if (ViewBag.UserID != null)
                 {
                     movieandCast.LoggedInURate = movieandCast.UserRates.FirstOrDefault(ur => ur.UserID == ViewBag.UserID);
                 }
+                */
             }
 
             //jeśli nie oceniono jeszcze
+            /*
             if (movieandCast.LoggedInURate == null)
             {
                 movieandCast.LoggedInURate = new UserRate();
@@ -129,19 +133,21 @@ namespace FilmoweJanusze.Controllers
                 movieandCast.LoggedInURate.PeopleID = (int)id;
                 movieandCast.LoggedInURate.People = movieandCast.People;
             }
+            */
 
-            return View(movieandCast);
-            
+            return View(people);
     }
-    8*/
+   
         // GET: People/Create
         [Authorize(Roles = "User, Admin")]
         public ActionResult Create()
         {
-            People people = new People();
-            people.PhotoURL = String.Empty;
-            people.Birthdate = DateTime.Today;
-            return View(people);
+
+            PeopleFormView peopleFormView = new PeopleFormView();
+            peopleFormView.PhotoURL = String.Empty;
+            peopleFormView.Birthdate = DateTime.Today;
+
+            return View(peopleFormView);
         }
 
         // POST: People/Create
@@ -150,19 +156,29 @@ namespace FilmoweJanusze.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "User, Admin")]
-        public ActionResult Create([Bind(Include = "PeopleID,FirstName,LastName,Birthdate,Birthplace,Height,Biography,Proffesion,PhotoURL")] People people, string RadioPhotoBtn, string UrlPath, HttpPostedFileBase image)
+        public ActionResult Create([Bind(Include = "FirstName,LastName,Birthdate,Birthplace,Height,Biography,Proffesion,PhotoURL")] PeopleFormView peopleFormView, string RadioPhotoBtn, string UrlPath, HttpPostedFileBase image)
         {
             //CheckBirthday(people.Birthdate);
 
             if (ModelState.IsValid)
             {
-                /* DELETED
-                 * if (image != null) {
-                people.FaceMimeType = image.ContentType;
-                people.FacePhoto = new byte[image.ContentLength];
-                image.InputStream.Read(people.FacePhoto, 0, image.ContentLength);
-                }
-                */
+
+                People people = new People
+                {
+                    FirstName = peopleFormView.FirstName,
+                    LastName = peopleFormView.LastName,
+                    Proffesion = peopleFormView.Proffesion,
+                    Birthdate = peopleFormView.Birthdate,
+                };
+
+                people.PeopleInfo = new PeopleInfo
+                {
+                    Biography = peopleFormView.Biography,
+                    Birthplace = peopleFormView.Birthplace,
+                    Height = peopleFormView.Height,
+                };
+
+
                 if (!String.IsNullOrEmpty(RadioPhotoBtn))
                 {
                     switch (RadioPhotoBtn)
@@ -201,7 +217,7 @@ namespace FilmoweJanusze.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["Error"] = "Nie można zapisać, popraw błędy!";
-            return View(people);
+            return View(peopleFormView);
         }
 
         // GET: People/Edit/5
@@ -212,13 +228,27 @@ namespace FilmoweJanusze.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            People people = db.Peoples.Include(p => p.Proffesion).Where(p => p.PeopleID == id).Single();
-            ViewBag.Name = people.FullName;
+            People people = db.Peoples.Include(p => p.PeopleInfo).Include(p => p.Proffesion).Where(p => p.PeopleID == id).Single();
             if (people == null)
             {
                 return HttpNotFound();
             }
-            return View(people);
+
+            PeopleFormView peopleFormView = new PeopleFormView
+            {
+                FirstName = people.FirstName,
+                LastName = people.LastName,
+                Proffesion = people.Proffesion,
+                Birthdate = people.Birthdate,
+
+                Biography = people.PeopleInfo.Biography,
+                Birthplace = people.PeopleInfo.Birthplace,
+                Height = people.PeopleInfo.Height,
+            };
+
+            ViewBag.Name = people.FullName;
+            ViewBag.PeopleID = id;
+            return View(peopleFormView);
         }
 
         // POST: People/Edit/5
@@ -235,70 +265,89 @@ namespace FilmoweJanusze.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var people = db.Peoples.Include(p => p.Proffesion).Where(p => p.PeopleID == id).Single();
+            var people = db.Peoples.Include(p=>p.PeopleInfo).Include(p => p.Proffesion).Where(p => p.PeopleID == id).Single();
+
             if (people == null)
             {
                 return HttpNotFound();
             }
+
             ViewBag.Name = people.FullName;
+            ViewBag.PeopleID = id;
 
-            if (TryUpdateModel(people, "", new string[] { "PeopleID","FirstName","LastName","Birthdate","Birthplace","Height","Biography","Proffesion","PhotoURL" }))
+            PeopleFormView peopleFormView = new PeopleFormView
             {
-                try
+                FirstName = people.FirstName,
+                LastName = people.LastName,
+                Proffesion = people.Proffesion,
+                Birthdate = people.Birthdate,
+
+                Biography = people.PeopleInfo.Biography,
+                Birthplace = people.PeopleInfo.Birthplace,
+                Height = people.PeopleInfo.Height,
+            };
+
+            if (TryUpdateModel(people, "", new string[] {"FirstName", "LastName", "Birthdate", "Proffesion", "PhotoURL" }))
+            {
+                if (TryUpdateModel(people.PeopleInfo, "", new string[] { "Birthplace", "Height", "Biography"}))
                 {
-                    if (ModelState.IsValid)
+                    try
                     {
-                        if(!String.IsNullOrEmpty(RadioPhotoBtn))
+                        if (ModelState.IsValid)
                         {
-                            switch (RadioPhotoBtn)
-                            { 
-                                case "FromFile":
-                                    if (image != null)
-                                        people.PhotoURL = SaveNewFile("PeopleFaces", people.FullName, image);
-                                    else
-                                        people.PhotoURL = IfEmptySetEmptyPhoto(people.PhotoURL);
-                                    break;
-                                case "FromURL":
-                                    if (!String.IsNullOrEmpty(UrlPath))
-                                    {
+                            if (!String.IsNullOrEmpty(RadioPhotoBtn))
+                            {
+                                switch (RadioPhotoBtn)
+                                {
+                                    case "FromFile":
+                                        if (image != null)
+                                            people.PhotoURL = SaveNewFile("PeopleFaces", people.FullName, image);
+                                        else
+                                            people.PhotoURL = IfEmptySetEmptyPhoto(people.PhotoURL);
+                                        break;
+                                    case "FromURL":
+                                        if (!String.IsNullOrEmpty(UrlPath))
+                                        {
+                                            DeleteOldFile(people.PhotoURL);
+                                            people.PhotoURL = UrlPath;
+                                        }
+                                        break;
+                                    case "None":
                                         DeleteOldFile(people.PhotoURL);
-                                        people.PhotoURL = UrlPath;
-                                    }
-                                    break;
-                                case "None":
-                                    DeleteOldFile(people.PhotoURL);
-                                    people.PhotoURL = NoContentPhoto;
-                                    break;
-                                default:
-                                    people.PhotoURL = IfEmptySetEmptyPhoto(people.PhotoURL);
-                                    break;
+                                        people.PhotoURL = NoContentPhoto;
+                                        break;
+                                    default:
+                                        people.PhotoURL = IfEmptySetEmptyPhoto(people.PhotoURL);
+                                        break;
+                                }
                             }
-                        }
-                        else
-                        {
-                            people.PhotoURL = IfEmptySetEmptyPhoto(people.PhotoURL);
-                        }
+                            else
+                            {
+                                people.PhotoURL = IfEmptySetEmptyPhoto(people.PhotoURL);
+                            }
 
-                        if (people.Proffesion.Actor == false && people.Proffesion.Director == false && people.Proffesion.Scenario == false)
-                        {
-                            people.Proffesion = null;       //usuwa rekord w DB
+                            /*
+                            if (people.Proffesion.Actor == false && people.Proffesion.Director == false && people.Proffesion.Scenario == false)
+                            {
+                                people.Proffesion = null;       //usuwa rekord w DB
+                            }
+                            */
+                            db.Entry(people).State = EntityState.Modified;
+                            db.SaveChanges();
+                            TempData["Success"] = "Poprawnie zmieniono informacje o człowieku.";
+                            return RedirectToAction("Details", "People", new { id = people.PeopleID });
                         }
-
-                        db.Entry(people).State = EntityState.Modified;
-                        db.SaveChanges();
-                        TempData["Success"] = "Poprawnie zmieniono informacje o człowieku.";
-                        return RedirectToAction("Details", "People", new { id = people.PeopleID });
+                        ViewData["Error"] = "Nie można zapisać, popraw błędy!";
+                        return View(peopleFormView);
+                    }   
+                    catch (RetryLimitExceededException)
+                    {
+                        ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
                     }
-                    ViewData["Error"] = "Nie można zapisać, popraw błędy!";
-                    return View(people);
-                }
-                catch (RetryLimitExceededException)
-                {
-                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
                 }
             }
             ViewData["Error"] = "Nie można zapisać, popraw błędy!";
-            return View(people);
+            return View(peopleFormView);
         }
 
         // GET: People/Delete/5
@@ -323,12 +372,10 @@ namespace FilmoweJanusze.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
-            People people = db.Peoples.Include(p => p.Proffesion).Where(p => p.PeopleID == id).Single();
+            People people = db.Peoples.Include(p => p.PeopleInfo).Include(p => p.Proffesion).FirstOrDefault(p => p.PeopleID == id);
             db.Peoples.Remove(people);
-            /*
-            People people = db.Peoples.Find(id);
-            */
-                            IQueryable actorroles = db.ActorRoles.Where(a => a.PeopleID == id);
+
+            IQueryable actorroles = db.ActorRoles.Where(a => a.PeopleID == id);
             foreach (ActorRole a in actorroles)
                 db.ActorRoles.Remove(a);
 

@@ -340,6 +340,14 @@
     <Compile Include="Migrations\201901311218402_movedGenreToMovieInfo.Designer.cs">
       <DependentUpon>201901311218402_movedGenreToMovieInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901311636137_PeopleSeperatedTo2Classes.cs" />
+    <Compile Include="Migrations\201901311636137_PeopleSeperatedTo2Classes.Designer.cs">
+      <DependentUpon>201901311636137_PeopleSeperatedTo2Classes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902010912001_PeopleInfoUpdate.cs" />
+    <Compile Include="Migrations\201902010912001_PeopleInfoUpdate.Designer.cs">
+      <DependentUpon>201902010912001_PeopleInfoUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ActorRole.cs" />
@@ -349,6 +357,7 @@
     <Compile Include="Models\MovieGenre.cs" />
     <Compile Include="Models\MovieInfo.cs" />
     <Compile Include="Models\People.cs" />
+    <Compile Include="Models\PeopleInfo.cs" />
     <Compile Include="Models\Photo.cs" />
     <Compile Include="Models\Proffesion.cs" />
     <Compile Include="Models\ProfileInfo.cs" />
@@ -358,6 +367,7 @@
     <Compile Include="ViewModels\Found.cs" />
     <Compile Include="ViewModels\IndexView.cs" />
     <Compile Include="ViewModels\MovieFormView.cs" />
+    <Compile Include="ViewModels\PeopleFormView.cs" />
     <Compile Include="ViewModels\ProfileInfoesDetails.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -646,6 +656,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901311218402_movedGenreToMovieInfo.resx">
       <DependentUpon>201901311218402_movedGenreToMovieInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901311636137_PeopleSeperatedTo2Classes.resx">
+      <DependentUpon>201901311636137_PeopleSeperatedTo2Classes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902010912001_PeopleInfoUpdate.resx">
+      <DependentUpon>201902010912001_PeopleInfoUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
