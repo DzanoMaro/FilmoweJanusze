@@ -1,0 +1,29 @@
+﻿@model FilmoweJanusze.Models.Tile
+
+@{
+    double rate = 0;
+    if(Model.UserRates.Count() > 0)
+    {
+        rate = Math.Round(Model.UserRates.Average(ur => ur.Rate), 2);
+    }
+
+}
+
+<div class="col-xs-12 col-sm-6 col-md-3 nopadding">
+    <div class="tilediv container-fluid">
+        <a href="@Url.Action("Details", Model.Controller, new { id = Model.ActionID })">
+            @Html.Image(Model.PhotoURL, new { @class = "poster img-responsive" })
+            <span class="title">
+                @Html.DisplayFor(modelItem => Model.MainTitle).ToString()
+            </span>
+
+            @if (rate > 0)
+            {
+                <div class="star-box star-rating">
+                    @rate
+                    <i class="glyphicon glyphicon-star"></i>
+                </div>
+            }
+        </a>
+    </div>
+</div>    
