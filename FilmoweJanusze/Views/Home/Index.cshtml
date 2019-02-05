@@ -10,43 +10,7 @@
     <div class="well-jm">
         <h4>Najnowsze premiery</h4>
     </div>
-    <!--TODO-->
-    <!-- SLIDER DO KARUZELI-->
-    @if (Model.LatestReleased.Count() > 0)
-{
-        <div id="LatestReleasedCarousel" class="container-fluid nopadding carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="item active">
-                    @for (var i = 0; i < Model.LatestReleased.Count(); i++)
-                    {
-                        var item = Model.LatestReleased.ElementAt(i);
-                        if (i % tilesPerRow == 0 && i!=0)
-                        {
-                            @:</div><div class="item">
-                        }
-                        Html.RenderPartial("_Tile", item);
-                    }
-                </div>
-            </div>
-
-            @if(Model.LatestReleased.Count() > tilesPerRow)
-            {
-                <!-- Left and right controls -->
-                <a class="left carousel-control width5perc" href="#LatestReleasedCarousel" data-slide="prev">
-                    <span class="glyphicon glyphicon-chevron-left"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="right carousel-control width5perc" href="#LatestReleasedCarousel" data-slide="next">
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            }
-        </div>
-    }
-    else
-    {
-        <h5> Brak premier </h5>
-    }
+     @Helper.TileCarousel(Html, Model.LatestReleased, "LatestReleasedCarousel", "Brak najnowszych premier", tilesPerRow)
 </section>
 
 <!--NOT YET RELEASED-->
@@ -55,41 +19,7 @@
     <div class="well-jm">
         <h4>Przyszłe premiery</h4>
     </div>
-    @if (Model.NotYetReleased.Count() > 0)
-    {
-        <div id="NotYetReleasedCarousel" class="container-fluid nopadding carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="item active">
-                    @for (var i = 0; i < Model.NotYetReleased.Count(); i++)
-                    {
-                        var item = Model.NotYetReleased.ElementAt(i);
-                        if (i % tilesPerRow == 0 && i != 0)
-                        {
-                        @:</div><div class="item">
-                        }
-                        Html.RenderPartial("_Tile", item);
-                    }
-                </div>
-            </div>
-
-            @if (Model.NotYetReleased.Count() > tilesPerRow)
-            {
-                <!-- Left and right controls -->
-                <a class="left carousel-control width5perc" href="#NotYetReleasedCarousel" data-slide="prev">
-                    <span class="glyphicon glyphicon-chevron-left"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="right carousel-control width5perc" href="#NotYetReleasedCarousel" data-slide="next">
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            }
-        </div>
-    }
-    else
-    {
-        <h5>Brak przyszłych premier</h5>
-    }
+    @Helper.TileCarousel(Html, Model.NotYetReleased, "NotYetReleasedCarousel", "Brak przyszłych premier", tilesPerRow)
 </section>
 
     <!--BIRTHDAYS-->
@@ -97,39 +27,5 @@
     <div class="well-jm">
         <h4>Urodziny w tym miesiącu obchodzą</h4>
     </div>
-    @if (Model.PeoplesBirthdays.Count() > 0)
-    {
-        <div id="PeoplesBirthdaysCarousel" class="container-fluid nopadding carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="item active">
-                    @for (var i = 0; i < Model.PeoplesBirthdays.Count(); i++)
-                    {
-                        var item = Model.PeoplesBirthdays.ElementAt(i);
-                        if (i % tilesPerRow == 0 && i != 0)
-                        {
-                        @:</div><div class="item">
-                        }
-                        Html.RenderPartial("_Tile", item);
-                    }
-                </div>
-            </div>
-
-            @if (Model.PeoplesBirthdays.Count() > tilesPerRow)
-            {
-                <!-- Left and right controls -->
-                <a class="left carousel-control width5perc" href="#PeoplesBirthdaysCarousel" data-slide="prev">
-                    <span class="glyphicon glyphicon-chevron-left"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="right carousel-control width5perc" href="#PeoplesBirthdaysCarousel" data-slide="next">
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            }
-        </div>
-    }
-    else
-    {
-        <h5>Nikt nie ma urodzin w tym miesiącu :(</h5>
-    }
+    @Helper.TileCarousel(Html, Model.PeoplesBirthdays, "PeoplesBirthdaysCarousel", "Nikt nie ma urodzin w tym miesiącu :(", tilesPerRow)
 </section>

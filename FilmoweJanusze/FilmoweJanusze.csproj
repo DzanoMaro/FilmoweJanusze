@@ -200,6 +200,9 @@
     <Compile Include="Controllers\PeopleController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
     <Compile Include="Controllers\ProfileInfoesController.cs" />
+    <Compile Include="Helpers\BeginCarouselHelper.cs" />
+    <Compile Include="Helpers\BeginHeaderHelper.cs" />
+    <Compile Include="Helpers\BeginPanelHelper.cs" />
     <Compile Include="Models\Tile.cs" />
     <Compile Include="Controllers\UserRateController.cs" />
     <Compile Include="DAL\MovieContext.cs" />
@@ -433,6 +436,7 @@
     <Content Include="Scripts\esm\popper-utils.js.map" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="App_Code\Helper.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -516,7 +520,7 @@
     <Content Include="Views\Movies\_Form.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\MovieGenre.cshtml" />
     <Content Include="Views\People\_Form.cshtml" />
-    <Content Include="Views\ActorRoles\Form.cshtml" />
+    <Content Include="Views\ActorRoles\_Form.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CountryProduction.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DurationTime.cshtml" />
@@ -534,7 +538,7 @@
     <Content Include="Views\Photo\Create.cshtml" />
     <Content Include="Views\Photo\Delete.cshtml" />
     <Content Include="Views\Photo\Edit.cshtml" />
-    <Content Include="Views\Photo\Form.cshtml" />
+    <Content Include="Views\Photo\_Form.cshtml" />
     <Content Include="Views\Photo\Index.cshtml" />
     <Content Include="Views\Photo\Details.cshtml" />
     <Content Include="Views\ProfileInfoes\Create.cshtml" />

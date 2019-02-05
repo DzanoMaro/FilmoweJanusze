@@ -99,8 +99,20 @@ section {
     margin-top: 20px;
 }
 
+.marginbottom10 {
+    margin-bottom: 10px;
+}
+
 .margin5 {
     margin: 5px;
+}
+
+.margin10 {
+    margin: 10px;
+}
+
+.padding10 {
+    padding: 10px;
 }
 
 .width5perc {
@@ -305,6 +317,10 @@ section {
     height: 276px;
 }
 
+.describe {
+    margin-right: 15px;
+}
+
 
 /* LOGIN POPUP*/
 .form-popup {
@@ -419,5 +435,11 @@ section {
 @media only screen and (max-width: 450px) {
     .gallerythumb {
         height: 100px;
+    }
+}
+
+@media (max-width: 992px) {
+    .describe {
+        margin-right: 0;
     }
 }

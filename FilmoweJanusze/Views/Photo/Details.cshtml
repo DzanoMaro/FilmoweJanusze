@@ -1,41 +1,39 @@
 ﻿@model ICollection<FilmoweJanusze.Models.Photo>
-@using FilmoweJanusze.Helpers
+
 
 @{
     ViewBag.Title = "Galeria zdjęć " + ViewBag.Name;
     PageData["Gallery"] = "~/Content/Gallery.css";
 
     int photoindex = 1;
+    string SubTitle = ViewBag.Name;
+
+    int id = 0;
+    string controller = String.Empty;
+    if (ViewBag.MovieID != null)
+    {
+        id = ViewBag.MovieID; ;
+        controller = "Movies";
+    }
+    else if (ViewBag.PeopleID != null)
+    {
+        id = ViewBag.PeopleID; ;
+        controller = "People";
+    }
+
+    MvcHtmlString SubTitleActionLink = Html.ActionLink(SubTitle, "Details", controller, new { id = id }, new { @class="nodecoration" });
 }
 
 <!--NAGŁÓWEK-->
-<div class="page-header well-jm realative">
-    <div class="col-xs-10 col-sm-11 nopadding">
-        <h3>Galeria zdjęć</h3>
-        @if (ViewBag.MovieID != null)
-        {
-            <a href=@Url.Action("Details","Movies",new { id = ViewBag.MovieID }) class="nodecoration"><h4>@ViewBag.Name</h4></a>
-        }
-        @if (ViewBag.PeopleID != null)
-        {
-            <a href=@Url.Action("Details","People",new { id = ViewBag.PeopleID }) class="nodecoration"><h4>@ViewBag.Name</h4></a>
-        }
-    </div>
+@using (Html.BeginHeader("Galeria zdjęć", SubTitleActionLink.ToString()))
+{
+    @Helper.AutohorizeDropDownBtn(
+    new[] {
+        Html.ActionLink("Edytuj", "Edit", new { id = ViewBag.PhotoID, ismovie = (ViewBag.MovieID > 0) ? true : false, ispeople = (ViewBag.PeopleID > 0) ? true : false }, new { id = "Edit", name = ViewBag.PhotoID }),
+        Html.ActionLink("Usuń", "Delete", new { id = ViewBag.PhotoID, ismovie = (ViewBag.MovieID > 0) ? true : false, ispeople = (ViewBag.PeopleID > 0) ? true : false }, new { id = "Delete", name = ViewBag.PhotoID })
+    }, "dropdown-toggle margintop20")
+}
 
-    @if (User.IsInRole("User") || User.IsInRole("Admin"))
-    {
-        <div class="col-xs-2 col-sm-1">
-            <button type="button" class="btn btn-default dropdown-toggle dropdownbutton margintop20" data-toggle="dropdown">
-                <i class="glyphicon glyphicon-menu-down"></i>
-            </button>
-            <ul class="dropdown-menu">
-                <li>@Html.ActionLink("Edytuj", "Edit", new { id = ViewBag.PhotoID, ismovie = (ViewBag.MovieID > 0) ? true : false, ispeople = (ViewBag.PeopleID > 0) ? true : false },new { id="Edit", name = ViewBag.PhotoID })</li>
-                <li>@Html.ActionLink("Usuń", "Delete", new { id = ViewBag.PhotoID, ismovie = (ViewBag.MovieID > 0) ? true : false, ispeople = (ViewBag.PeopleID > 0) ? true : false }, new { id="Delete", name = ViewBag.PhotoID })</li>
-            </ul>
-        </div>
-    }
-    <div class="clearfix"></div>
-</div>
 
 <!--GALERIA - KARUZELA-->
 <div id="GaleryCarousel" class="carousel slide minwidth270" data-ride="carousel" data-interval="0">
@@ -53,11 +51,11 @@
 
             <div class="@caruselclass" id="@photo.PhotoID">
                 <div class="numbertext"> @(i + 1)/@Model.Count</div>
-                @Html.Image(photo.PhotoURL, new { @class="img-responsive center" })
+                @Html.Image(photo.PhotoURL, new { @class = "img-responsive center" })
             </div>
         }
 
-        @if(Model.Count() > 1)
+        @if (Model.Count() > 1)
         {
             <!-- Left and right controls -->
             <a class=" left carousel-control" href="#GaleryCarousel" data-slide="prev">
@@ -92,7 +90,6 @@
             </div>
         }
     </div>
-
 
 </div>
 
@@ -133,7 +130,7 @@
 
         function SetCaption() {
             var oldimage = document.getElementsByClassName("gallerythumb demo cursor img-responsive actived")[0];
-            oldimage.className = oldimage.className.replace(" actived", "") 
+            oldimage.className = oldimage.className.replace(" actived", "")
             var newimage = document.getElementsByClassName("col-xs-2 nopadding active")[0].getElementsByTagName('img')[0];
             newimage.className += " actived"
 
