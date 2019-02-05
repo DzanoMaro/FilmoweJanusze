@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace FilmoweJanusze.Models
 {
+    
     public class ProfileInfo
     {
         [Key]

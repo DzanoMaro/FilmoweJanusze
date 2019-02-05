@@ -3,42 +3,34 @@
 
 @{
     ViewBag.Title = "Galeria zdjęć " + ViewBag.Name;
+
+    int id = 0;
+    string SubTitle = ViewBag.Name;
+    string controller = String.Empty;
+    string movieID = String.Empty;
+    string peopleID = String.Empty;
+
+    if (ViewBag.MovieID != null)
+    {
+        id = ViewBag.MovieID; ;
+        controller = "Movies";
+        movieID = id.ToString();
+    }
+    else if (ViewBag.PeopleID != null)
+    {
+        id = ViewBag.PeopleID; ;
+        controller = "People";
+        peopleID = id.ToString();
+    }
+
+    MvcHtmlString SubTitleActionLink = Html.ActionLink(SubTitle, "Details", controller, new { id = id }, new { @class = "nodecoration" });
+    MvcHtmlString LiActionLink = Html.ActionLink("Dodaj nowe zdjęcie", "Create", new { movieID, peopleID});
 }
 
-<div class="page-header well-jm realative">
-    <div class="col-xs-10 col-sm-11 nopadding">
-        <h3>Galeria zdjęć</h3>
-        @if (ViewBag.MovieID != null)
-        {
-            <a href=@Url.Action("Details","Movies",new { id = ViewBag.MovieID }) class="nodecoration"><h4>@ViewBag.Name</h4></a>
-        }
-        @if (ViewBag.PeopleID != null)
-        {
-            <a href=@Url.Action("Details","People",new { id = ViewBag.PeopleID }) class="nodecoration"><h4>@ViewBag.Name</h4></a>
-        }
-
-    </div>
-
-    @if (User.IsInRole("User") || User.IsInRole("Admin"))
-    {
-        <div class="dropdown col-xs-1 dropdownbutton">
-            <button type="button" class="btn btn-default dropdown-toggle dropdownbutton margintop20" data-toggle="dropdown">
-                <i class="glyphicon glyphicon-menu-down"></i>
-            </button>
-            <ul class="dropdown-menu">
-                @if (ViewBag.MovieID != null)
-                {
-                    <li>@Html.ActionLink("Dodaj nowe zdjęcie", "Create", new { movieID = ViewBag.MovieID })</li>
-                }
-                else if (ViewBag.PeopleID != null)
-                {
-                    <li>@Html.ActionLink("Dodaj nowe zdjęcie", "Create", new { peopleID = ViewBag.PeopleID })</li>
-                }
-            </ul>
-        </div>
-    }
-    <div class="clearfix"></div>
-</div>
+@using (Html.BeginHeader("Galeria zdjęć", SubTitleActionLink.ToString()))
+{
+    @Helper.AutohorizeDropDownBtn( new[] { LiActionLink }, "dropdown-toggle margintop20")
+}
 
 @if (Model.Count() > 0)
 {

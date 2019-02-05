@@ -14,17 +14,8 @@
                     @ViewBag.Title
                 </h3>
             </div>
-            @if (User.IsInRole("User") || User.IsInRole("Admin"))
-            {
-                <div class="col-xs-2 col-sm-1">
-                    <button type="button" class="btn btn-default dropdown-toggle dropdownbutton margintop10" data-toggle="dropdown">
-                        <i class="glyphicon glyphicon-menu-down"></i>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Dodaj film", "Create")</li>
-                    </ul>
-                </div>
-            }
+            @Helper.AutohorizeDropDownBtn(new[] { Html.ActionLink("Dodaj film", "Create") })
+
             <div class="clearfix"></div>
         </div>
 
