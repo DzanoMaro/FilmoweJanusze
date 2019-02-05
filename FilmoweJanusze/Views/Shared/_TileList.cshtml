@@ -1,0 +1,45 @@
+﻿@model PagedList.IPagedList<FilmoweJanusze.Models.Tile>
+@using PagedList.Mvc;
+
+
+@if (Model.Count > 0)
+{
+    <div class="container-fluid nopadding">
+        @foreach (var item in Model)
+        {
+            Html.RenderPartial("_Tile", item);
+        }
+    </div>
+    <br />
+    @:Strona @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) z @Model.PageCount
+
+    if (ViewBag.ProfileInfoes == true)
+    {
+        if (Model.FirstOrDefault().Controller == "Movies")
+        {
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, genre = ViewBag.Genre.SelectedValue, pageSize = ViewBag.PageSize.SelectedValue }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "tilelist" }))
+        }
+        else if (Model.FirstOrDefault().Controller == "People")
+        {
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, proffesion = ViewBag.Proffesion.SelectedValue, pageSize = ViewBag.PageSize.SelectedValue }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "tilelist" }))
+        }
+    }
+    else
+    {
+        if (Model.FirstOrDefault().Controller == "Movies")
+        {
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.SortOrder.SelectedValue, sortParam = ViewBag.SortParam.SelectedValue, genre = ViewBag.Genre.SelectedValue, countryProduction = ViewBag.CountryProduction.SelectedValue, years = ViewBag.Years.SelectedValue, pageSize = ViewBag.PageSize.SelectedValue }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "movielist" }))
+        }
+        else if (Model.FirstOrDefault().Controller == "People")
+        {
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.SortOrder.SelectedValue, sortParam = ViewBag.SortParam.SelectedValue, proffesion = ViewBag.Proffesion.SelectedValue, pageSize = ViewBag.PageSize.SelectedValue }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "peoplelist" }))
+        }
+    }
+
+
+}
+
+else
+{
+    <h4> @ViewBag.NoContent </h4>
+}

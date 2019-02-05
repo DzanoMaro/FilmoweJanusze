@@ -22,5 +22,10 @@ namespace FilmoweJanusze.Models
 
 
         public People People { get; set; }
+
+        static public string[] GetProffesions()
+        {
+            return new[] { "Aktor", "Reżyser", "Scenarzysta" };
+        }
     }
 }

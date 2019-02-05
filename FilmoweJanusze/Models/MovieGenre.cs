@@ -93,7 +93,13 @@ namespace FilmoweJanusze.Models
                 count++;
             return count;
         }
-    }
+
+        static public string[] GetTypes()
+        {
+            return new[] { "Akcja", "Animowany", "Biograficzny", "Dokumentalny", "Dramat", "Familijny", "Fantasy", "Horror", "Komedia", "Krótkometrażowy", "Kryminalny", "Melodramat", "Musical", "Muzyczny", "Przygodowy", "Romans", "Sci-Fi", "Thriller" };
+        }
+
+}
 
     
 }

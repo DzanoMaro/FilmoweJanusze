@@ -22,58 +22,22 @@ namespace FilmoweJanusze.Controllers
         // GET: People
         public ActionResult Index(string sortParam, string sortOrder, string proffesion, int? pageSize, int? page)
         {
-            IQueryable<People> peoples = db.Peoples.OrderBy(p => p.LastName);
+            IEnumerable<People> peoples = db.Peoples.Include(p=>p.Proffesion).Include(p => p.UserRates).ToList();
 
-            ViewBag.SortParam = new SelectList(new[] { "Nazwisko", "Imię", "Data urodzenia" }, sortParam);
-            ViewBag.SortOrder = new SelectList(new[] { "Rosnąco", "Malejąco" }, sortOrder);
-            ViewBag.Proffesion = new SelectList(new[] { "Aktor", "Reżyser", "Scenarzysta"}, proffesion);
-            ViewBag.PageSize = new SelectList(new[] { 4, 8, 12, 20 }, pageSize);
+            ViewBag.SortParam = new SelectList(new[] { "Nazwisko", "Imię", "Data urodzenia", "Oceny" }, sortParam);
+            ViewBag.SortOrder = new SelectList(SortOrder(), sortOrder);
+            ViewBag.Proffesion = new SelectList(Proffesion.GetProffesions(), proffesion);
+            ViewBag.PageSize = new SelectList(PageSizes(), pageSize);
+            ViewBag.NoContent = "Brak postaci kina spełniających warunek :(";
 
-            int pagesize = (pageSize ?? 8);
-            int pageNumber = (page ?? 1);
-            
-            switch(proffesion)
-            {
-                case "Aktor":
-                    peoples = peoples.Where(p => p.Proffesion.Actor == true);
-                    break;
-                case "Reżyser":
-                    peoples = peoples.Where(p => p.Proffesion.Director == true);
-                    break;
-                case "Scenarzysta":
-                    peoples = peoples.Where(p => p.Proffesion.Scenario == true);
-                    break;
-                default:
-                    break;
-            }
+            int pagesize = (pageSize ?? DefPageSize);
+            int pageNumber = (page ?? DefPageNo);
 
-            switch(sortParam)
-            {
-                case "Nazwisko":
-                    if (sortOrder == "Malejąco")
-                        peoples = peoples.OrderByDescending(p => p.LastName);
-                    else
-                        peoples = peoples.OrderBy(p => p.LastName);
-                    break;
-                case "Imię":
-                    if (sortOrder == "Malejąco")
-                        peoples = peoples.OrderByDescending(p => p.FirstName);
-                    else
-                        peoples = peoples.OrderBy(p => p.FirstName);
-                    break;
-                case "Data urodzenia":
-                    if (sortOrder == "Malejąco")
-                        peoples = peoples.OrderByDescending(p => p.Birthdate);
-                    else
-                        peoples = peoples.OrderBy(p => p.Birthdate);
-                    break;
-                default:
-                    peoples = peoples.OrderBy(p => p.LastName);
-                    break;
-            }
+            peoples = SwitchProffesion(peoples, proffesion);
+            peoples = SortPeoples(peoples, sortParam, sortOrder);            
 
             if (Request.IsAjaxRequest())
-                return PartialView("_PeopleList", peoples.ToPagedList(pageNumber, pagesize));
+                return PartialView("_TileList", peoples.ToPagedList(pageNumber, pagesize));
 
             return View(peoples.ToPagedList(pageNumber, pagesize));
         }
@@ -81,10 +45,7 @@ namespace FilmoweJanusze.Controllers
         // GET: People/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            CheckID(id);
             
             People people = db.Peoples.Include(p=>p.PeopleInfo).Include(p => p.Proffesion).Include(p=>p.UserRates).Include("Roles.Movie").FirstOrDefault(p => p.PeopleID == id);
 
@@ -93,14 +54,7 @@ namespace FilmoweJanusze.Controllers
                 return HttpNotFound();
             }
 
-            //pobranie roli filmowych
-            //movieandCast.Cast = db.ActorRoles.Where(a => a.PeopleID == movieandCast.People.PeopleID).OrderByDescending(a=>a.Movie.ReleaseDate).ToList();
-            //pobranie wyreżyserowanych filmów
-            //movieandCast.DirectedMovies = db.Movies.Where(m => m.DirectorID == movieandCast.People.PeopleID).OrderByDescending(m => m.ReleaseDate).ToList();
-            //pobranie przykładowych zdjęć
             people.Photos = db.Photos.Where(p => p.PeopleID == id).Take(6).ToList();
-            //pobranie ocen użytkowników
-            //movieandCast.UserRates = db.UserRates.Where(p => p.PeopleID == id).ToList();
             people.DirectedMovies = db.Movies.Where(m => m.MovieInfo.DirectorID == id).ToList();
 
             //liczba zdjęć w galerii
@@ -113,27 +67,7 @@ namespace FilmoweJanusze.Controllers
             {
                 ViewBag.Rate = Math.Round(people.UserRates.Average(ur => ur.Rate),2);
                 ViewBag.Controller = people.Controller;
-                /*
-                ViewBag.MovieRate = null;
-                ViewBag.PeopleRate = movieandCast.UserRates.Average(ur => ur.Rate);
-                if (ViewBag.UserID != null)
-                {
-                    movieandCast.LoggedInURate = movieandCast.UserRates.FirstOrDefault(ur => ur.UserID == ViewBag.UserID);
-                }
-                */
             }
-
-            //jeśli nie oceniono jeszcze
-            /*
-            if (movieandCast.LoggedInURate == null)
-            {
-                movieandCast.LoggedInURate = new UserRate();
-                movieandCast.LoggedInURate.MovieID = null;
-                movieandCast.LoggedInURate.Movie = null;
-                movieandCast.LoggedInURate.PeopleID = (int)id;
-                movieandCast.LoggedInURate.People = movieandCast.People;
-            }
-            */
 
             return View(people);
     }
@@ -394,10 +328,10 @@ namespace FilmoweJanusze.Controllers
         }
 
         // ---------------WŁASNE FUNKCJE---------------
-
+        /* DO USUNIECIA
         public FileContentResult GetImage(int peopleId)
         {
-            /* TODO
+            
             People people = db.Peoples.FirstOrDefault(p => p.PeopleID == peopleId);
             if (people != null)
             {
@@ -407,7 +341,7 @@ namespace FilmoweJanusze.Controllers
             {
                 
             }
-            */
+            
             return null;
         }
 
@@ -439,5 +373,5 @@ namespace FilmoweJanusze.Controllers
                 ModelState.AddModelError("Birthdate", "Data urodzenia nie może być z przyszłości");
         }
         */
-        }
+    }
 }

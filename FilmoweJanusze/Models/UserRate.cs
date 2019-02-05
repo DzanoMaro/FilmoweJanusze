@@ -19,7 +19,7 @@ namespace FilmoweJanusze.Models
         [Range(1, 6)]
         public int Rate { get; set; }
 
-        [StringLength(99, ErrorMessage ="Komentarz może zawierać maksymalnie 99 znaków")]
+        [StringLength(99, ErrorMessage = "Komentarz może zawierać maksymalnie 99 znaków")]
         [DataType(DataType.MultilineText)]
         [DisplayFormat(NullDisplayText = "Brak komentarza")]
         [Display(Name = "Twój komentarz")]
@@ -29,5 +29,23 @@ namespace FilmoweJanusze.Models
 
         [ForeignKey("UserID")]
         public ApplicationUser User { get; set; }
+
+        public static int[] GetRateRange()
+        {
+            int[] raterange = new int[RateMaxRange];
+            for (int i = 0; i < RateMaxRange; i++)
+                raterange[i] = i + 1;
+
+            return raterange;
+        }
+
+        private static int RateMaxRange
+        {
+            get
+            {
+                return 6;
+            }
+        }
+
     }
 }

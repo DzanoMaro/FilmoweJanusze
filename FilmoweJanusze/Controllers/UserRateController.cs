@@ -63,9 +63,6 @@ namespace FilmoweJanusze.Controllers
 
                     if (ModelState.IsValid)
                     {
-                        //userRate.User = db.Users.Find(userRate.User.Id);
-                        // TODO: Add insert logic here
-
                         db.Entry(userRate).State = EntityState.Modified;
                         db.SaveChanges();
                         TempData["Success"] = "Twoja ocena została zmieniona.";

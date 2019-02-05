@@ -1,0 +1,105 @@
+﻿@model PagedList.IPagedList<FilmoweJanusze.Models.Tile>
+@using FilmoweJanusze.Models;
+@{
+    ViewBag.Title = "Twoje oceny";
+}
+
+<div class="panel-group nopadding realative">
+    <div class="panel">
+        <div class="well-jm">
+            <div class="col-xs-10 col-sm-11 nopadding">
+                <h3>
+                    @ViewBag.Title
+                </h3>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <!-- FILTRACJA I SORTOWANIE-->
+
+        @using (Ajax.BeginForm("Index", "ProfileInfoes", new { id = ViewBag.ID, page = 1 }, new AjaxOptions
+        {
+            HttpMethod = "GET",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "tilelist"
+        }, new { @class = "form-inline" }))
+        //using (Html.BeginForm("Index", "Movies", FormMethod.Get, htmlAttributes: new { page = 1, @class = "form-inline" }))
+        {
+            <div class="panel-body sortfilter form-inline">
+                <div class="col-sm-7 col-md-8">
+                    <div class="form-group">
+                        <label>
+                            Filtruj według:
+                        </label>
+                        @if (ViewBag.Controller == "Movies")
+                        {
+                            <label>
+                                Gatunku
+                            </label>
+                            @Html.DropDownList("Genre", null, "Wszystkie", new { @class = "form-control" })
+                        }
+                        else if (ViewBag.Controller == "People")
+                        {
+                            <label>
+                                Zawodu:
+                            </label>
+                            @Html.DropDownList("Proffesion", null, "Wszystkie", new { @class = "form-control" })
+                        }
+                        <label>
+                            Twojej Oceny:
+                        </label>
+                        @Html.DropDownList("Rate", null, "Wszystkie", new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ilość wyników na stronie</label>
+                        @Html.DropDownList("PageSize", null, new { @class = "form-control" })
+                    </div>
+                    <input type="submit" value="Wykonaj" class="btn btn-primary" />
+                </div>
+                <div class="col-sm-5 col-md-4">
+                    @for (int i = UserRate.GetRateRange().Count(); i > 0; i--)
+                    {
+                        <div id=@i onclick="SetRate(@i)">
+                            <div class="side">
+                                <div>@i</div>
+                            </div>
+                            <div class="middle">
+                                <div class="bar-container">
+                                    <div class="bar-@i"></div>
+                                </div>
+                            </div>
+                            <div class="side right">
+                                <div>@ViewBag.RatesCount[i-1]</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+<!--FILMY-->
+<div id="tilelist">
+    @Html.Partial("_TileList")
+</div>
+
+@section scripts {
+    <script>
+        function SetRate(Rate) {
+            document.getElementById("Rate").value = Rate;
+            document.getElementById("form0").submit();
+        }
+
+        var i;
+        for (i = @UserRate.GetRateRange().Count(); i > 0; i--) {
+            var maindiv = document.getElementById(i);
+            var ratecount = maindiv.children[2].children[0].firstChild.data;
+            var percentage = ratecount / @ViewBag.Count * 100;
+            var bar = maindiv.children[1].children[0].children[0].style.width = percentage.toString() + "%";
+        };
+
+    </script>
+}

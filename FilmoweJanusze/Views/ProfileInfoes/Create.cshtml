@@ -1,11 +1,11 @@
 ﻿@model FilmoweJanusze.Models.ProfileInfo
 
 @{
-    ViewBag.Title = "Dodaj swoje informacje profilowe " + Model.User.UserName;
+    ViewBag.Title = "Dodaj swoje informacje profilowe ";
 }
 
 <h3>Dodaj swoje informacje profilowe </h3>
-<h4>@Model.User.UserName</h4>
+<h4></h4>
 <hr />
 
 @using (Html.BeginForm("Create", "ProfileInfoes", FormMethod.Post, new { enctype = "multipart/form-data" }))

@@ -26,112 +26,29 @@ namespace FilmoweJanusze.Controllers
         // GET: Movies
         public ActionResult Index(string sortParam, string sortOrder, string genre, string countryProduction, string years, int? pageSize, int? page)
         {
-            IQueryable<Movie> movies = db.Movies.Include(m=>m.MovieInfo);
+            IEnumerable<Movie> movies = db.Movies.Include(m => m.Genre).Include(m=>m.MovieInfo).Include(m => m.UserRates).ToList();
 
-            switch (genre)
-            {
-                case "Akcja":
-                    movies = movies.Where(m => m.Genre.Action == true);
-                    break;
-                case "Animowany":
-                    movies = movies.Where(m => m.Genre.Anime == true);
-                    break;
-                case "Biograficzny":
-                    movies = movies.Where(m => m.Genre.Biographic == true);
-                    break;
-                case "Dokumentalny":
-                    movies = movies.Where(m => m.Genre.Documental == true);
-                    break;
-                case "Dramat":
-                    movies = movies.Where(m => m.Genre.Drama == true);
-                    break;
-                case "Familijny":
-                    movies = movies.Where(m => m.Genre.Familly == true);
-                    break;
-                case "Fantasy":
-                    movies = movies.Where(m => m.Genre.Fantasy == true);
-                    break;
-                case "Horror":
-                    movies = movies.Where(m => m.Genre.Horror == true);
-                    break;
-                case "Komedia":
-                    movies = movies.Where(m => m.Genre.Comedy == true);
-                    break;
-                case "Krótkometrażowy":
-                    movies = movies.Where(m => m.Genre.Short == true);
-                    break;
-                case "Krotkometrażowy":    //dont delete
-                    movies = movies.Where(m => m.Genre.Short == true);
-                    genre = "Krótkometrażowy";
-                    break;
-                case "Kryminalny":
-                    movies = movies.Where(m => m.Genre.Criminal == true);
-                    break;
-                case "Melodramat":
-                    movies = movies.Where(m => m.Genre.Melodrama == true);
-                    break;
-                case "Musical":
-                    movies = movies.Where(m => m.Genre.Musical == true);
-                    break;
-                case "Muzyczny":
-                    movies = movies.Where(m => m.Genre.Music == true);
-                    break;
-                case "Przygodowy":
-                    movies = movies.Where(m => m.Genre.Adventure == true);
-                    break;
-                case "Romans":
-                    movies = movies.Where(m => m.Genre.Romans == true);
-                    break;
-                case "Sci-Fi":
-                    movies = movies.Where(m => m.Genre.SciFi == true);
-                    break;
-                case "Thriller":
-                    movies = movies.Where(m => m.Genre.Thriller == true);
-                    break;
-                default:
-                    break;
-            }
-            
             //lista lat z dostepnych filmow
-            ViewBag.Years = new SelectList(movies.Select(m => m.ReleaseDate.Year).Distinct().ToList(), years);
+            ViewBag.Years = new SelectList(movies.OrderBy(m => m.ReleaseDate.Year).Select(m => m.ReleaseDate.Year).Distinct().ToList(), years);
 
             //listy sortujacefiltrujace
-            ViewBag.SortParam = new SelectList(new[] { "Tytułu", "Daty premiery" }, sortParam);
-            ViewBag.SortOrder = new SelectList(new[] { "Rosnąco", "Malejąco" }, sortOrder);
-            ViewBag.Genre = new SelectList(new[] { "Akcja", "Animowany", "Biograficzny", "Dokumentalny", "Dramat", "Familijny", "Fantasy", "Horror", "Komedia", "Krótkometrażowy", "Kryminalny", "Melodramat", "Musical", "Muzyczny", "Przygodowy", "Romans", "Sci-Fi", "Thriller" },genre);
+            ViewBag.SortParam = new SelectList(new[] { "Tytułu", "Daty premiery", "Oceny" }, sortParam);
+            ViewBag.SortOrder = new SelectList(SortOrder(), sortOrder);
+            ViewBag.Genre = new SelectList(MovieGenre.GetTypes(),genre);
             ViewBag.CountryProduction = new SelectList(CountryList(), countryProduction);
-            ViewBag.PageSize = new SelectList(new[] { 4, 8, 12, 20 }, pageSize);
+            ViewBag.PageSize = new SelectList(PageSizes(), pageSize);
+            ViewBag.NoContent = "Brak filmów spełniających warunek :(";
 
-            int pagesize = (pageSize ?? 8);
-            int pageNumber = (page ?? 1);
+            int pagesize = (pageSize ?? DefPageSize);
+            int pageNumber = (page ?? DefPageNo);
 
-            if (!String.IsNullOrEmpty(countryProduction))
-            {
-                movies = movies.Where(m => m.MovieInfo.CountryProduction == countryProduction);
-            }
-
-            if(!String.IsNullOrEmpty(years))
-            {
-                movies = movies.Where(m => m.ReleaseDate.Year.ToString().Equals(years));
-            }
-
-            if (sortParam == "Daty premiery")
-            {
-                if (sortOrder == "Malejąco")
-                    movies = movies.OrderByDescending(m=>m.ReleaseDate);
-                else
-                    movies = movies.OrderBy(m => m.ReleaseDate);
-            }
-            else
-            {
-                if (sortOrder == "Malejąco")
-                    movies = movies.OrderByDescending(m => m.Title);
-                else
-                    movies = movies.OrderBy(m => m.Title);
-            }
+            movies = SwitchGenre(movies, genre);
+            movies = FilterCountry(movies, countryProduction);
+            movies = FilterYears(movies, years);
+            movies = SortMovies(movies, sortParam, sortOrder);
 
             if (Request.IsAjaxRequest())
-                return PartialView("_MovieList", movies.ToPagedList(pageNumber, pagesize));
+                return PartialView("_TileList", movies.ToPagedList(pageNumber, pagesize));
             
             return View(movies.ToPagedList(pageNumber,pagesize));
         }
@@ -140,10 +57,7 @@ namespace FilmoweJanusze.Controllers
         public ActionResult Details(int? id)
         {
 
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            CheckID(id);
 
             Movie movie = db.Movies.Include(m => m.MovieInfo).Include(m=>m.Genre).Include(m => m.UserRates).Include("Cast.People").FirstOrDefault(m=>m.MovieID == id);
 
@@ -152,18 +66,12 @@ namespace FilmoweJanusze.Controllers
                 return HttpNotFound();
             }
 
-            //pobranie reżysera
-            //detailViewModel.People = db.Peoples.Find(movie.MovieInfo.DirectorID);
-            //pobranie obsady
-            //movieandCast.UserRates = db.UserRates.Where(ur => ur.MovieID == id).ToList();
             //pobranie przykładowych zdjęć
             movie.Photos = db.Photos.Where(p => p.MovieID == id).Take(6).ToList();
-
             //id usera
             ViewBag.UserID = User.Identity.GetUserId();
             //liczba zdjęć w galerii
             ViewBag.PhotoCount = db.Photos.Where(p => p.MovieID == id).Count();
-
 
             //pobranie oceny zalogowanego usera
             if (movie.UserRates.Count > 0)
@@ -171,18 +79,6 @@ namespace FilmoweJanusze.Controllers
                 ViewBag.Rate = Math.Round(movie.UserRates.Average(ur=>ur.Rate),2);
                 ViewBag.Controller = movie.Controller;
             }
-
-            //jeśli nie oceniono jeszcze
-            /*
-            if (detailViewModel.LoggedInURate == null)
-            {
-                detailViewModel.LoggedInURate = new UserRate();
-                detailViewModel.LoggedInURate.MovieID = (int)id;
-                detailViewModel.LoggedInURate.Movie = detailViewModel.Movie;
-                detailViewModel.LoggedInURate.PeopleID = null;
-                detailViewModel.LoggedInURate.People = null;
-            }
-            */
 
             return View(movie);
         }
@@ -263,10 +159,10 @@ namespace FilmoweJanusze.Controllers
                 {
                     movie.PhotoURL = IfEmptySetEmptyPhoto(movie.PhotoURL);
                 }
-
+                /*
                 if (movie.Genre.Count() == 0)
                     movie.Genre = null;
-
+                    */
                 movie.MovieInfo.TrailerURL = ModifyTrailerURL(movie.MovieInfo.TrailerURL);
 
                 db.Movies.Add(movie);
@@ -499,25 +395,6 @@ namespace FilmoweJanusze.Controllers
             }
             else
                 return null;
-        }
-
-        public static List<string> CountryList()
-        {
-            List<string> CultureList = new List<string>();
-
-            CultureInfo[] cultureInfo = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
-
-            foreach (CultureInfo culture in cultureInfo)
-            {
-                RegionInfo regionInfo = new RegionInfo(culture.LCID);
-                if(!(CultureList.Contains(regionInfo.DisplayName)))
-                {
-                    CultureList.Add(regionInfo.DisplayName);
-                }
-            }
-
-            CultureList.Sort();
-            return CultureList;
         }
 
         [HttpPost]
