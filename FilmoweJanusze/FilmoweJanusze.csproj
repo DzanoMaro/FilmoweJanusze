@@ -203,6 +203,10 @@
     <Compile Include="Helpers\BeginCarouselHelper.cs" />
     <Compile Include="Helpers\BeginHeaderHelper.cs" />
     <Compile Include="Helpers\BeginPanelHelper.cs" />
+    <Compile Include="Migrations\201902061130535_MovieInfoRowVersion.cs" />
+    <Compile Include="Migrations\201902061130535_MovieInfoRowVersion.Designer.cs">
+      <DependentUpon>201902061130535_MovieInfoRowVersion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Tile.cs" />
     <Compile Include="Controllers\UserRateController.cs" />
     <Compile Include="DAL\MovieContext.cs" />
@@ -666,6 +670,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902010912001_PeopleInfoUpdate.resx">
       <DependentUpon>201902010912001_PeopleInfoUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902061130535_MovieInfoRowVersion.resx">
+      <DependentUpon>201902061130535_MovieInfoRowVersion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -90,10 +90,17 @@
                 <p><strong>Gratulacje!</strong> @TempData["Success"].ToString()</p>
             </div>
         }
+        @if (TempData["Warning"] != null)
+        {
+            <div class="alert alert-warning alert-dismissible fade in margintop20">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <p><strong>Uwaga!</strong> @TempData["Warning"].ToString()</p>
+            </div>
+        }
         @if (!Request.IsAuthenticated)
         {
-            if(ViewContext.RouteData.Values["action"].ToString() != "Register")
-            { 
+            if (ViewContext.RouteData.Values["action"].ToString() != "Register")
+            {
                 <!-- REGISTER Modal -->
                 <div id="Register" class="modal fade" role="dialog">
                     <div class="modal-dialog">
@@ -113,7 +120,7 @@
                         </div>
                     </div>
                 </div>
-            }            
+            }
         }
         @RenderBody()
         <hr />

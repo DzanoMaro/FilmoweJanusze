@@ -99,6 +99,33 @@ namespace FilmoweJanusze.Models
             return new[] { "Akcja", "Animowany", "Biograficzny", "Dokumentalny", "Dramat", "Familijny", "Fantasy", "Horror", "Komedia", "Krótkometrażowy", "Kryminalny", "Melodramat", "Musical", "Muzyczny", "Przygodowy", "Romans", "Sci-Fi", "Thriller" };
         }
 
+        public bool EqualTo(MovieGenre movieGenre)
+        {
+            if (
+                this.Action == movieGenre.Action &&
+                this.Adventure == movieGenre.Adventure &&
+                this.Anime == movieGenre.Anime &&
+                this.Biographic == movieGenre.Biographic &&
+                this.Comedy == movieGenre.Comedy &&
+                this.Criminal == movieGenre.Criminal &&
+                this.Documental == movieGenre.Documental &&
+                this.Drama == movieGenre.Drama &&
+                this.Familly == movieGenre.Familly &&
+                this.Fantasy == movieGenre.Fantasy &&
+                this.Horror == movieGenre.Horror &&
+                this.Melodrama == movieGenre.Melodrama &&
+                this.Music == movieGenre.Music &&
+                this.Musical == movieGenre.Musical &&
+                this.Romans == movieGenre.Romans &&
+                this.SciFi == movieGenre.SciFi &&
+                this.Short == movieGenre.Short &&
+                this.Thriller == movieGenre.Thriller
+                )
+                return true;
+            else
+                return false;
+        }
+
 }
 
     

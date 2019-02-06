@@ -47,11 +47,11 @@
     {
         @Html.AntiForgeryToken()
 
-    <div class="form-actions no-color">
-        <input type="submit" value="Usuń" class="btn btn-danger" />
-        <button class="btn btn-default">
-            @Html.ActionLink("Powrót", "Details", new { id = Model.MovieID }, new { @class = "nodecoration" })
-        </button>
-    </div>
+        <div class="form-actions no-color">
+            <input type="submit" value="Usuń" class="btn btn-danger" />
+            <button class="btn btn-default">
+                @Html.ActionLink("Powrót", "Details", new { id = Model.MovieID }, new { @class = "nodecoration" })
+            </button>
+        </div>
     }
 </div>

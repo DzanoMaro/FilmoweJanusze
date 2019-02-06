@@ -56,6 +56,9 @@ namespace FilmoweJanusze.ViewModels
         [DisplayFormat(NullDisplayText = "Brak reżysera")]
         public int? DirectorID { get; set; }
 
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
         [Display(Name = "Gatunek")]
         [Remote("ValidateMovieGenreCount", "Movies", HttpMethod = "POST", ErrorMessage = "Możesz wybrać max. 3 kategorie")]          //po stronie klienta
         [MaximumGenreCount(ErrorMessage = "Możesz wybrać max. 3 kategorie")]                                                       //po stronie serwera

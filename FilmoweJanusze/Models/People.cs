@@ -36,7 +36,7 @@ namespace FilmoweJanusze.Models
         public PeopleInfo PeopleInfo { get; set; }
 
         public ICollection<ActorRole> Roles { get; set; }
-        public ICollection<Movie> DirectedMovies { get; set; }
+        public ICollection<MovieInfo> DirectedMovies { get; set; }
         override public ICollection<UserRate> UserRates { get; set; }
         [Display(Name = "Galeria zdjęć")]
         public ICollection<Photo> Photos { get; set; }

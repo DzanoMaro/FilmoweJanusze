@@ -55,7 +55,7 @@ namespace FilmoweJanusze.Controllers
             }
 
             people.Photos = db.Photos.Where(p => p.PeopleID == id).Take(6).ToList();
-            people.DirectedMovies = db.Movies.Where(m => m.MovieInfo.DirectorID == id).ToList();
+            people.DirectedMovies = db.Movies.Where(m => m.MovieInfo.DirectorID == id).Select(m=>m.MovieInfo).Include(m=>m.Movie).ToList();
 
             //liczba zdjęć w galerii
             ViewBag.PhotoCount = db.Photos.Where(p => p.PeopleID == id).Count();

@@ -41,6 +41,8 @@ namespace FilmoweJanusze.Models
         [MaximumGenreCount(ErrorMessage = "Możesz wybrać max. 3 kategorie")]                                                       //po stronie serwera
         public MovieGenre Genre { get; set; }
 
+
+
         [Display(Name = "Obsada")]
         public ICollection<ActorRole> Cast { get; set; }
         override public ICollection<UserRate> UserRates { get; set; }
