@@ -200,7 +200,6 @@
     <Compile Include="Controllers\PeopleController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
     <Compile Include="Controllers\ProfileInfoesController.cs" />
-    <Compile Include="Helpers\BeginCarouselHelper.cs" />
     <Compile Include="Helpers\BeginHeaderHelper.cs" />
     <Compile Include="Helpers\BeginPanelHelper.cs" />
     <Compile Include="Migrations\201902061130535_MovieInfoRowVersion.cs" />

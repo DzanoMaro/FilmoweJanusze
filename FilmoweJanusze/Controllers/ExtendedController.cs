@@ -436,7 +436,7 @@ namespace FilmoweJanusze.Controllers
 
         public void DeleteOldFile(string Url)
         {
-            if(Url != NoContentPhoto)
+            if(Url != NoContentPhoto && Url != NoUserPhoto)
                 if (System.IO.File.Exists(Server.MapPath("~/") + Url))
                     System.IO.File.Delete(Server.MapPath("~/") + Url);
         }
@@ -445,10 +445,10 @@ namespace FilmoweJanusze.Controllers
         {
             return IfEmptySetEmptyPhoto(Url, NoContentPhoto);
         }
-        public string IfEmptySetEmptyPhoto(string Url, string defPhotUrl)
+        public string IfEmptySetEmptyPhoto(string Url, string EmptyPhotoUrl)
         {
             if (String.IsNullOrEmpty(Url))
-                return defPhotUrl;
+                return EmptyPhotoUrl;
             else return Url;
         }
 

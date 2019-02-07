@@ -62,7 +62,7 @@ namespace FilmoweJanusze.Controllers
         // Aby uzyskać więcej szczegółów, zobacz https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FirstName,LastName,Birthdate")] ProfileInfo profileInfo, HttpPostedFileBase image)
+        public ActionResult Create([Bind(Include = "FirstName,LastName,Birthdate")] ProfileInfo profileInfo, string RadioPhotoBtn, string UrlPath, HttpPostedFileBase image)
         {
             var UserID = User.Identity.GetUserId();
 
@@ -72,20 +72,35 @@ namespace FilmoweJanusze.Controllers
 
             if (ModelState.IsValid)
             {
-                if (image != null)
+                if (!String.IsNullOrEmpty(RadioPhotoBtn))
                 {
-                    string root = Server.MapPath("~/");
-                    string folder = "/Images/Profiles/";
-                    string name = profileInfo.User.UserName;
-                    string ext = System.IO.Path.GetExtension(image.FileName);
-
-                    //tworzy folder
-                    System.IO.Directory.CreateDirectory(root + folder);
-
-                    //crop
-                    Image crop = Image.FromStream(image.InputStream, true, true);
-                    SaveCroppedImage(crop, 300, 300, root + folder + name + ext);
-                    profileInfo.PhotoURL = folder + name + ext;
+                    switch (RadioPhotoBtn)
+                    {
+                        case "FromFile":
+                            if (image != null)
+                                profileInfo.PhotoURL = SaveNewFile("PeopleFaces", profileInfo.User.UserName, image);
+                            else
+                                profileInfo.PhotoURL = IfEmptySetEmptyPhoto(profileInfo.PhotoURL, NoUserPhoto);
+                            break;
+                        case "FromURL":
+                            if (!String.IsNullOrEmpty(UrlPath))
+                            {
+                                DeleteOldFile(profileInfo.PhotoURL);
+                                profileInfo.PhotoURL = UrlPath;
+                            }
+                            break;
+                        case "None":
+                            DeleteOldFile(profileInfo.PhotoURL);
+                            profileInfo.PhotoURL = NoContentPhoto;
+                            break;
+                        default:
+                            profileInfo.PhotoURL = IfEmptySetEmptyPhoto(profileInfo.PhotoURL, NoUserPhoto);
+                            break;
+                    }
+                }
+                else
+                {
+                    profileInfo.PhotoURL = IfEmptySetEmptyPhoto(profileInfo.PhotoURL, NoUserPhoto);
                 }
 
                 db.ProfileInfos.Add(profileInfo);
