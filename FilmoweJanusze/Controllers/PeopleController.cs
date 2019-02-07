@@ -178,6 +178,7 @@ namespace FilmoweJanusze.Controllers
                 Biography = people.PeopleInfo.Biography,
                 Birthplace = people.PeopleInfo.Birthplace,
                 Height = people.PeopleInfo.Height,
+                RowVersion = people.PeopleInfo.RowVersion,
             };
 
             ViewBag.Name = people.FullName;
@@ -191,7 +192,7 @@ namespace FilmoweJanusze.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "User, Admin")]
-        public ActionResult Edit(int? id, string RadioPhotoBtn, string UrlPath, HttpPostedFileBase image)
+        public ActionResult Edit(int? id, string RadioPhotoBtn, string UrlPath, HttpPostedFileBase image, byte[] rowVersion)
         {
             //[Bind(Include = "PeopleID,FirstName,LastName,Birthdate,Birthplace,Height,Biography,FacePhoto,FaceMimeType")] People people
 
@@ -206,29 +207,16 @@ namespace FilmoweJanusze.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.Name = people.FullName;
-            ViewBag.PeopleID = id;
-
-            PeopleFormView peopleFormView = new PeopleFormView
-            {
-                FirstName = people.FirstName,
-                LastName = people.LastName,
-                Proffesion = people.Proffesion,
-                Birthdate = people.Birthdate,
-
-                Biography = people.PeopleInfo.Biography,
-                Birthplace = people.PeopleInfo.Birthplace,
-                Height = people.PeopleInfo.Height,
-            };
-
             if (TryUpdateModel(people, "", new string[] {"FirstName", "LastName", "Birthdate", "Proffesion", "PhotoURL" }))
             {
-                if (TryUpdateModel(people.PeopleInfo, "", new string[] { "Birthplace", "Height", "Biography"}))
+                if (TryUpdateModel(people.PeopleInfo, "", new string[] { "Birthplace", "Height", "Biography", "RowVersion"}))
                 {
                     try
                     {
                         if (ModelState.IsValid)
                         {
+                            db.Entry(people.PeopleInfo).OriginalValues["RowVersion"] = rowVersion;
+
                             if (!String.IsNullOrEmpty(RadioPhotoBtn))
                             {
                                 switch (RadioPhotoBtn)
@@ -271,16 +259,69 @@ namespace FilmoweJanusze.Controllers
                             TempData["Success"] = "Poprawnie zmieniono informacje o człowieku.";
                             return RedirectToAction("Details", "People", new { id = people.PeopleID });
                         }
-                        ViewData["Error"] = "Nie można zapisać, popraw błędy!";
-                        return View(peopleFormView);
                     }   
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        var PeopleInfo_DBEntry = ex.Entries.Single().GetDatabaseValues();
+
+                        if (PeopleInfo_DBEntry == null)
+                        {
+                            ModelState.AddModelError(string.Empty, "Postać, którą próbujesz zmienić, została już usunięta.");
+                        }
+                        else
+                        {
+                            var PeopleInfo_DBValues = (PeopleInfo)PeopleInfo_DBEntry.ToObject();
+                            var People_DBValues = (People)db.Entry(people).GetDatabaseValues().ToObject();
+                            var Proffesion_DBValues = (Proffesion)db.Entry(people.Proffesion).GetDatabaseValues().ToObject();
+
+                            if (People_DBValues.FirstName != people.FirstName)
+                                ModelState.AddModelError("FirstName", "Aktualna wartość: " + People_DBValues.FirstName);
+                            if (People_DBValues.LastName != people.LastName)
+                                ModelState.AddModelError("LastName", "Aktualna wartość: " + People_DBValues.LastName);
+                            if (People_DBValues.Birthdate != people.Birthdate)
+                                ModelState.AddModelError("Birthdate", "Aktualna wartość: " + People_DBValues.Birthdate.ToShortDateString());
+                            if (People_DBValues.PhotoURL != people.PhotoURL)
+                                ModelState.AddModelError(String.Empty, "Zmienione zostało zdjęcie główne");
+
+                            if (!Proffesion_DBValues.EqualTo(people.Proffesion))
+                                ModelState.AddModelError(String.Empty, "Zmieniony został zawód postaci");
+
+                            if (PeopleInfo_DBValues.Birthplace != people.PeopleInfo.Birthplace)
+                                ModelState.AddModelError("Birthplace", "Aktualna wartość: " + PeopleInfo_DBValues.Birthplace);
+                            if (PeopleInfo_DBValues.Height != people.PeopleInfo.Height)
+                                ModelState.AddModelError("Height", "Aktualna wartość: " + PeopleInfo_DBValues.Height);
+                            if (PeopleInfo_DBValues.Biography != people.PeopleInfo.Biography)
+                                ModelState.AddModelError("Biography", "Aktualna wartość:  " + PeopleInfo_DBValues.Biography);
+
+                            ViewData["Error"] = "Postać, którą próbujesz zmienić, została już zmieniona, jeśli nadal chcesz kontynuować, zapisz ponownie, lecz utracisz poprzednie dane.";
+                            people.PeopleInfo.RowVersion = PeopleInfo_DBValues.RowVersion;
+                        }
+                    }
                     catch (RetryLimitExceededException)
                     {
                         ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
                     }
                 }
             }
-            ViewData["Error"] = "Nie można zapisać, popraw błędy!";
+
+            ViewBag.Name = people.FullName;
+            ViewBag.PeopleID = id;
+
+            PeopleFormView peopleFormView = new PeopleFormView
+            {
+                FirstName = people.FirstName,
+                LastName = people.LastName,
+                Proffesion = people.Proffesion,
+                Birthdate = people.Birthdate,
+
+                Biography = people.PeopleInfo.Biography,
+                Birthplace = people.PeopleInfo.Birthplace,
+                Height = people.PeopleInfo.Height,
+                RowVersion = people.PeopleInfo.RowVersion,
+            };
+
+            if (String.IsNullOrEmpty(ViewData["Error"].ToString()))
+                ViewData["Error"] = "Nie można zapisać, popraw błędy!";
             return View(peopleFormView);
         }
 
@@ -295,7 +336,8 @@ namespace FilmoweJanusze.Controllers
             People people = db.Peoples.Find(id);
             if (people == null)
             {
-                return HttpNotFound();
+                TempData["Warning"] = "Dany film, nie istnieje";
+                return RedirectToAction("Index");
             }
             return View(people);
         }
@@ -306,15 +348,47 @@ namespace FilmoweJanusze.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
-            People people = db.Peoples.Include(p => p.PeopleInfo).Include(p => p.Proffesion).FirstOrDefault(p => p.PeopleID == id);
-            db.Peoples.Remove(people);
+            try
+            { 
+                People people = db.Peoples.Include(p => p.PeopleInfo).Include(p => p.Proffesion).FirstOrDefault(p => p.PeopleID == id);
+                db.Peoples.Remove(people);
 
-            IQueryable actorroles = db.ActorRoles.Where(a => a.PeopleID == id);
-            foreach (ActorRole a in actorroles)
-                db.ActorRoles.Remove(a);
+                IQueryable userRates = db.UserRates.Where(ur => ur.PeopleID == id);
+                foreach (UserRate ur in userRates)
+                    db.UserRates.Remove(ur);
 
-            db.SaveChanges();
-            TempData["Success"] = "Poprawnie usunięto postać filmową.";
+                IQueryable photos = db.Photos.Where(p => p.PeopleID == id);
+                foreach (Photo p in photos)
+                {
+                    if (p.MovieID == null)
+                        db.Photos.Remove(p);
+                    else
+                    {
+                        p.PeopleID = null;
+                        p.ActorRole = null;
+                    }
+                }
+
+                IQueryable actorroles = db.ActorRoles.Where(a => a.PeopleID == id);
+                foreach (ActorRole a in actorroles)
+                    db.ActorRoles.Remove(a);
+
+                IQueryable movieinfo = db.MovieInfos.Where(d => d.DirectorID == id);
+                foreach (MovieInfo m in movieinfo)
+                {
+                    m.DirectorID = null;
+                    db.Entry(m).State = EntityState.Modified;
+                }
+
+                db.SaveChanges();
+                TempData["Success"] = "Poprawnie usunięto postać filmową.";
+            }
+            catch (DataException)
+            {
+                TempData["Warning"] = "Nie można usunąć, spróbuj ponownie!";
+                return RedirectToAction("Delete", new { id = id });
+            }
+
             return RedirectToAction("Index");
         }
 

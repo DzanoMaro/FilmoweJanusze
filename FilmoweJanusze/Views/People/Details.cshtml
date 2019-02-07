@@ -223,7 +223,7 @@
         {
             foreach (var movie in Model.DirectedMovies)
             {
-                @Html.Partial("_Tile", movie)
+                @Html.Partial("_Tile", movie.Movie)
             }
         }
         else

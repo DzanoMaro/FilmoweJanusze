@@ -42,7 +42,7 @@ namespace FilmoweJanusze.Helpers
 
             htmlHelper.ViewContext.Writer.Write(
                 "<div id=\"" + id + "\" class=\"panel-collapse collapse " + classname + "\">" +
-                "<div class=\"panel-body nopadding\">"
+                "<div class=\"panel-body nopadding breakwords\">"
                 );
 
             return new BeginPanelClass(htmlHelper);

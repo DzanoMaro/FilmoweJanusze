@@ -29,6 +29,8 @@ namespace FilmoweJanusze.Models
         [DataType(DataType.MultilineText)]
         public string Biography { get; set; }
 
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
 
         /*
         [Display(Name = "Zdjęcie")]

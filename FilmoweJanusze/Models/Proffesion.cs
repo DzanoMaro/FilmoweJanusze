@@ -27,5 +27,17 @@ namespace FilmoweJanusze.Models
         {
             return new[] { "Aktor", "Reżyser", "Scenarzysta" };
         }
+
+        public bool EqualTo(Proffesion proffesion)
+        {
+            if (
+                this.Actor == proffesion.Actor &&
+                this.Director == proffesion.Director &&
+                this.Scenario == proffesion.Scenario
+                )
+                return true;
+            else
+                return false;
+        }
     }
 }

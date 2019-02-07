@@ -53,5 +53,8 @@ namespace FilmoweJanusze.ViewModels
         [StringLength(9999, ErrorMessage = "Nie możesz przekroczyć 9999 znaków")]
         [DataType(DataType.MultilineText)]
         public string Biography { get; set; }
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
     }
 }

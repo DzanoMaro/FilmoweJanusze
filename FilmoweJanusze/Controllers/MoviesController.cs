@@ -407,22 +407,26 @@ namespace FilmoweJanusze.Controllers
                 Movie movie = db.Movies.Include(m => m.MovieInfo).Include(m => m.Genre).Where(m => m.MovieID == id).FirstOrDefault();
                 db.Movies.Remove(movie);
 
-                IQueryable actorroles = db.ActorRoles.Where(a => a.MovieID == id);
-                foreach (ActorRole a in actorroles)
-                    db.ActorRoles.Remove(a);
-
                 IQueryable userRates = db.UserRates.Where(ur => ur.MovieID == id);
                 foreach (UserRate ur in userRates)
                     db.UserRates.Remove(ur);
 
                 IQueryable photos = db.Photos.Where(p => p.MovieID == id);
-                foreach (Photo p in userRates)
+                foreach (Photo p in photos)
                 {
                     if (p.PeopleID == null)
                         db.Photos.Remove(p);
                     else
+                    {
                         p.MovieID = null;
+                        p.ActorRole = null;
+                    }
                 }
+
+                IQueryable actorroles = db.ActorRoles.Where(a => a.MovieID == id);
+                foreach (ActorRole a in actorroles)
+                    db.ActorRoles.Remove(a);
+
 
                 db.SaveChanges();
                 TempData["Success"] = "Poprawnie usunięto film.";

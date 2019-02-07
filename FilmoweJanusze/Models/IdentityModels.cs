@@ -30,6 +30,8 @@ namespace FilmoweJanusze.Models
         public DbSet<UserRate> UserRates { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<ProfileInfo> ProfileInfos { get; set; }
+        public DbSet<MovieInfo> MovieInfos { get; set; }
+        public DbSet<PeopleInfo> PeopleInfos { get; set; }
 
         public ApplicationDbContext()
             : base("MovieContext", throwIfV1Schema: false)

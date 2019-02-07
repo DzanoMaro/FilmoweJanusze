@@ -135,6 +135,11 @@ section {
     position: relative;
 }
 
+.breakwords {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
 /* WALIDACJA */
 .input-validation-error {
     border: 1px solid #ff0000;
