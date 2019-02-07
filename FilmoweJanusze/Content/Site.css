@@ -183,21 +183,27 @@ section {
         opacity: 1;
     }
 
+    .tilediv .star-box {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background-color: black;
+        opacity: 0.8;
+        padding: 5px;
+    }
+
     .tilediv:hover {
         opacity: 0.8;
     }
-        .tilediv:hover .title .star-box {
+        .tilediv:hover .title{
             opacity: 1;
         }
 
-.star-box {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    background-color: black;
-    opacity: 0.8;
-    padding: 5px;
-}
+        .tilediv:hover .star-box {
+            opacity: 1;
+        }
+
+
 
 
 /* OBSADA */
@@ -272,6 +278,20 @@ section {
         text-align: center;
     }
 
+
+
+.gallerythumb {
+    object-fit: cover;
+    width: 230px;
+    height: 276px;
+}
+
+.describe {
+    margin-right: 15px;
+}
+
+    /* USER RATE*/
+
 .rating {
     display: block;
     color: white;
@@ -316,14 +336,9 @@ section {
     cursor: pointer;
 }
 
-.gallerythumb {
-        object-fit: cover;
-    width: 230px;
-    height: 276px;
-}
-
-.describe {
-    margin-right: 15px;
+.ratecount {
+    color: #909090;
+    text-align: right;
 }
 
 

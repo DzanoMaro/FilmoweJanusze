@@ -32,12 +32,14 @@
 <div class="rating">
     @if (ViewBag.Rate!=null)
     {
-        <div>
-            <h4>
-                @ratename
-                @ViewBag.Rate <span class="glyphicon glyphicon-star"></span> / 6 <span class="glyphicon glyphicon-star"></span>
-            </h4>
-        </div>
+    <div>
+        <h6 class="ratecount">Liczba głosów: @ViewBag.RateCount</h6>
+        <h4>
+            @ratename
+            @ViewBag.Rate <span class="glyphicon glyphicon-star"></span> / 6 <span class="glyphicon glyphicon-star"></span>
+        </h4>
+
+    </div>
     }
     else
     {

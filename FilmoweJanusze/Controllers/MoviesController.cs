@@ -77,6 +77,7 @@ namespace FilmoweJanusze.Controllers
             if (movie.UserRates.Count > 0)
             {
                 ViewBag.Rate = Math.Round(movie.UserRates.Average(ur=>ur.Rate),2);
+                ViewBag.RateCount = movie.UserRates.Count();
                 ViewBag.Controller = movie.Controller;
             }
 
