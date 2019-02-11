@@ -16,7 +16,7 @@ I have learned how tu use Code First methology with Database migrations with Ent
 Users registered in application can create and edit movies and peoples (CRUD), but deleting is only provided for admin users. Users can also add/edit cast of movies and add photos to photo gallery and rate every movie and people.
 
 ## Screenshots
-![Example screenshot](./img/screenshot.png)
+![Example screenshot](./img/Home.PNG)
 
 ## Technologies
 * .NET Framework - version 4.6.1
@@ -36,6 +36,8 @@ List of ready features
 * Site is responsive (Bootstrap)
 * Using Partial Views and Html Helpers to avoid repeating code (DRY)
 * List of rated entities with rate bar chart
+* Modal Register form with reCaptcha
+* Pop-up Login form
 
 ## Status
 Project is _finished_. Right now I am learning other technology - ASP.NET Core.
