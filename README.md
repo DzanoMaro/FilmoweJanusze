@@ -17,6 +17,7 @@ Users registered in application can create and edit movies and peoples (CRUD), b
 
 ## Screenshots
 ![Example screenshot](./img/Home.PNG)
+More screenshots in img folder.
 
 ## Technologies
 * .NET Framework - version 4.6.1
@@ -38,12 +39,14 @@ List of ready features
 * List of rated entities with rate bar chart
 * Modal Register form with reCaptcha
 * Pop-up Login form
+* Optimistic concurrency 
+and many others... 
 
 ## Status
 Project is _finished_. Right now I am learning other technology - ASP.NET Core.
 
 ## Inspiration
-Project inspired by [Filmweb](https://www.filmweb.pl)
+Project inspired by [Filmweb](https://www.filmweb.pl).
 
 ## Contact
 Created by [Janusz Marek](https://www.linkedin.com/in/janusz-marek-a26816a0/) - feel free to contact me!
