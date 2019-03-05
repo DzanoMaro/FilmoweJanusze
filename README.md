@@ -40,10 +40,13 @@ List of ready features
 * Modal Register form with reCaptcha
 * Pop-up Login form
 * Optimistic concurrency 
-<br/>and many others... 
+ and many others... 
+
+To do:
+* Seed data and users
 
 ## Status
-Project is _finished_. Right now I am learning other technology - ASP.NET Core.
+Project is _almost finished_. Right now I am learning other technology - ASP.NET Core.
 
 ## Inspiration
 Project inspired by [Filmweb](https://www.filmweb.pl).
