@@ -371,8 +371,7 @@ namespace FilmoweJanusze.Controllers
                 TrailerURL = movie.MovieInfo.TrailerURL,
                 RowVersion = movie.MovieInfo.RowVersion,
             };
-            if(String.IsNullOrEmpty(ViewData["Error"].ToString()))
-                ViewData["Error"] = "Nie można zapisać, popraw błędy!";
+
             return View(movieFormView);
         }
 
