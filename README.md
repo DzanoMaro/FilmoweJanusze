@@ -6,6 +6,7 @@
 * [Screenshots](#screenshots)
 * [Technologies](#technologies)
 * [Features](#features)
+* [Startup](#startup)
 * [Status](#status)
 * [Inspiration](#inspiration)
 * [Contact](#contact)
@@ -40,13 +41,33 @@ List of ready features
 * Modal Register form with reCaptcha
 * Pop-up Login form
 * Optimistic concurrency 
- and many others... 
-
-To do:
 * Seed data and users
 
+ and many others... 
+
+## Startup
+To seed data You can write down command in Package Manager Console
+```
+update-database
+```
+or you can go to page
+```
+https://localhost:{port}/Home/Seed
+```
+after that application will seed initial data to your database and you can login as the Administrator user
+```
+username: Admin
+password: Qwerty123!
+```
+or as normal User
+```
+username: User
+password: Qwerty123!
+```
+or you can create your own account.
+
 ## Status
-Project is _almost finished_. Right now I am learning other technology - ASP.NET Core.
+Project is _finished_. Right now I am learning other technology - ASP.NET Core.
 
 ## Inspiration
 Project inspired by [Filmweb](https://www.filmweb.pl).
