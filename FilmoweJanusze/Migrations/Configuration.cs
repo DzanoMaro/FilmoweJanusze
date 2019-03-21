@@ -1,6 +1,9 @@
 namespace FilmoweJanusze.Migrations
 {
+    using FilmoweJanusze.Controllers;
     using FilmoweJanusze.Models;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
@@ -110,8 +113,43 @@ namespace FilmoweJanusze.Migrations
             actorroles.ForEach(s => context.ActorRoles.AddOrUpdate(p => new { p.MovieID, p.PeopleID }, s));
             context.SaveChanges();
 
-   
-        }
+            context.Roles.AddOrUpdate(
+                new IdentityRole { Id = "1", Name = "Admin" },
+                new IdentityRole { Id = "2", Name = "User" }
+            );
 
+            var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            var user = new ApplicationUser
+            {
+                UserName = "Admin",
+                Email = "Test1@qq.com",
+                ProfileInfo = new Models.ProfileInfo
+                {
+                    FirstName = "Jan",
+                    LastName = "Admin",
+                    Birthdate = DateTime.Parse("01.01.1990"),
+                    PhotoURL = "/Images/Brak_zdjecia_usera.png",
+                }
+            };
+
+            manager.Create(user, "Qwerty123!");
+            manager.AddToRole(user.Id, "Admin");
+
+            user = new ApplicationUser
+            {
+                UserName = "User",
+                Email = "Test2@qq.com",
+                ProfileInfo = new Models.ProfileInfo
+                {
+                    FirstName = "Jan",
+                    LastName = "User",
+                    Birthdate = DateTime.Parse("01.01.1990"),
+                    PhotoURL = "/Images/Brak_zdjecia_usera.png",
+                }
+            };
+            manager.Create(user, "Qwerty123!");
+            manager.AddToRole(user.Id, "User");
+        }
+        
     }
 }
