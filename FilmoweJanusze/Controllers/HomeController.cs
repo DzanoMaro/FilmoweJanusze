@@ -67,9 +67,9 @@ namespace FilmoweJanusze.Controllers
             var configuration = new Configuration();
             var migrator = new DbMigrator(configuration);
             migrator.Update();
-            ViewBag.Message = "Your app description page.";
+            TempData["Success"] = "Poprawnie dodano początkowe ustawienia bazy danych";
 
-            return View();
+            return RedirectToAction(nameof(Index));
         }
 
         public ActionResult Contact()

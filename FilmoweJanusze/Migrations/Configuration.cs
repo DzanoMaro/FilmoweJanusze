@@ -131,9 +131,10 @@ namespace FilmoweJanusze.Migrations
                     PhotoURL = "/Images/Brak_zdjecia_usera.png",
                 }
             };
-
-            manager.Create(user, "Qwerty123!");
-            manager.AddToRole(user.Id, "Admin");
+            if(manager.Create(user, "Qwerty123!").Succeeded)
+            {
+                manager.AddToRole(user.Id, "Admin");
+            }
 
             user = new ApplicationUser
             {
@@ -147,8 +148,10 @@ namespace FilmoweJanusze.Migrations
                     PhotoURL = "/Images/Brak_zdjecia_usera.png",
                 }
             };
-            manager.Create(user, "Qwerty123!");
-            manager.AddToRole(user.Id, "User");
+            if (manager.Create(user, "Qwerty123!").Succeeded)
+            {
+                manager.AddToRole(user.Id, "User");
+            }
         }
         
     }
