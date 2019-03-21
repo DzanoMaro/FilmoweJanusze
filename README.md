@@ -17,6 +17,7 @@ Users registered in application can create and edit movies and peoples (CRUD), b
 
 ## Screenshots
 ![Example screenshot](./img/Home.PNG)
+<br/>More screenshots in <i>img</i> folder.
 
 ## Technologies
 * .NET Framework - version 4.6.1
@@ -31,19 +32,24 @@ List of ready features
 * Sorting and filtration mode using AJAX
 * Relationships entities (e.g Movie -> Cast -> PhotoGallery)
 * Using carousels in home view for last related / not yet related movies and in photo gallery
-* User side validation using JS, JSON functions and server side using attributes
+* User side validation using JS, JSON functions and server side validation using C# attributes
 * Search bar with autocomplete (JQuery.UI)
 * Site is responsive (Bootstrap)
 * Using Partial Views and Html Helpers to avoid repeating code (DRY)
 * List of rated entities with rate bar chart
 * Modal Register form with reCaptcha
 * Pop-up Login form
+* Optimistic concurrency 
+ and many others... 
+
+To do:
+* Seed data and users
 
 ## Status
-Project is _finished_. Right now I am learning other technology - ASP.NET Core.
+Project is _almost finished_. Right now I am learning other technology - ASP.NET Core.
 
 ## Inspiration
-Project inspired by [Filmweb](https://www.filmweb.pl)
+Project inspired by [Filmweb](https://www.filmweb.pl).
 
 ## Contact
-Created by [Janusz Marek](https://www.linkedin.com/in/janusz-marek-a26816a0/) - feel free to contact me!
+Created by [Janusz Marek](https://www.linkedin.com/in/janusz-marek/) - feel free to contact me!
