@@ -46,7 +46,7 @@ List of ready features
  and many others... 
 
 ## Startup
-To seed data You can write down command in Package Manager Console
+To seed data you can write down command in <i>Package Manager Console</i>
 ```
 update-database
 ```
