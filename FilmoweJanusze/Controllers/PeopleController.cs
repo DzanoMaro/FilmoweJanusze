@@ -53,9 +53,9 @@ namespace FilmoweJanusze.Controllers
             {
                 return HttpNotFound();
             }
-
+            people.Roles = people.Roles.OrderByDescending(r => r.Movie.ReleaseDate).ToList();
             people.Photos = db.Photos.Where(p => p.PeopleID == id).Take(6).ToList();
-            people.DirectedMovies = db.Movies.Where(m => m.MovieInfo.DirectorID == id).Select(m=>m.MovieInfo).Include(m=>m.Movie).ToList();
+            people.DirectedMovies = db.Movies.Where(m => m.MovieInfo.DirectorID == id).Select(m=>m.MovieInfo).Include(m=>m.Movie).OrderByDescending(m=>m.Movie.ReleaseDate).ToList();
 
             //liczba zdjęć w galerii
             ViewBag.PhotoCount = db.Photos.Where(p => p.PeopleID == id).Count();

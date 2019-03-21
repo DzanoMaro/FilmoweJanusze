@@ -5,6 +5,7 @@ namespace FilmoweJanusze.Migrations
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
+    using System.Globalization;
     using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<FilmoweJanusze.Models.ApplicationDbContext>
@@ -33,12 +34,12 @@ namespace FilmoweJanusze.Migrations
                 new Movie{Title="Spider-Man: Far From Home",TitlePL="Spider-Man: Daleko od domu",ReleaseDate=DateTime.Parse("2019-07-05"), PhotoURL = "https://ssl-gfx.filmweb.pl/po/98/69/789869/7876620.6.jpg", Genre = new Models.MovieGenre{ Action=true, SciFi=true }},
                 new Movie{Title="The Revenant",TitlePL="Zjawa",ReleaseDate=DateTime.Parse("2015-12-16"), PhotoURL = "https://ssl-gfx.filmweb.pl/po/65/83/586583/7722530.3.jpg", Genre = new Models.MovieGenre{ Drama=true, Adventure=true }},
                 new Movie{Title="Inception",TitlePL="Incepcja",ReleaseDate=DateTime.Parse("2010-07-08"), PhotoURL = "https://ssl-gfx.filmweb.pl/po/08/91/500891/7354571.3.jpg", Genre = new Models.MovieGenre{ SciFi=true, Thriller=true }},
-                new Movie{Title="The Dark Knight Rises",TitlePL="Mroczny Rycerz powstaje",ReleaseDate=DateTime.Parse("2012-07-16"), PhotoURL = "https://ssl-gfx.filmweb.pl/po/08/91/500891/7354571.3.jpg", Genre = new Models.MovieGenre{ Drama=true, Biographic=true }},
+                new Movie{Title="The Dark Knight Rises",TitlePL="Mroczny Rycerz powstaje",ReleaseDate=DateTime.Parse("2012-07-16"), PhotoURL = "https://upload.wikimedia.org/wikipedia/en/8/83/Dark_knight_rises_poster.jpg", Genre = new Models.MovieGenre{ Drama=true, Biographic=true }},
                 new Movie{Title="Interstellar",ReleaseDate=DateTime.Parse("2014-10-26"), PhotoURL = "https://ssl-gfx.filmweb.pl/po/56/29/375629/7670122.5.jpg", Genre = new Models.MovieGenre{ SciFi=true }},
             };
             movies.ForEach(s => context.Movies.AddOrUpdate(p => p.Title, s));
             context.SaveChanges();
-
+            
             var peoples = new List<People>
             {
                 new People{FirstName="Leonardo",LastName="DiCaprio",Birthdate=DateTime.Parse("1974-11-11"),PhotoURL="https://ssl-gfx.filmweb.pl/p/00/30/30/398646.1.jpg", Proffesion = new Proffesion{ Actor = true } },
@@ -52,26 +53,26 @@ namespace FilmoweJanusze.Migrations
                 new People{FirstName="Tom",LastName="Hardy",Birthdate=DateTime.Parse("1977-09-15"),PhotoURL="https://ssl-gfx.filmweb.pl/p/71/04/57104/398789.1.jpg", Proffesion = new Proffesion{ Actor = true } },
 
             };
-            peoples.ForEach(s => context.Peoples.AddOrUpdate(p => p.FirstName, s));
+            peoples.ForEach(s => context.Peoples.AddOrUpdate(p => new { p.FirstName, p.LastName}, s));
             context.SaveChanges();
-
+            
             var movieinfoes = new List<MovieInfo>
             {
-                new MovieInfo{MovieID = movies.Single(m=>m.Title=="Titanic").MovieID, CountryProduction="Stany Zjednoczone",DurationTime = DateTime.Parse("03:14:00"),Description="Rok 1912, brytyjski statek Titanic wyrusza w swój dziewiczy rejs do USA. Na pok³adzie emigrant Jack przypadkowo spotyka arystokratkê Rose.",TrailerURL="https://www.youtube.com/embed/-iRajLSA8TA"},
-                new MovieInfo{MovieID = movies.Single(m=>m.Title=="Aquaman").MovieID, CountryProduction="Stany Zjednoczone",DurationTime = DateTime.Parse("02:23:00"),Description="Arthur Curry niechêtnie staje na czele ludu podwodnego królestwa Atlantydy.",TrailerURL="https://www.youtube.com/embed/6mQDS7Q7pys"},
-                new MovieInfo{MovieID = movies.Single(m=>m.Title=="First Man").MovieID, CountryProduction="Stany Zjednoczone",DurationTime = DateTime.Parse("02:21:00"),Description="Fragment ¿ycia astronauty Neila Armstronga i jego legendarnej misji kosmicznej, dziêki której jako pierwszy cz³owiek stan¹³ na Ksiê¿ycu.",TrailerURL="https://www.youtube.com/embed/PSoRx87OO6k"},
-                new MovieInfo{MovieID = movies.Single(m=>m.Title=="Bogowie").MovieID, CountryProduction="Polska",DurationTime = DateTime.Parse("02:01:00"),Description="Profesor Zbigniew Religa, utalentowany kardiochirurg wierzy, ¿e jest w stanie dokonaæ przeszczepu serca. Nie poddaje siê mimo wielu nieudanych operacji.",TrailerURL="https://www.youtube.com/embed/1biE4cOrDPE"},
-                new MovieInfo{MovieID = movies.Single(m=>m.Title=="Avengers: Endgame").MovieID, CountryProduction="Stany Zjednoczone",Description="Po wymazaniu po³owy ¿ycia we Wszechœwiecie przez Thanosa, Avengersi staraj¹ siê zrobiæ wszystko co konieczne, aby pokonaæ szalonego tytana.",TrailerURL="https://www.youtube.com/embed/HiABjI6Y668"},
-                new MovieInfo{MovieID = movies.Single(m=>m.Title=="The Lion King").MovieID, CountryProduction="Stany Zjednoczone",Description="Poœród afrykañskiej sawanny przychodzi na œwiat jej przysz³y król. Ma³y Simba uwielbia swojego ojca, króla Mufasê. Jednak nie wszyscy s¹ szczêœliwi z pojawienia siê m³odego lwi¹tka. Dawny nastêpca tronu, Skaza, ma swoje plany dotycz¹ce przysz³oœci Lwiej ziemi. W efekcie Simba opuszcza swoj¹ rodzinê. ¯yj¹c na wygnaniu musi dorosn¹æ i, z pomoc¹ zaskakuj¹cej dwójki przyjació³, nauczyæ siê jak odebraæ to, co jest mu nale¿ne.",TrailerURL="https://www.youtube.com/embed/4CbLXeGSDxg"},
-                new MovieInfo{MovieID = movies.Single(m=>m.Title=="Spider-Man: Far From Home").MovieID, CountryProduction="Stany Zjednoczone",TrailerURL="https://www.youtube.com/embed/1XW1Ygatsz4"},
-                new MovieInfo{MovieID = movies.Single(m=>m.Title=="The Revenant").MovieID, CountryProduction="Stany Zjednoczone",DurationTime = DateTime.Parse("02:36:00"),Description="Hugh Glass szuka zemsty na ludziach, którzy zostawili go powa¿nie rannego po ataku niedŸwiedzia.",TrailerURL="https://www.youtube.com/embed/7usbQ-VaQKk"},
-                new MovieInfo{MovieID = movies.Single(m=>m.Title=="Inception").MovieID, CountryProduction="Stany Zjednoczone",DurationTime = DateTime.Parse("02:28:00"),Description="Czasy, gdy technologia pozwala na wchodzenie w œwiat snów. Z³odziej Cobb ma za zadanie wszczepiæ myœl do œpi¹cego umys³u.",TrailerURL="https://www.youtube.com/embed/7usbQ-VaQKk",DirectorID=peoples.Single(p=>p.LastName=="Nolan").PeopleID},
-                new MovieInfo{MovieID = movies.Single(m=>m.Title=="The Dark Knight Rises").MovieID, CountryProduction="Stany Zjednoczone",DurationTime = DateTime.Parse("02:45:00"),Description="Po oœmiu latach nieobecnoœci Batman wraca, by uratowaæ Gotham City przed zamaskowanym terroryst¹ Bane'em.",TrailerURL="https://www.youtube.com/embed/GokKUqLcvD8",DirectorID=peoples.Single(p=>p.LastName=="Nolan").PeopleID},
-                new MovieInfo{MovieID = movies.Single(m=>m.Title=="Interstellar").MovieID, CountryProduction="Stany Zjednoczone",DurationTime = DateTime.Parse("02:49:00"),Description="Po oœmiu latach nieobecnoœci Batman wraca, by uratowaæ Gotham City przed zamaskowanym terroryst¹ Bane'em.",TrailerURL="https://www.youtube.com/embed/GokKUqLcvD8",DirectorID=peoples.Single(p=>p.LastName=="Nolan").PeopleID},
-            };
+                new MovieInfo{MovieID = movies.Single(m=>m.Title=="Titanic").MovieID, CountryProduction="Stany Zjednoczone",DurationTime = DateTime.ParseExact("03:14:00", "HH:mm:ss", CultureInfo.InvariantCulture),Description="Rok 1912, brytyjski statek Titanic wyrusza w swój dziewiczy rejs do USA. Na pok³adzie emigrant Jack przypadkowo spotyka arystokratkê Rose.",TrailerURL="https://www.youtube.com/embed/-iRajLSA8TA"},
+                new MovieInfo{MovieID = movies.Single(m=>m.Title=="Aquaman").MovieID, CountryProduction="Stany Zjednoczone",DurationTime = DateTime.ParseExact("02:23:00", "HH:mm:ss", CultureInfo.InvariantCulture),Description="Arthur Curry niechêtnie staje na czele ludu podwodnego królestwa Atlantydy.",TrailerURL="https://www.youtube.com/embed/6mQDS7Q7pys"},
+                new MovieInfo{MovieID = movies.Single(m=>m.Title=="First Man").MovieID, CountryProduction="Stany Zjednoczone",DurationTime = DateTime.ParseExact("02:21:00", "HH:mm:ss", CultureInfo.InvariantCulture),Description="Fragment ¿ycia astronauty Neila Armstronga i jego legendarnej misji kosmicznej, dziêki której jako pierwszy cz³owiek stan¹³ na Ksiê¿ycu.",TrailerURL="https://www.youtube.com/embed/PSoRx87OO6k"},
+                new MovieInfo{MovieID = movies.Single(m=>m.Title=="Bogowie").MovieID, CountryProduction="Polska",DurationTime = DateTime.ParseExact("02:01:00", "HH:mm:ss", CultureInfo.InvariantCulture),Description="Profesor Zbigniew Religa, utalentowany kardiochirurg wierzy, ¿e jest w stanie dokonaæ przeszczepu serca. Nie poddaje siê mimo wielu nieudanych operacji.",TrailerURL="https://www.youtube.com/embed/1biE4cOrDPE"},
+                new MovieInfo{MovieID = movies.Single(m=>m.Title=="Avengers: Endgame").MovieID, CountryProduction="Stany Zjednoczone",DurationTime = DateTime.ParseExact("00:00:00", "HH:mm:ss", CultureInfo.InvariantCulture), Description="Po wymazaniu po³owy ¿ycia we Wszechœwiecie przez Thanosa, Avengersi staraj¹ siê zrobiæ wszystko co konieczne, aby pokonaæ szalonego tytana.",TrailerURL="https://www.youtube.com/embed/HiABjI6Y668"},
+                new MovieInfo{MovieID = movies.Single(m=>m.Title=="The Lion King").MovieID, CountryProduction="Stany Zjednoczone",DurationTime = DateTime.ParseExact("00:00:00", "HH:mm:ss", CultureInfo.InvariantCulture), Description="Poœród afrykañskiej sawanny przychodzi na œwiat jej przysz³y król. Ma³y Simba uwielbia swojego ojca, króla Mufasê. Jednak nie wszyscy s¹ szczêœliwi z pojawienia siê m³odego lwi¹tka. Dawny nastêpca tronu, Skaza, ma swoje plany dotycz¹ce przysz³oœci Lwiej ziemi. W efekcie Simba opuszcza swoj¹ rodzinê. ¯yj¹c na wygnaniu musi dorosn¹æ i, z pomoc¹ zaskakuj¹cej dwójki przyjació³, nauczyæ siê jak odebraæ to, co jest mu nale¿ne.",TrailerURL="https://www.youtube.com/embed/4CbLXeGSDxg"},
+                new MovieInfo{MovieID = movies.Single(m=>m.Title=="Spider-Man: Far From Home").MovieID, CountryProduction="Stany Zjednoczone",DurationTime = DateTime.ParseExact("00:00:00", "HH:mm:ss", CultureInfo.InvariantCulture), TrailerURL="https://www.youtube.com/embed/1XW1Ygatsz4"},
+                new MovieInfo{MovieID = movies.Single(m=>m.Title=="The Revenant").MovieID, CountryProduction="Stany Zjednoczone",DurationTime = DateTime.ParseExact("02:36:00", "HH:mm:ss", CultureInfo.InvariantCulture),Description="Hugh Glass szuka zemsty na ludziach, którzy zostawili go powa¿nie rannego po ataku niedŸwiedzia.",TrailerURL="https://www.youtube.com/embed/7usbQ-VaQKk"},
+                new MovieInfo{MovieID = movies.Single(m=>m.Title=="Inception").MovieID, CountryProduction="Stany Zjednoczone",DurationTime = DateTime.ParseExact("02:28:00", "HH:mm:ss", CultureInfo.InvariantCulture),Description="Czasy, gdy technologia pozwala na wchodzenie w œwiat snów. Z³odziej Cobb ma za zadanie wszczepiæ myœl do œpi¹cego umys³u.",TrailerURL="https://www.youtube.com/embed/7usbQ-VaQKk",DirectorID=peoples.Single(p=>p.LastName=="Nolan").PeopleID},
+                new MovieInfo{MovieID = movies.Single(m=>m.Title=="The Dark Knight Rises").MovieID, CountryProduction="Stany Zjednoczone",DurationTime = DateTime.ParseExact("02:45:00", "HH:mm:ss", CultureInfo.InvariantCulture),Description="Po oœmiu latach nieobecnoœci Batman wraca, by uratowaæ Gotham City przed zamaskowanym terroryst¹ Bane'em.",TrailerURL="https://www.youtube.com/embed/GokKUqLcvD8",DirectorID=peoples.Single(p=>p.LastName=="Nolan").PeopleID},
+                new MovieInfo{MovieID = movies.Single(m=>m.Title=="Interstellar").MovieID, CountryProduction="Stany Zjednoczone",DurationTime = DateTime.ParseExact("02:49:00", "HH:mm:ss", CultureInfo.InvariantCulture),Description="Byt ludzkoœci na Ziemi dobiega koñca wskutek zmian klimatycznych. Grupa naukowców odkrywa tunel czasoprzestrzenny, który umo¿liwia poszukiwanie nowego domu.",TrailerURL="https://www.youtube.com/embed/Sl6Qu6iKU9Y",DirectorID=peoples.Single(p=>p.LastName=="Nolan").PeopleID},
+                };
             movieinfoes.ForEach(s => context.MovieInfos.AddOrUpdate(p => p.MovieID, s));
             context.SaveChanges();
-
+            
             var peopleinfoes = new List<PeopleInfo>
             {
                 new PeopleInfo{PeopleID = peoples.Single(p=>p.FirstName=="Leonardo" && p.LastName=="DiCaprio").PeopleID, Birthplace="Los Angeles, Kalifornia, USA", Height=183},
@@ -87,7 +88,7 @@ namespace FilmoweJanusze.Migrations
             };
             peopleinfoes.ForEach(s => context.PeopleInfos.AddOrUpdate(p => p.PeopleID, s));
             context.SaveChanges();
-
+            
             var actorroles = new List<ActorRole>
             {
                 new ActorRole{ PeopleID = peoples.Single(p=>p.FirstName=="Leonardo" && p.LastName=="DiCaprio").PeopleID, MovieID = movies.Single(m=>m.Title == "Titanic").MovieID, RoleName = "Jack Dawson"},
@@ -106,11 +107,11 @@ namespace FilmoweJanusze.Migrations
                 new ActorRole{ PeopleID = peoples.Single(p=>p.FirstName=="Anne" && p.LastName=="Hathaway").PeopleID, MovieID = movies.Single(m=>m.Title == "Interstellar").MovieID, RoleName = "Brand"},
                 new ActorRole{ PeopleID = peoples.Single(p=>p.FirstName=="Anne" && p.LastName=="Hathaway").PeopleID, MovieID = movies.Single(m=>m.Title == "The Dark Knight Rises").MovieID, RoleName = "Selina Kyle / Catwoman"},
             };
-            actorroles.ForEach(s => context.ActorRoles.AddOrUpdate(p => p.ActorRoleID, s));
+            actorroles.ForEach(s => context.ActorRoles.AddOrUpdate(p => new { p.MovieID, p.PeopleID }, s));
             context.SaveChanges();
 
-
+   
         }
-        
+
     }
 }

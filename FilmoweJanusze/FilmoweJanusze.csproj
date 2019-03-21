@@ -210,6 +210,10 @@
     <Compile Include="Migrations\201902061749232_PeopleInfoRowVersion.Designer.cs">
       <DependentUpon>201902061749232_PeopleInfoRowVersion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903210833356_Seed.cs" />
+    <Compile Include="Migrations\201903210833356_Seed.Designer.cs">
+      <DependentUpon>201903210833356_Seed.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Tile.cs" />
     <Compile Include="Controllers\UserRateController.cs" />
     <Compile Include="DAL\MovieContext.cs" />
@@ -679,6 +683,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902061749232_PeopleInfoRowVersion.resx">
       <DependentUpon>201902061749232_PeopleInfoRowVersion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903210833356_Seed.resx">
+      <DependentUpon>201903210833356_Seed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

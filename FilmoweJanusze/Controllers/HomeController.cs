@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using FilmoweJanusze.Models;
 using FilmoweJanusze.ViewModels;
 using FilmoweJanusze.DAL;
+using System.Data.Entity.Migrations;
+using FilmoweJanusze.Migrations;
 
 namespace FilmoweJanusze.Controllers
 {
@@ -60,9 +62,12 @@ namespace FilmoweJanusze.Controllers
            return Json(movielist.Concat(peoplelist).ToList(), JsonRequestBehavior.AllowGet);
         }
         
-        public ActionResult About()
+        public ActionResult Seed()
         {
-            ViewBag.Message = "Your application description page.";
+            var configuration = new Configuration();
+            var migrator = new DbMigrator(configuration);
+            migrator.Update();
+            ViewBag.Message = "Your app description page.";
 
             return View();
         }
